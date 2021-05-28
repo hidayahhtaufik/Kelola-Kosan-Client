@@ -29,7 +29,7 @@ const dataGraph = {
   ],
   datasets: [
     {
-      label: 'profit',
+      label: 'Profit',
       data: [65, 59, 80, 81, 56, 55, 40],
       fill: false,
       backgroundColor: 'rgba(75, 192, 192, 0.2)',
