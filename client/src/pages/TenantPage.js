@@ -61,7 +61,7 @@ function TenantPage() {
                 data={newDataTenant}
                 style={{
                   table: {
-                    border: '3px solid #ccc',
+                    border: '2px solid #ccc',
                   },
                   th: {
                     'background-color': 'rgba(0, 0, 0, 0.1)',
@@ -80,12 +80,14 @@ function TenantPage() {
                   'Phone',
                   'CheckIn',
                   'CheckOut',
+                  'Action',
                 ]}
-                search={true}
                 sort={true}
+                search={true}
                 pagination={{
                   enabled: true,
                   limit: 5,
+                  summary: false,
                 }}
               ></Grid>
             </Row>
