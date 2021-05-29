@@ -1,5 +1,6 @@
 const RevenueDB = 'http://localhost:3001/revenue';
 const RoomDB = 'http://localhost:3001/room';
+import axios from '../../API/axios' // ganti pake axios
 
 export const fetchRevenue = () => {
   return (dispatch) => {
