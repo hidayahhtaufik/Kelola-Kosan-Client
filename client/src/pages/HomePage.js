@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
+import { newMonth, numberMonth } from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
@@ -12,81 +13,43 @@ import {
   NavDropdown,
 } from 'react-bootstrap';
 import { Doughnut, Bar, defaults } from 'react-chartjs-2';
-import { fetchRevenue } from '../store/actions/actions';
+import { fetchRevenue, fetchRoom } from '../store/actions/actions';
 
 // console.log(defaults);
 defaults.plugins.legend.position = 'right';
-
-// const labels = Utils.months({ count: 7 });
-const dataGraph = {
-  labels: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
-  datasets: [
-    {
-      label: 'Profit',
-      data: [
-        60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
-      ],
-      fill: false,
-      backgroundColor: 'rgba(75, 192, 192)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      tension: 0.1,
-    },
-  ],
-};
-
-const dataPie = {
-  // empty, maintenance, occupied
-  labels: ['Empty', 'Maintenance', 'Occupied'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 2],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.8)',
-        'rgba(54, 162, 235, 0.8)',
-        'rgba(255, 206, 86, 0.8)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
 function HomePage() {
   const dispatch = useDispatch();
 
   const revenueData = useSelector((state) => state.revenue.revenues);
+  const roomData = useSelector((state) => state.room.rooms);
 
-  let newData = [];
-  let oldData = [
-    60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
-  ];
-
+  // Kebutuhan Revenue
+  let newDataRevenue = [];
   for (let i = 0; i < revenueData.length; i++) {
     const revenue = revenueData[i].total;
     // console.log(revenue, '<< Ini');
-    newData.push(revenue);
+    newDataRevenue.push(revenue);
   }
+  console.log(revenueData, '<<< DI Home Revenue');
+  console.log(newDataRevenue, '<<< Data Baru Revenue');
 
-  console.log(revenueData, '<<< DI Home');
-  console.log(newData, 'Data Baru');
+  // Kebutuhan Room
+  let emptyStatus = 0;
+  let maintenaceStatus = 0;
+  let occupiedStatus = 0;
+  console.log(roomData, '<<< Di Home Room');
+  for (let i = 0; i < roomData.length; i++) {
+    const statusRoom = roomData[i].status;
+
+    if (statusRoom === 'empty') {
+      emptyStatus++;
+    } else if (statusRoom === 'maintenance') {
+      maintenaceStatus++;
+    } else {
+      occupiedStatus++;
+    }
+  }
 
   const dataGraph = {
     labels: [
@@ -109,7 +72,7 @@ function HomePage() {
         // data: [
         //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
         // ],
-        data: newData || oldData,
+        data: newDataRevenue,
         fill: false,
         backgroundColor: 'rgba(75, 192, 192)',
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -118,8 +81,35 @@ function HomePage() {
     ],
   };
 
+  const dataPie = {
+    // empty, maintenance, occupied
+    labels: ['Empty', 'Maintenance', 'Occupied'],
+    datasets: [
+      {
+        label: '# of Votes',
+        // data: [12, 19, 2],
+        data: [emptyStatus, maintenaceStatus, occupiedStatus],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   useEffect(() => {
     dispatch(fetchRevenue());
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchRoom());
   }, []);
 
   return (
@@ -145,7 +135,10 @@ function HomePage() {
                   </Col>
                   <Col className='d-flex justify-content-center align-items-center'>
                     <div className='text-center' style={{ width: '100%' }}>
-                      <h2>Rp. 20.000.000</h2>
+                      <h2>Bulan: {newMonth()}</h2>
+                      <h2>
+                        Rp. {newDataRevenue[numberMonth()]?.toLocaleString()}
+                      </h2>
                     </div>
                   </Col>
                 </Row>
