@@ -69,9 +69,9 @@ function HomePage() {
     datasets: [
       {
         label: 'Profit',
-        // data: [
-        //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
-        // ],
+        data: [
+          60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+        ],
         data: newDataRevenue,
         fill: false,
         backgroundColor: 'rgba(75, 192, 192)',
@@ -87,7 +87,7 @@ function HomePage() {
     datasets: [
       {
         label: '# of Votes',
-        // data: [12, 19, 2],
+        data: [12, 19, 2],
         data: [emptyStatus, maintenaceStatus, occupiedStatus],
         backgroundColor: [
           'rgba(255, 99, 132, 0.8)',

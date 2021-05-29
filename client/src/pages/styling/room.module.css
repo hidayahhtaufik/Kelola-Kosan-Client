@@ -1,0 +1,30 @@
+.title {
+    text-align: center;
+}
+
+.wrapper {
+    border: solid;
+    border-width: 5px;
+    border-color: black;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.content {
+    border: solid;
+    border-width: 4px;
+    border-color: green;
+}
+
+.inspectBorder {
+    border: solid;
+    border-width: 2px;
+    border-color: darkorchid;
+}
+
+.btnStyle {
+    width: 5rem;
+    margin-right: 10px;
+}
