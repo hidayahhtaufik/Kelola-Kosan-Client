@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Row,
@@ -11,6 +12,7 @@ import {
   NavDropdown,
 } from 'react-bootstrap';
 import { Doughnut, Bar, defaults } from 'react-chartjs-2';
+import { fetchRevenue } from '../store/actions/actions';
 
 // console.log(defaults);
 defaults.plugins.legend.position = 'right';
@@ -68,6 +70,58 @@ const dataPie = {
 };
 
 function HomePage() {
+  const dispatch = useDispatch();
+
+  const revenueData = useSelector((state) => state.revenue.revenues);
+
+  let newData = [];
+  let oldData = [
+    60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+  ];
+
+  for (let i = 0; i < revenueData.length; i++) {
+    const revenue = revenueData[i].total;
+    // console.log(revenue, '<< Ini');
+    newData.push(revenue);
+  }
+
+  console.log(revenueData, '<<< DI Home');
+  console.log(newData, 'Data Baru');
+
+  const dataGraph = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    datasets: [
+      {
+        label: 'Profit',
+        // data: [
+        //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+        // ],
+        data: newData || oldData,
+        fill: false,
+        backgroundColor: 'rgba(75, 192, 192)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        tension: 0.1,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    dispatch(fetchRevenue());
+  }, []);
+
   return (
     <>
       {/* <Navigation /> */}
