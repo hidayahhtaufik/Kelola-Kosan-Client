@@ -19,79 +19,79 @@
       "number": 1,
       "status": "empty",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "standard",
       "price": 1200000
     },
     {
       "id": 2,
-      "number": 1,
-      "status": "empty",
+      "number": 2,
+      "status": "maintenance",
       "propertyID": 1,
-      "type": "Standard",
-      "price": 1200000
+      "type": "duluxe",
+      "price": 2000000
     },
     {
       "id": 3,
-      "number": 1,
-      "status": "empty",
+      "number": 3,
+      "status": "occupied",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "standard",
       "price": 1200000
     },
     {
       "id": 4,
-      "number": 1,
+      "number": 4,
       "status": "empty",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "duluxe",
       "price": 1200000
     },
     {
       "id": 5,
-      "number": 1,
-      "status": "empty",
+      "number": 5,
+      "status": "maintenance",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "standard",
       "price": 1200000
     },
     {
       "id": 6,
-      "number": 1,
-      "status": "empty",
+      "number": 6,
+      "status": "occupied",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "duluxe",
       "price": 1200000
     },
     {
       "id": 7,
-      "number": 1,
-      "status": "empty",
+      "number": 7,
+      "status": "occupied",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "standard",
       "price": 1200000
     },
     {
       "id": 8,
-      "number": 1,
-      "status": "empty",
+      "number": 8,
+      "status": "occupied",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "duluxe",
       "price": 1200000
     },
     {
       "id": 9,
-      "number": 1,
+      "number": 9,
       "status": "empty",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "standard",
       "price": 1200000
     },
     {
       "id": 10,
-      "number": 1,
-      "status": "empty",
+      "number": 10,
+      "status": "occupied",
       "propertyID": 1,
-      "type": "Standard",
+      "type": "duluxe",
       "price": 1200000
     }
   ]
