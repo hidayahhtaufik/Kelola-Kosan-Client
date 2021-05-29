@@ -50,6 +50,17 @@ const Side = (props, navigation) => {
         <Nav.Item className='nav'>
           <Nav.Link
             onClick={() => {
+              History.push('/rooms');
+            }}
+            style={{ color: 'white' }}
+          >
+            <RiIcons.RiProfileFill />
+            <span>Your Rooms</span>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item className='nav'>
+          <Nav.Link
+            onClick={() => {
               History.push('/tenant');
             }}
             style={{ color: 'white' }}

@@ -1,7 +1,11 @@
+// import axios from '../../API/axios'; // ganti pake axios
 const RevenueDB = 'http://localhost:4000/revenue';
 const RoomDB = 'http://localhost:4000/room';
 const TenantDB = 'http://localhost:4000/tenant';
-// import axios from '../../API/axios'; // ganti pake axios
+
+// const RevenueDB = 'http://localhost:3001/revenue';
+// const RoomDB = 'http://localhost:3001/room';
+
 
 export const fetchRevenue = () => {
   return (dispatch) => {
