@@ -1,5 +1,6 @@
 import React from 'react';
-import Sidebar from './component/Sidebar';
+import Sidebar from './components/Sidebar';
+import Navigation from './components/Navigation';
 import {
   Container,
   Row,
@@ -13,6 +14,7 @@ import {
 function GalleryPage() {
   return (
     <>
+      {/* <Navigation /> */}
       <Container fluid>
         <Row>
           <Col xs={3} id='sidebar-wrapper'>
