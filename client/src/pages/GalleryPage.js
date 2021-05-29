@@ -1,9 +1,6 @@
 import React from 'react';
 import Sidebar from './components/Sidebar';
-<<<<<<< HEAD
-=======
 import Navigation from './components/Navigation';
->>>>>>> cbd8271c988733d05084bb74e8321d776751342d
 import {
   Container,
   Row,
