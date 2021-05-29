@@ -1,0 +1,98 @@
+{
+  "revenue": [
+    { "id": 1, "month": 1, "year": 2021, "total": 20000000, "propertyID": 1 },
+    { "id": 2, "month": 2, "year": 2021, "total": 34000000, "propertyID": 1 },
+    { "id": 3, "month": 3, "year": 2021, "total": 24000000, "propertyID": 1 },
+    { "id": 4, "month": 4, "year": 2021, "total": 45000000, "propertyID": 1 },
+    { "id": 5, "month": 5, "year": 2021, "total": 34000000, "propertyID": 1 },
+    { "id": 6, "month": 6, "year": 2021, "total": 56000000, "propertyID": 1 },
+    { "id": 7, "month": 7, "year": 2021, "total": 36000000, "propertyID": 1 },
+    { "id": 8, "month": 8, "year": 2021, "total": 24000000, "propertyID": 1 },
+    { "id": 9, "month": 9, "year": 2021, "total": 27000000, "propertyID": 1 },
+    { "id": 10, "month": 10, "year": 2021, "total": 30000000, "propertyID": 1 },
+    { "id": 11, "month": 11, "year": 2021, "total": 21000000, "propertyID": 1 },
+    { "id": 12, "month": 12, "year": 2021, "total": 29000000, "propertyID": 1 }
+  ],
+  "room": [
+    {
+      "id": 1,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 2,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 3,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 4,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 5,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 6,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 7,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 8,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 9,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    },
+    {
+      "id": 10,
+      "number": 1,
+      "status": "empty",
+      "propertyID": 1,
+      "type": "Standard",
+      "price": 1200000
+    }
+  ]
+}

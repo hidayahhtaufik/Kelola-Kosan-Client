@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from './components/Sidebar';
+import Navigation from './components/Navigation';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Row,
@@ -9,7 +11,11 @@ import {
   Nav,
   NavDropdown,
 } from 'react-bootstrap';
-import { Doughnut, Bar } from 'react-chartjs-2';
+import { Doughnut, Bar, defaults } from 'react-chartjs-2';
+import { fetchRevenue } from '../store/actions/actions';
+
+// console.log(defaults);
+defaults.plugins.legend.position = 'right';
 
 // const labels = Utils.months({ count: 7 });
 const dataGraph = {
@@ -29,10 +35,12 @@ const dataGraph = {
   ],
   datasets: [
     {
-      label: 'profit',
-      data: [65, 59, 80, 81, 56, 55, 40],
+      label: 'Profit',
+      data: [
+        60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+      ],
       fill: false,
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      backgroundColor: 'rgba(75, 192, 192)',
       borderColor: 'rgba(75, 192, 192, 1)',
       tension: 0.1,
     },
@@ -47,9 +55,9 @@ const dataPie = {
       label: '# of Votes',
       data: [12, 19, 2],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
+        'rgba(255, 99, 132, 0.8)',
+        'rgba(54, 162, 235, 0.8)',
+        'rgba(255, 206, 86, 0.8)',
       ],
       borderColor: [
         'rgba(255, 99, 132, 1)',
@@ -62,29 +70,103 @@ const dataPie = {
 };
 
 function HomePage() {
+  const dispatch = useDispatch();
+
+  const revenueData = useSelector((state) => state.revenue.revenues);
+
+  let newData = [];
+  let oldData = [
+    60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+  ];
+
+  for (let i = 0; i < revenueData.length; i++) {
+    const revenue = revenueData[i].total;
+    // console.log(revenue, '<< Ini');
+    newData.push(revenue);
+  }
+
+  console.log(revenueData, '<<< DI Home');
+  console.log(newData, 'Data Baru');
+
+  const dataGraph = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    datasets: [
+      {
+        label: 'Profit',
+        // data: [
+        //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+        // ],
+        data: newData || oldData,
+        fill: false,
+        backgroundColor: 'rgba(75, 192, 192)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        tension: 0.1,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    dispatch(fetchRevenue());
+  }, []);
+
   return (
     <>
+      {/* <Navigation /> */}
       <Container fluid>
         <Row>
-          <Col xs={3} id='sidebar-wrapper'>
+          <Col xs={2} id='sidebar-wrapper'>
             <Sidebar />
           </Col>
-          <Col xs={9} id='page-content-wrapper'>
+          <Col xs={10} id='page-content-wrapper'>
             <Row className='justify-content-md-center'>
               <Col>
-                <h1 className='text-center'>Halaman Dashboard</h1>
+                <h1 className='text-center'>Dashboard</h1>
               </Col>
             </Row>
-            <Row>
-              <Col>
-                <h3 className='text-center'>Grafik Profit</h3>
-                <Bar data={dataGraph} />
+            <Row className='shadow m-5 border border-3'>
+              <Col className='m-2'>
+                <h3 className='text-center mb-3'>Grafik Profit</h3>
+                <Row>
+                  <Col>
+                    <Bar data={dataGraph} />
+                  </Col>
+                  <Col className='d-flex justify-content-center align-items-center'>
+                    <div className='text-center' style={{ width: '100%' }}>
+                      <h2>Rp. 20.000.000</h2>
+                    </div>
+                  </Col>
+                </Row>
               </Col>
             </Row>
-            <Row>
-              <Col>
+            <Row className='shadow m-5 border border-3'>
+              <Col
+                className='m-2 d-flex align-items-center'
+                style={{ flexDirection: 'column' }}
+              >
                 <h3 className='text-center'>Grafik Occupancy</h3>
-                <Doughnut data={dataPie} />
+                <div
+                  // className='d-flex justify-content-center'
+                  style={{
+                    borderWidth: '10rem',
+                    width: '50%',
+                    borderColor: 'red',
+                  }}
+                >
+                  <Doughnut data={dataPie} />
+                </div>
               </Col>
             </Row>
           </Col>

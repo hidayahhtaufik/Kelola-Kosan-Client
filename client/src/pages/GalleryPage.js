@@ -1,5 +1,9 @@
 import React from 'react';
 import Sidebar from './components/Sidebar';
+<<<<<<< HEAD
+=======
+import Navigation from './components/Navigation';
+>>>>>>> cbd8271c988733d05084bb74e8321d776751342d
 import {
   Container,
   Row,
@@ -13,12 +17,13 @@ import {
 function GalleryPage() {
   return (
     <>
+      {/* <Navigation /> */}
       <Container fluid>
         <Row>
-          <Col xs={3} id='sidebar-wrapper'>
+          <Col xs={2} id='sidebar-wrapper'>
             <Sidebar />
           </Col>
-          <Col xs={9} id='page-content-wrapper'>
+          <Col xs={10} id='page-content-wrapper'>
             <Row className='justify-content-md-center'>
               <h1>Halaman Gallery</h1>
             </Row>
