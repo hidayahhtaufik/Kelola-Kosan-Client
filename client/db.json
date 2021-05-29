@@ -1,4 +1,18 @@
 {
+  "user": [],
+  "tenant": [
+    { "id": 1, "email": "blabla1@mail.com", "name": "John", "phone": "+62984895941", "checkIn": "2021-01-01", "checkOut": "null"},
+    { "id": 2, "email": "blabla2@mail.com", "name": "surti", "phone": "+62984895942", "checkIn": "2021-01-06", "checkOut": "null"},
+    { "id": 3, "email": "blabla3@mail.com", "name": "tedjo", "phone": "+62984895943", "checkIn": "2021-01-08", "checkOut": "null"},
+    { "id": 4, "email": "blabla4@mail.com", "name": "acong", "phone": "+62984895944", "checkIn": "2021-01-02", "checkOut": "null"},
+    { "id": 5, "email": "blabla5@mail.com", "name": "umar", "phone": "+62984895945", "checkIn": "2021-02-09", "checkOut": "null"},
+    { "id": 6, "email": "blabla6@mail.com", "name": "susi", "phone": "+62984895946", "checkIn": "2021-02-10", "checkOut": "null"},
+    { "id": 7, "email": "blabla7@mail.com", "name": "susanti", "phone": "+62984895947", "checkIn": "2021-02-11", "checkOut": "null"},
+    { "id": 8, "email": "blabla8@mail.com", "name": "mamang", "phone": "+62984895948", "checkIn": "2021-02-21", "checkOut": "null"},
+    { "id": 9, "email": "blabla9@mail.com", "name": "jono", "phone": "+62984895949", "checkIn": "2021-03-01", "checkOut": "null"},
+    { "id": 10, "email": "blabla10@mail.com", "name": "budi", "phone": "+629848959410", "checkIn": "2021-03-06", "checkOut": "null"},
+    { "id": 11, "email": "blabla11@mail.com", "name": "abdul", "phone": "+629848959411", "checkIn": "2021-03-08", "checkOut": "null"}
+  ],
   "revenue": [
     { "id": 1, "month": 1, "year": 2021, "total": 20000000, "propertyID": 1 },
     { "id": 2, "month": 2, "year": 2021, "total": 34000000, "propertyID": 1 },
