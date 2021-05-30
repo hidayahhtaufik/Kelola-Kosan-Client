@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProperties, fetchRoom } from '../store/actions/actions';
+import {
+  fetchProperties,
+  fetchRoom,
+  editPropertyData,
+} from '../store/actions/actions';
 import Sidebar from './components/Sidebar';
 import styles from './styling/profileProperty.module.css';
 
@@ -14,20 +18,33 @@ import {
   NavDropdown,
   Image,
   Table,
+  Modal,
+  Form,
 } from 'react-bootstrap';
 
 function ProfilePage() {
   const [property, setProperty] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [image, setImage] = useState('');
+  const [phone, setPhone] = useState('');
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const dispatch = useDispatch();
 
   const propertiesData = useSelector((state) => state.property.properties);
   const roomData = useSelector((state) => state.room.rooms);
-  console.log(roomData);
+  // console.log(roomData);
 
   console.log(propertiesData);
-  console.log(property, '<<< Local');
+  // console.log(property, '<<< Local');
+
+  console.log(name);
 
   useEffect(() => {
     setLoading(true);
@@ -39,8 +56,19 @@ function ProfilePage() {
     dispatch(fetchRoom());
   }, []);
 
-  function handleEditButton() {
-    console.log(property, 'Edit ke Klik');
+  function handleSubmitButton() {
+    const newData = {
+      id: property[0].id,
+      name,
+      address,
+      image,
+      phone,
+    };
+    console.log(newData);
+    dispatch(
+      editPropertyData(newData, loading, setLoading, property, setProperty)
+    );
+    handleClose();
   }
   return (
     <>
@@ -141,7 +169,7 @@ function ProfilePage() {
                   <Button
                     variant='success rounded'
                     className='mr-5'
-                    onClick={handleEditButton}
+                    onClick={handleShow}
                   >
                     Edit data
                   </Button>
@@ -150,6 +178,60 @@ function ProfilePage() {
             </Col>
           )}
         </Row>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Properties</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className='mb-3'>
+                <Form.Label>Name Property:</Form.Label>
+                <Form.Control
+                  type='text'
+                  defaultValue={property[0]?.name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>Address:</Form.Label>
+                <Form.Control
+                  type='text'
+                  defaultValue={property[0]?.address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>Image:</Form.Label>
+                <Form.Control
+                  type='text'
+                  defaultValue={property[0]?.image}
+                  onChange={(e) => setImage(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>Phone:</Form.Label>
+                <Form.Control
+                  type='text'
+                  defaultValue={property[0]?.phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='secondary' onClick={handleClose}>
+              Close
+            </Button>
+            <Button
+              variant='primary'
+              onClick={(event) => {
+                handleSubmitButton(event);
+              }}
+            >
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
   );
