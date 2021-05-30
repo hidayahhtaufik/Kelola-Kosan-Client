@@ -6,7 +6,6 @@ const ProtectedRoute = ({component: Component, ...rest}) => {
     return (
         <Route {...rest} render={
             (props) => {
-                console.log("TRIGGERED")
                 if(localStorage.getItem("access_token")) {
                     return <Component {...props} />
                 } else {
