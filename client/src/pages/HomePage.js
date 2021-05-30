@@ -1,5 +1,4 @@
-import {Redirect} from 'react-router-dom';
-import React, { useEffect, useState  } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
 import { newMonth, numberMonth } from '../helpers/helpers';
@@ -12,14 +11,15 @@ import {
   Navbar,
   Nav,
   NavDropdown,
-  Modal, Form
+  Modal,
+  Form,
 } from 'react-bootstrap';
 import { Doughnut, Bar, defaults } from 'react-chartjs-2';
 import {
   fetchRevenue,
   fetchRoom,
   fetchExpenses,
-  createExpenses
+  createExpenses,
 } from '../store/actions/actions';
 
 // console.log(defaults);
@@ -44,30 +44,35 @@ function HomePage({component: Component, ...rest}) {
 
   // Kebutuhan Expense ======================================================
   // ? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HOME Expense
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
-  let newDataExpense = [...expenseData]
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  let newDataExpense = [...expenseData];
 
-  const [expenseTitle, setExpenseTitle] = useState('')
-  const [expenseMonth, setExpenseMonth] = useState(0)
-  const [expenseYear, setExpenseYear]   = useState(0)
-  const [expenseTotal, setExpenseTotal] = useState(0)
+  const [expenseTitle, setExpenseTitle] = useState('');
+  const [expenseMonth, setExpenseMonth] = useState(0);
+  const [expenseYear, setExpenseYear] = useState(0);
+  const [expenseTotal, setExpenseTotal] = useState(0);
 
   const addExpenseTransaction = () => {
     console.log('clickeddd add transaction');
     const newDataExpense = {
-      title      : expenseTitle,
-      month      : expenseMonth,
-      year       : expenseYear,
-      total      : expenseTotal
-    }
-    dispatch(createExpenses(newDataExpense))
+      title: expenseTitle,
+      month: expenseMonth,
+      year: expenseYear,
+      total: expenseTotal,
+    };
+    dispatch(createExpenses(newDataExpense));
 
-    handleClose()
+    handleClose();
+  };
+
+  let newDataExpenseBar = [];
+  for (let i = 0; i < expenseData.length; i++) {
+    const expense = expenseData[i].total;
+    newDataExpenseBar.push(expense);
   }
-
-
+  console.log(newDataExpenseBar, '<<< Data Baru Graph');
 
   // ? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense
 
@@ -120,7 +125,7 @@ function HomePage({component: Component, ...rest}) {
         // data: [
         //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
         // ],
-        data: newDataExpense,
+        data: newDataExpenseBar,
         fill: false,
         backgroundColor: 'rgba(255, 99, 132)',
         borderColor: 'rgba(255, 99, 132, 1)',
@@ -216,13 +221,14 @@ function HomePage({component: Component, ...rest}) {
                       </h3>
                       <h3>
                         Expense : Rp.{' '}
-                        {newDataExpense[numberMonth()]?.toLocaleString()} /month
+                        {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
+                        /month
                       </h3>
                       <h3>
                         Profit : Rp.{' '}
                         {Number(
                           newDataRevenue[numberMonth()] -
-                            newDataExpense[numberMonth()]
+                            newDataExpenseBar[numberMonth()]
                         )?.toLocaleString()}
                       </h3>
                     </div>
@@ -265,9 +271,8 @@ function HomePage({component: Component, ...rest}) {
               </Col>
             </Row>
 
-
-        {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Expense */}
-        <Row className='shadow m-5 border border-3'>
+            {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Expense */}
+            <Row className='shadow m-5 border border-3'>
               <Col
                 className='m-2 d-flex align-items-center'
                 style={{
@@ -289,11 +294,10 @@ function HomePage({component: Component, ...rest}) {
                 </h3>
 
                 {/* ADDD */}
-                <Button variant="primary" onClick={handleShow}>
+                <Button variant='primary' onClick={handleShow}>
                   Add
                 </Button>
-                  <p>{JSON.stringify(expenseData)}</p>
-
+                <p>{JSON.stringify(expenseData)}</p>
 
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header closeButton>
@@ -301,56 +305,57 @@ function HomePage({component: Component, ...rest}) {
                   </Modal.Header>
                   <Modal.Body>
                     <Form>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Title</Form.Label>
-                        <Form.Control 
-                          type="text" 
-                          placeholder="expense title"  
+                        <Form.Control
+                          type='text'
+                          placeholder='expense title'
                           value={expenseTitle}
-                          onChange={ e => setExpenseTitle(e.target.value) } 
+                          onChange={(e) => setExpenseTitle(e.target.value)}
                         />
                       </Form.Group>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Month</Form.Label>
-                        <Form.Control 
-                          type="number" min={1} max={12}
+                        <Form.Control
+                          type='number'
+                          min={1}
+                          max={12}
                           value={expenseMonth}
-                          onChange={ e => setExpenseMonth(e.target.value) }
+                          onChange={(e) => setExpenseMonth(e.target.value)}
                         />
                       </Form.Group>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Year</Form.Label>
-                        <Form.Control 
-                          type="number" min={1}
+                        <Form.Control
+                          type='number'
+                          min={1}
                           value={expenseYear}
-                          onChange={ e => setExpenseYear(e.target.value) }
+                          onChange={(e) => setExpenseYear(e.target.value)}
                         />
                       </Form.Group>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Total</Form.Label>
-                        <Form.Control 
-                          type="number" min={1}
+                        <Form.Control
+                          type='number'
+                          min={1}
                           value={expenseTotal}
-                          onChange={ e => setExpenseTotal(e.target.value) }
+                          onChange={(e) => setExpenseTotal(e.target.value)}
                         />
                       </Form.Group>
                     </Form>
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant='secondary' onClick={handleClose}>
                       Close
                     </Button>
-                    <Button variant="primary" onClick={addExpenseTransaction}>
+                    <Button variant='primary' onClick={addExpenseTransaction}>
                       Add
                     </Button>
                   </Modal.Footer>
                 </Modal>
-
               </Col>
             </Row>
-        {/* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense*/}
-
-
+            {/* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense*/}
           </Col>
         </Row>
       </Container>

@@ -22,3 +22,9 @@ export const numberMonth = () => {
   const d = new Date();
   return d.getMonth();
 };
+
+export const dateOnly = (date) => {
+  const newDate = date.split('T');
+  console.log(newDate);
+  return newDate[0];
+};
