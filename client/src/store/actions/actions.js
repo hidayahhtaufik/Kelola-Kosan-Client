@@ -52,12 +52,44 @@ export const createExpenses = (payload) => {
       }
     })
     .then( _ => {
-        console.log(payload,'aaazz');
         return dispatch(fetchExpenses())
       })
       .catch(err => console.log(err))
   }
 }
+
+export const updateExpenses = (id, payload) => {
+  return(dispatch) => {
+    axios
+      .put(`/expenses/${id}`, payload, {
+        headers: {
+          access_token: token
+        }
+      })
+      .then( _ => { 
+        return dispatch(fetchExpenses())
+      })
+      .catch(err => console.log(err))
+
+  }
+}
+
+export const deleteExpense = (id) => {
+  return(dispatch) => {
+    axios
+      .delete(`/expenses/${id}`, {
+        headers: {
+          access_token: token
+        }
+      })
+      .then( _ => { 
+        return dispatch(fetchExpenses())
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+
 
 // ACTION PROPERTIES ===========================================================
 export const fetchProperties = (loading, setLoading, property, setProperty) => {
