@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route} from 'react-router-dom';
 import Register from './pages/RegisterPage';
 import Login from './pages/LoginPage';
 import HomePage from './pages/HomePage';

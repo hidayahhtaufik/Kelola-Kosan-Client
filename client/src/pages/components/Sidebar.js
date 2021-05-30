@@ -98,9 +98,10 @@ const Side = (props, navigation) => {
               History.push('/login');
             }}
             style={{ color: 'white' }}
+            className="border border-secondary" 
           >
-            <IoIcons4.IoMdExit />
-            <span>Logout</span>
+            <IoIcons4.IoMdExit/>
+            <span >Logout</span>
           </Nav.Link>
         </Nav.Item>
       </Nav>
