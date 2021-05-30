@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import { Switch, Route, Link } from 'react-router-dom';
 import Register from './pages/RegisterPage';
@@ -12,6 +12,7 @@ import RoomPage from './pages/RoomPage';
 import ProtectedRoute from './protectedRoute';
 
 function App() {
+  
   return (
     <>
       <div className='App'>
@@ -19,27 +20,13 @@ function App() {
           <Route exact path='/register'>
             <Register />
           </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/gallery'>
-            <GalleryPage />
-          </Route>
-          <Route path='/calendar'>
-            <CalendarPage />
-          </Route>
-          <Route path='/tenant'>
-            <TenantPage />
-          </Route>
-          <Route path='/profile'>
-            <ProfilePage />
-          </Route>
-          <Route path='/rooms'>
-            <RoomPage />
-          </Route>
-          <ProtectedRoute path='/'>
-            <HomePage />
-          </ProtectedRoute>
+          <Route path='/login' component={Login} />
+          <ProtectedRoute path="/gallery" component={GalleryPage} />
+          <ProtectedRoute path="/calendar" component={CalendarPage} />
+          <ProtectedRoute path="/tenant" component={TenantPage} />
+          <ProtectedRoute path="/profile" component={ProfilePage} />
+          <ProtectedRoute path='/rooms' component={RoomPage} />
+          <ProtectedRoute path='/' component={HomePage} />
         </Switch>
       </div>
     </>

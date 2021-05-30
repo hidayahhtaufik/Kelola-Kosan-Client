@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { fetchRoom, postLogin } from "../store/actions/actions"
+import { postLogin } from "../store/actions/actions"
 import {useHistory} from "react-router-dom"
 
 
-export default function Login() {
+function Login() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const history = useHistory();
@@ -63,3 +63,5 @@ export default function Login() {
       </Container>
     );
 }
+
+export default Login
