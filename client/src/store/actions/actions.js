@@ -101,6 +101,34 @@ export const fetchProperties = (loading, setLoading, property, setProperty) => {
   };
 };
 
+export const editPropertyData = (
+  payload,
+  loading,
+  setLoading,
+  property,
+  setProperty
+) => {
+  return (dispatch) => {
+    axios
+      .put(`/properties/${payload.id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then(() => {
+        console.log(payload, '<<<< di Action Properties');
+        // setProperty(response.data.properties);
+        // setLoading(false);
+        return dispatch(
+          fetchProperties(loading, setLoading, property, setProperty)
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 // ACTION ROOM ===========================================================
 export const fetchRoom = () => {
   return (dispatch) => {
