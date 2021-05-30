@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
-import { Grid } from 'gridjs-react';
+import { _ , Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTenant } from '../store/actions/actions';
 
@@ -19,22 +19,45 @@ function TenantPage() {
   const dispatch = useDispatch();
 
   const tenantData = useSelector((state) => state.tenant.tenants);
-  console.log(tenantData);
+  console.log(tenantData, 'tenant data');
 
-  let newDataTenant = [];
-  for (let i = 0; i < tenantData.length; i++) {
-    console.log(tenantData[i]);
-    const data = Object.values(tenantData[i]);
-    // console.log(data, '<<<<');
-    newDataTenant.push(data);
-  }
-
-  console.log(newDataTenant, '<<<< Data Tenant Baru');
 
   useEffect(() => {
     dispatch(fetchTenant());
   }, []);
 
+  const mockTenant = [
+    {
+      "id": 1,
+      "email": "joko@mail.com",
+      "name": "joko",
+      "phone": "0823452",
+      "checkIn": "2021-05-30T08:38:38.770Z",
+      "checkOut": null,
+      "createdAt": "2021-05-30T08:38:38.770Z",
+      "updatedAt": "2021-05-30T08:38:38.770Z"
+    },
+    {
+      "id": 2,
+      "email": "papang@mail.com",
+      "name": "papang",
+      "phone": "0883249821",
+      "checkIn": "2021-05-30T08:38:38.770Z",
+      "checkOut": null,
+      "createdAt": "2021-05-30T08:38:38.770Z",
+      "updatedAt": "2021-05-30T08:38:38.770Z"
+    },
+    {
+      "id": 3,
+      "email": "jalang@mail.com",
+      "name": "jee",
+      "phone": "082158e75678",
+      "checkIn": "2021-05-28T08:38:38.770Z",
+      "checkOut": null,
+      "createdAt": "2021-05-30T08:38:38.770Z",
+      "updatedAt": "2021-05-30T08:38:38.770Z"
+    }
+  ]
   return (
     <>
       {/* <Navigation /> */}
@@ -47,45 +70,33 @@ function TenantPage() {
             <Row className='justify-content-md-center'>
               <h1>Halaman Tenant</h1>
             </Row>
-            <Row className='ml-5'>
+            <Row className='m-5 flex-column'>
               <Grid
-                // data={[
-                //   ['John', 'john@example.com', '+53535215'],
-                //   ['Mike', 'mike@gmail.com', '+23453462623'],
-                //   ['surti', 'surti@gmail.com', '+23453462623'],
-                //   ['tejo', 'tejo@gmail.com', '+23453462623'],
-                //   ['acong', 'acong@gmail.com', '+23453462623'],
-                //   ['susi', 'susi@gmail.com', '+23453462623'],
-                //   ['susan', 'susan@gmail.com', '+23453462623'],
-                // ]}
-                data={newDataTenant}
-                style={{
-                  table: {
-                    border: '3px solid #ccc',
-                  },
-                  th: {
-                    'background-color': 'rgba(0, 0, 0, 0.1)',
-                    color: '#000',
-                    'border-bottom': '3px solid #ccc',
-                    'text-align': 'center',
-                  },
-                  td: {
-                    'text-align': 'center',
-                  },
-                }}
+                data={mockTenant.map(e => {
+                  return [
+                    e.id,
+                    e.name,
+                    e.email,
+                    e.phone,
+                    new Date(e.checkIn).toDateString(),
+                    e.checkOut && new Date(e.checkOut).toDateString(),
+                    _(<> <Button variant={"primary"} onClick={() => console.log(`${e.name} edited`)}>Edit</Button> <Button variant={"danger"} onClick={() => console.log(`${e.name} deleted`)}>delete</Button> </>)
+                  ]
+                })}
                 columns={[
-                  'id',
-                  'Email',
+                  'Room',
                   'Name',
+                  'Email',
                   'Phone',
                   'CheckIn',
                   'CheckOut',
                 ]}
-                search={true}
                 sort={true}
+                search={true}
                 pagination={{
                   enabled: true,
-                  limit: 5,
+                  limit: 3,
+                  summary: false,
                 }}
               ></Grid>
             </Row>

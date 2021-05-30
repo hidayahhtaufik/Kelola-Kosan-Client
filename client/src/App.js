@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import './App.css';
-import { Switch, Route, Link } from 'react-router-dom'
-import Register from './pages/RegisterPage'
-import Login from './pages/LoginPage'
+import { Switch, Route, Link } from 'react-router-dom';
+import Register from './pages/RegisterPage';
+import Login from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import TenantPage from './pages/TenantPage';
@@ -14,12 +14,12 @@ import ProtectedRoute from './protectedRoute';
 function App() {
   return (
     <>
-      <div className="App">
+      <div className='App'>
         <Switch>
-          <Route exact path="/register">
+          <Route exact path='/register'>
             <Register />
           </Route>
-          <Route path="/login">
+          <Route path='/login'>
             <Login />
           </Route>
           <Route path='/gallery'>
