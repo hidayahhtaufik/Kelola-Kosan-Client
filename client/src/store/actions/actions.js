@@ -1,45 +1,39 @@
 import axios from '../../API/axios'; // ganti pake axios
-import baseUrl from "../../API/baseUrl"
+import baseUrl from '../../API/baseUrl';
 // const RevenueDB = 'http://localhost:4000/revenues';
 // const expensesDB = 'http://localhost:4000/expenses';
 // const RoomDB = 'http://localhost:4000/rooms';
 // const TenantDB = 'http://localhost:4000/tenant';
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZXZlbG9wbWVudEBtYWlsLmNvbSIsImlhdCI6MTYyMjM2ODIzOX0.KHtaQ7w_Q0Z9uitiXS9gVuLWmr7Aj6pxe4pa8OmFTCE"
+
 // ACTION REVENUE ===========================================================
 
 export const postLogin = (email, password) => {
   return axios({
-    method: "POST",
+    method: 'POST',
     url: `/login`,
     data: {
       email,
-      password
-    }
+      password,
+    },
   })
-  .then(response => {
-    const access_token = response.data.access_token;
-    console.log(access_token);
-    localStorage.setItem("access_token", access_token);
-    return response;
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .then((response) => {
+      const access_token = response.data.access_token;
+      console.log(access_token);
+      localStorage.setItem('access_token', access_token);
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
-
 export const fetchRevenue = () => {
-  
   return (dispatch) => {
     axios
       .get('/revenues', {
         headers: {
-
-//           access_token: token
-//         }
           access_token: localStorage.access_token,
         },
-
       })
       .then((response) => {
         console.log(response.data.revenues, '<<<< di Action Expenses');
@@ -60,13 +54,8 @@ export const fetchExpenses = () => {
     axios
       .get('/expenses', {
         headers: {
-
-//           access_token: token
-//         }
-
           access_token: localStorage.access_token,
         },
-
       })
       .then((response) => {
         console.log(response.data, '<<<< di Action Expenses');
@@ -81,18 +70,51 @@ export const fetchExpenses = () => {
 export const createExpenses = (payload) => {
   return (dispatch) => {
     axios
-    .post('/expenses', payload, {
-      headers: {
-        access_token: token
-      }
-    })
-    .then( _ => {
-        console.log(payload,'aaazz');
+      .post('/expenses', payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((_) => {
+        console.log(payload, 'aaazz');
+        return dispatch(fetchExpenses());
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const updateExpenses = (id, payload) => {
+  return(dispatch) => {
+    axios
+      .put(`/expenses/${id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then( _ => { 
+        return dispatch(fetchExpenses())
+      })
+      .catch(err => console.log(err))
+
+  }
+}
+
+export const deleteExpense = (id) => {
+  return(dispatch) => {
+    axios
+      .delete(`/expenses/${id}`, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then( _ => { 
         return dispatch(fetchExpenses())
       })
       .catch(err => console.log(err))
   }
 }
+
+
 
 // ACTION PROPERTIES ===========================================================
 export const fetchProperties = (loading, setLoading, property, setProperty) => {
@@ -100,13 +122,8 @@ export const fetchProperties = (loading, setLoading, property, setProperty) => {
     axios
       .get('/properties', {
         headers: {
-
-//           access_token: token
-//         }
-
           access_token: localStorage.access_token,
         },
-
       })
       .then((response) => {
         console.log(response.data.properties, '<<<< di Action Properties');
@@ -154,19 +171,19 @@ export const editPropertyData = (
 // ACTION ROOM ===========================================================
 export const fetchRoom = () => {
   return (dispatch) => {
-    axios({
-      method: "GET",
-      url: `${baseUrl}/rooms`,
-      headers: {access_token: localStorage.getItem('access_token')}
-    })
-    .then(response => {
-      console.log(response.data);
-      const dataRooms = response.data;
-      return dispatch({ type: 'ROOM/FETCH', payload: dataRooms });
-    })
-    .catch(err => {
-      console.log(err);
-    })
+    axios
+      .get('/rooms', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((room) => {
+        console.log(room.data, '<<<< di Action Room');
+        return dispatch({ type: 'ROOM/FETCH', payload: room.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
@@ -176,16 +193,10 @@ export const fetchTenant = () => {
     axios
       .get('/tenant', {
         headers: {
-
-//           access_token: token
-//         }
-
           access_token: localStorage.access_token,
         },
-
       })
       .then((tenant) => {
-        console.log(tenant.data, '<<<< di Action Room');
         return dispatch({ type: 'TENANT/FETCH', payload: tenant.data });
       })
       .catch((err) => {
@@ -202,13 +213,32 @@ export const userRegister = (email, username, password) => {
       .post('/register', {
         email,
         username,
-        password
+        password,
       })
-      .then(response => {
-        console.log(response, ' ini response register user cuk')
+      .then((response) => {
+        console.log(response, ' ini response register user cuk');
       })
-      .catch(err => {
-        console.log(err, 'err reg user fakk')
+      .catch((err) => {
+        console.log(err, 'err reg user fakk');
+      });
+  };
+};
+
+// ACTION PAYMENT ======================================================
+export const fetchPayment = () => {
+  return (dispatch) => {
+    axios
+      .get('/payments', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
       })
-  }
-}
+      .then((payment) => {
+        console.log(payment.data, '<<<< di Action PAYMENT');
+        return dispatch({ type: 'PAYMENT/FETCH', payload: payment.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
