@@ -159,16 +159,11 @@ export const fetchTenant = () => {
     axios
       .get('/tenant', {
         headers: {
-
-//           access_token: token
-//         }
-
-          access_token: localStorage.access_token,
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJvd25lckBtYWlsLmNvbSIsImlhdCI6MTYyMjM2NDE5Nn0.jWggL49GJuYDykmPY1xd1Rt1FXHZlMhQLrTU2b8HBmM'
         },
 
       })
       .then((tenant) => {
-        console.log(tenant.data, '<<<< di Action Room');
         return dispatch({ type: 'TENANT/FETCH', payload: tenant.data });
       })
       .catch((err) => {
