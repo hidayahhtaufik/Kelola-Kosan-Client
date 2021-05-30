@@ -3,15 +3,16 @@ import axios from '../../API/axios'; // ganti pake axios
 // const expensesDB = 'http://localhost:4000/expenses';
 // const RoomDB = 'http://localhost:4000/rooms';
 // const TenantDB = 'http://localhost:4000/tenant';
-
+let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZXZlbG9wbWVudEBtYWlsLmNvbSIsImlhdCI6MTYyMjM2ODIzOX0.KHtaQ7w_Q0Z9uitiXS9gVuLWmr7Aj6pxe4pa8OmFTCE"
 // ACTION REVENUE ===========================================================
 export const fetchRevenue = () => {
+  
   return (dispatch) => {
     axios
       .get('/revenues', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: token
+        }
       })
       .then((revenue) => {
         console.log(revenue.data, '<<<< di Action Expenses');
@@ -28,9 +29,9 @@ export const fetchExpenses = () => {
   return (dispatch) => {
     axios
       .get('/expenses', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: token
+        }
       })
       .then((expenses) => {
         console.log(expenses.data, '<<<< di Action Expenses');
@@ -42,14 +43,30 @@ export const fetchExpenses = () => {
   };
 };
 
+export const createExpenses = (payload) => {
+  return (dispatch) => {
+    axios
+    .post('/expenses', payload, {
+      headers: {
+        access_token: token
+      }
+    })
+    .then( _ => {
+        console.log(payload,'aaazz');
+        return dispatch(fetchExpenses())
+      })
+      .catch(err => console.log(err))
+  }
+}
+
 // ACTION PROPERTIES ===========================================================
 export const fetchProperties = (loading, setLoading, property, setProperty) => {
   return (dispatch) => {
     axios
       .get('/properties', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: token
+        }
       })
       .then((properties) => {
         console.log(properties.data, '<<<< di Action Properties');
@@ -68,9 +85,9 @@ export const fetchRoom = () => {
   return (dispatch) => {
     axios
       .get('/rooms', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: token
+        }
       })
       .then((room) => {
         console.log(room.data, '<<<< di Action Room');
@@ -87,9 +104,9 @@ export const fetchTenant = () => {
   return (dispatch) => {
     axios
       .get('/tenant', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: token
+        }
       })
       .then((tenant) => {
         console.log(tenant.data, '<<<< di Action Room');
