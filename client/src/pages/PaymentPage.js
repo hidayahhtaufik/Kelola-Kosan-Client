@@ -3,7 +3,8 @@ import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
 import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTenant } from '../store/actions/actions';
+import { fetchPayment } from '../store/actions/actions';
+import { dateOnly } from '../../src/helpers/helpers';
 
 import {
   Container,
@@ -15,13 +16,14 @@ import {
   NavDropdown,
 } from 'react-bootstrap';
 
-function TenantPage() {
+function PaymentPage() {
   const dispatch = useDispatch();
 
-  const tenantData = useSelector((state) => state.tenant.tenantsData);
+  const paymentData = useSelector((state) => state.payment.payments);
+  console.log(paymentData);
 
   useEffect(() => {
-    dispatch(fetchTenant());
+    dispatch(fetchPayment());
   }, []);
 
   return (
@@ -32,28 +34,30 @@ function TenantPage() {
           <Col xs={2}>
             <Sidebar />
           </Col>
-          <Col xs={10}>
-            <Row className='justify-content-md-center'>
-              <h1>Halaman Tenant</h1>
+          <Col
+            xs={10}
+            style={{ border: 'solid', borderColor: 'blue', padding: '20px' }}
+          >
+            <Row
+              className='justify-content-md-center'
+              style={{ border: 'solid', borderColor: 'red', padding: '20px' }}
+            >
+              <h1>Halaman Payment</h1>
             </Row>
-            <Row className='m-5 flex-column'>
-              <Button
-                onClick={() => {
-                  console.log('clicked');
-                }}
-                style={{ alignSelf: 'flex-end' }}
-              >
-                Add Tenant
-              </Button>
+            <Row
+              className='m-5 flex-column'
+              style={{ border: 'solid', borderColor: 'green' }}
+            >
               <Grid
-                data={tenantData.map((e) => {
+                data={paymentData.map((e) => {
                   return [
                     e.id,
-                    e.name,
-                    e.email,
-                    e.phone,
-                    new Date(e.checkIn).toDateString(),
-                    e.checkOut && new Date(e.checkOut).toDateString(),
+                    e.Tenant.name,
+                    e.month,
+                    e.year,
+                    dateOnly(e.nextDueDate),
+                    e.paidCash,
+                    e.Room.number,
                     _(
                       <>
                         {' '}
@@ -76,19 +80,20 @@ function TenantPage() {
                   ];
                 })}
                 columns={[
-                  'Room',
+                  'No',
                   'Name',
-                  'Email',
-                  'Phone',
-                  'CheckIn',
-                  'CheckOut',
+                  'Month',
+                  'Year',
+                  'Next DueDate',
+                  'Paid Cash',
+                  'Room Id',
                   'Action',
                 ]}
                 sort={true}
                 search={true}
                 pagination={{
                   enabled: true,
-                  limit: 10,
+                  limit: 3,
                   summary: false,
                 }}
               ></Grid>
@@ -100,4 +105,4 @@ function TenantPage() {
   );
 }
 
-export default TenantPage;
+export default PaymentPage;

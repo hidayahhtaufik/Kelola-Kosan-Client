@@ -1,4 +1,4 @@
-import React, { useEffect, useState  } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
 import { newMonth, numberMonth } from '../helpers/helpers';
@@ -24,7 +24,7 @@ import {
 // console.log(defaults);
 defaults.plugins.legend.position = 'right';
 
-function HomePage() {
+function HomePage({component: Component, ...rest}) {
   const dispatch = useDispatch();
 
   const revenueData = useSelector((state) => state.revenue.revenues);
@@ -98,6 +98,13 @@ function HomePage() {
     dispatch(deleteExpense(id))
   }
 
+  let newDataExpenseBar = [];
+  for (let i = 0; i < expenseData.length; i++) {
+    const expense = expenseData[i].total;
+    newDataExpenseBar.push(expense);
+  }
+  console.log(newDataExpenseBar, '<<< Data Baru Graph');
+
   // ? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense
 
   // Kebutuhan Room ===========================================================
@@ -149,7 +156,7 @@ function HomePage() {
         // data: [
         //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
         // ],
-        data: newDataExpense,
+        data: newDataExpenseBar,
         fill: false,
         backgroundColor: 'rgba(255, 99, 132)',
         borderColor: 'rgba(255, 99, 132, 1)',
@@ -180,7 +187,7 @@ function HomePage() {
       },
     ],
   };
-
+  console.log(rest, "INI REST DI HOME")
   useEffect(() => {
     dispatch(fetchRevenue());
   }, []);
@@ -245,13 +252,14 @@ function HomePage() {
                       </h3>
                       <h3>
                         Expense : Rp.{' '}
-                        {newDataExpense[numberMonth()]?.toLocaleString()} /month
+                        {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
+                        /month
                       </h3>
                       <h3>
                         Profit : Rp.{' '}
                         {Number(
                           newDataRevenue[numberMonth()] -
-                            newDataExpense[numberMonth()]
+                            newDataExpenseBar[numberMonth()]
                         )?.toLocaleString()}
                       </h3>
                     </div>
@@ -294,9 +302,8 @@ function HomePage() {
               </Col>
             </Row>
 
-
-        {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Expense */}
-        <Row className='shadow m-5 border border-3'>
+            {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Expense */}
+            <Row className='shadow m-5 border border-3'>
               <Col
                 className='m-2 d-flex align-items-center'
                 style={{
@@ -371,7 +378,7 @@ function HomePage() {
                   </Modal.Header>
                   <Modal.Body>
                     <Form>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Title</Form.Label>
                         <Form.Control 
                           type="text" 
@@ -380,7 +387,7 @@ function HomePage() {
                           onChange={ e => setExpenseAddTitle(e.target.value) } 
                         />
                       </Form.Group>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Month</Form.Label>
                         <Form.Control 
                           type="number" min={1} max={12}
@@ -388,7 +395,7 @@ function HomePage() {
                           onChange={ e => setExpenseAddMonth(e.target.value) }
                         />
                       </Form.Group>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Year</Form.Label>
                         <Form.Control 
                           type="number" min={1}
@@ -396,7 +403,7 @@ function HomePage() {
                           onChange={ e => setExpenseAddYear(e.target.value) }
                         />
                       </Form.Group>
-                      <Form.Group controlId="formBasicEmail">
+                      <Form.Group controlId='formBasicEmail'>
                         <Form.Label>Total</Form.Label>
                         <Form.Control 
                           type="number" min={1}
@@ -410,7 +417,7 @@ function HomePage() {
                     <Button variant="secondary" onClick={handleCloseAddForm}>
                       Close
                     </Button>
-                    <Button variant="primary" onClick={addExpenseTransaction}>
+                    <Button variant='primary' onClick={addExpenseTransaction}>
                       Add
                     </Button>
                   </Modal.Footer>
@@ -470,9 +477,7 @@ function HomePage() {
 
               </Col>
             </Row>
-        {/* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense*/}
-
-
+            {/* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense*/}
           </Col>
         </Row>
       </Container>
