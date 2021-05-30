@@ -3,7 +3,7 @@ import axios from '../../API/axios'; // ganti pake axios
 // const expensesDB = 'http://localhost:4000/expenses';
 // const RoomDB = 'http://localhost:4000/rooms';
 // const TenantDB = 'http://localhost:4000/tenant';
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZXZlbG9wbWVudEBtYWlsLmNvbSIsImlhdCI6MTYyMjM2ODIzOX0.KHtaQ7w_Q0Z9uitiXS9gVuLWmr7Aj6pxe4pa8OmFTCE"
+let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZXZlbG9wbWVudEBtYWlsLmNvbSIsImlhdCI6MTYyMjM4ODU5MH0.NQneFES1xXCiXb68jH02mEXu4hW_Ivgch3d8SyJGenY"
 // ACTION REVENUE ===========================================================
 export const fetchRevenue = () => {
   
