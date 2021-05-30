@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState  } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
 import { newMonth, numberMonth } from '../helpers/helpers';
@@ -11,12 +11,14 @@ import {
   Navbar,
   Nav,
   NavDropdown,
+  Modal, Form
 } from 'react-bootstrap';
 import { Doughnut, Bar, defaults } from 'react-chartjs-2';
 import {
   fetchRevenue,
   fetchRoom,
   fetchExpenses,
+  createExpenses
 } from '../store/actions/actions';
 
 // console.log(defaults);
@@ -40,13 +42,33 @@ function HomePage() {
   console.log(newDataRevenue, '<<< Data Baru Revenue');
 
   // Kebutuhan Expense ======================================================
-  let newDataExpense = [];
-  for (let i = 0; i < expenseData.length; i++) {
-    const expense = expenseData[i].total;
-    newDataExpense.push(expense);
+  // ? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HOME Expense
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+  let newDataExpense = [...expenseData]
+
+  const [expenseTitle, setExpenseTitle] = useState('')
+  const [expenseMonth, setExpenseMonth] = useState(0)
+  const [expenseYear, setExpenseYear]   = useState(0)
+  const [expenseTotal, setExpenseTotal] = useState(0)
+
+  const addExpenseTransaction = () => {
+    console.log('clickeddd add transaction');
+    const newDataExpense = {
+      title      : expenseTitle,
+      month      : expenseMonth,
+      year       : expenseYear,
+      total      : expenseTotal
+    }
+    dispatch(createExpenses(newDataExpense))
+
+    handleClose()
   }
-  console.log(expenseData, '<<< DI Home Expense');
-  console.log(newDataExpense, '<<< Data Baru Expense');
+
+
+
+  // ? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense
 
   // Kebutuhan Room ===========================================================
   let emptyStatus = 0;
@@ -241,6 +263,93 @@ function HomePage() {
                 </div>
               </Col>
             </Row>
+
+
+        {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Expense */}
+        <Row className='shadow m-5 border border-3'>
+              <Col
+                className='m-2 d-flex align-items-center'
+                style={{
+                  flexDirection: 'column',
+                  border: 'solid',
+                  borderColor: 'yellow',
+                  padding: '20px',
+                }}
+              >
+                <h3
+                  className='text-center mb-3'
+                  style={{
+                    border: 'solid',
+                    borderColor: 'red',
+                    padding: '10px',
+                  }}
+                >
+                  CRUD EXPENSE
+                </h3>
+
+                {/* ADDD */}
+                <Button variant="primary" onClick={handleShow}>
+                  Add
+                </Button>
+                  <p>{JSON.stringify(expenseData)}</p>
+
+
+                <Modal show={show} onHide={handleClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form>
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control 
+                          type="text" 
+                          placeholder="expense title"  
+                          value={expenseTitle}
+                          onChange={ e => setExpenseTitle(e.target.value) } 
+                        />
+                      </Form.Group>
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Month</Form.Label>
+                        <Form.Control 
+                          type="number" min={1} max={12}
+                          value={expenseMonth}
+                          onChange={ e => setExpenseMonth(e.target.value) }
+                        />
+                      </Form.Group>
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Year</Form.Label>
+                        <Form.Control 
+                          type="number" min={1}
+                          value={expenseYear}
+                          onChange={ e => setExpenseYear(e.target.value) }
+                        />
+                      </Form.Group>
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Total</Form.Label>
+                        <Form.Control 
+                          type="number" min={1}
+                          value={expenseTotal}
+                          onChange={ e => setExpenseTotal(e.target.value) }
+                        />
+                      </Form.Group>
+                    </Form>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Close
+                    </Button>
+                    <Button variant="primary" onClick={addExpenseTransaction}>
+                      Add
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+
+              </Col>
+            </Row>
+        {/* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense*/}
+
+
           </Col>
         </Row>
       </Container>
