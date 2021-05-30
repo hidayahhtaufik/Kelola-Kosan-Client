@@ -80,7 +80,6 @@ function TenantPage() {
                   'Phone',
                   'CheckIn',
                   'CheckOut',
-                  'Action',
                 ]}
                 sort={true}
                 search={true}
