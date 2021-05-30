@@ -4,8 +4,7 @@ import baseUrl from '../../API/baseUrl';
 // const expensesDB = 'http://localhost:4000/expenses';
 // const RoomDB = 'http://localhost:4000/rooms';
 // const TenantDB = 'http://localhost:4000/tenant';
-let token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZXZlbG9wbWVudEBtYWlsLmNvbSIsImlhdCI6MTYyMjM2ODIzOX0.KHtaQ7w_Q0Z9uitiXS9gVuLWmr7Aj6pxe4pa8OmFTCE';
+
 // ACTION REVENUE ===========================================================
 
 export const postLogin = (email, password) => {
@@ -73,7 +72,7 @@ export const createExpenses = (payload) => {
     axios
       .post('/expenses', payload, {
         headers: {
-          access_token: token,
+          access_token: localStorage.access_token,
         },
       })
       .then((_) => {
@@ -83,6 +82,39 @@ export const createExpenses = (payload) => {
       .catch((err) => console.log(err));
   };
 };
+
+export const updateExpenses = (id, payload) => {
+  return(dispatch) => {
+    axios
+      .put(`/expenses/${id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then( _ => { 
+        return dispatch(fetchExpenses())
+      })
+      .catch(err => console.log(err))
+
+  }
+}
+
+export const deleteExpense = (id) => {
+  return(dispatch) => {
+    axios
+      .delete(`/expenses/${id}`, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then( _ => { 
+        return dispatch(fetchExpenses())
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+
 
 // ACTION PROPERTIES ===========================================================
 export const fetchProperties = (loading, setLoading, property, setProperty) => {
