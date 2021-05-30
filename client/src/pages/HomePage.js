@@ -25,7 +25,7 @@ import {
 // console.log(defaults);
 defaults.plugins.legend.position = 'right';
 
-function HomePage() {
+function HomePage({component: Component, ...rest}) {
   const dispatch = useDispatch();
 
   const revenueData = useSelector((state) => state.revenue.revenues);
@@ -156,7 +156,7 @@ function HomePage() {
       },
     ],
   };
-
+  console.log(rest, "INI REST DI HOME")
   useEffect(() => {
     dispatch(fetchRevenue());
   }, []);
