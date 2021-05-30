@@ -9,13 +9,16 @@ export const fetchRevenue = () => {
   return (dispatch) => {
     axios
       .get('/revenues', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: localStorage.access_token,
+        },
       })
-      .then((revenue) => {
-        console.log(revenue.data, '<<<< di Action Expenses');
-        return dispatch({ type: 'REVENUE/FETCH', payload: revenue.data });
+      .then((response) => {
+        console.log(response.data.revenues, '<<<< di Action Expenses');
+        return dispatch({
+          type: 'REVENUE/FETCH',
+          payload: response.data.revenues,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -28,13 +31,13 @@ export const fetchExpenses = () => {
   return (dispatch) => {
     axios
       .get('/expenses', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: localStorage.access_token,
+        },
       })
-      .then((expenses) => {
-        console.log(expenses.data, '<<<< di Action Expenses');
-        return dispatch({ type: 'EXPENSES/FETCH', payload: expenses.data });
+      .then((response) => {
+        console.log(response.data, '<<<< di Action Expenses');
+        return dispatch({ type: 'EXPENSES/FETCH', payload: response.data });
       })
       .catch((err) => {
         console.log(err);
@@ -47,15 +50,18 @@ export const fetchProperties = (loading, setLoading, property, setProperty) => {
   return (dispatch) => {
     axios
       .get('/properties', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: localStorage.access_token,
+        },
       })
-      .then((properties) => {
-        console.log(properties.data, '<<<< di Action Properties');
-        setProperty(properties.data);
+      .then((response) => {
+        console.log(response.data.properties, '<<<< di Action Properties');
+        setProperty(response.data.properties);
         setLoading(false);
-        return dispatch({ type: 'PROPERTIES/FETCH', payload: properties.data });
+        return dispatch({
+          type: 'PROPERTIES/FETCH',
+          payload: response.data.properties,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -68,9 +74,9 @@ export const fetchRoom = () => {
   return (dispatch) => {
     axios
       .get('/rooms', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: localStorage.access_token,
+        },
       })
       .then((room) => {
         console.log(room.data, '<<<< di Action Room');
@@ -87,9 +93,9 @@ export const fetchTenant = () => {
   return (dispatch) => {
     axios
       .get('/tenant', {
-        // headers: {
-        //   access_token: localStorage.access_token
-        // }
+        headers: {
+          access_token: localStorage.access_token,
+        },
       })
       .then((tenant) => {
         console.log(tenant.data, '<<<< di Action Room');
