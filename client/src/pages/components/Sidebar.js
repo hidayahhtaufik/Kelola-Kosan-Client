@@ -26,80 +26,80 @@ const Side = (props, navigation) => {
           </h3>
         </div>
         <hr />
-        <Nav.Item className='nav '>
-          <Nav.Link
-            onClick={() => {
-              History.push('/');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav '
+          onClick={() => {
+            History.push('/');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <RiIcons.RiLayoutMasonryFill />
             <span>Dashboard</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/profile');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/profile');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <IoIcons.IoHome />
             <span>Property Profile</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/rooms');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/rooms');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <RiIcons.RiProfileFill />
             <span>Your Rooms</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/tenant');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/tenant');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <BsIcons.BsFillPeopleFill />
             <span>Tenant</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/calendar');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/calendar');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <IoIcons.IoCalendar />
             <span>Calendar</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/payments');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/payments');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <MdIcons.MdPayment />
             <span>Payments</span>
           </Nav.Link>
         </Nav.Item>
         <hr />
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/login');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/login');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <IoIcons4.IoMdExit />
             <span>Logout</span>
           </Nav.Link>
