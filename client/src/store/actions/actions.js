@@ -148,3 +148,22 @@ export const fetchTenant = () => {
       });
   };
 };
+
+// POST REGISTER USER ========================================================
+export const userRegister = (email, username, password) => {
+  // console.log(email, username, password, 'masyuk cuy')
+  return (dispatch) => {
+    axios
+      .post('/register', {
+        email,
+        username,
+        password
+      })
+      .then(response => {
+        console.log(response, ' ini response register user cuk')
+      })
+      .catch(err => {
+        console.log(err, 'err reg user fakk')
+      })
+  }
+}
