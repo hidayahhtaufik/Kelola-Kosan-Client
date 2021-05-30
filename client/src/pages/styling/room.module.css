@@ -3,9 +3,7 @@
 }
 
 .wrapper {
-    border: solid;
-    border-width: 5px;
-    border-color: black;
+    margin-bottom: 20px;
 }
 
 .card {
@@ -13,8 +11,6 @@
 }
 
 .content {
-    border: solid;
-    border-width: 4px;
     border-color: green;
 }
 
@@ -27,4 +23,8 @@
 .btnStyle {
     width: 5rem;
     margin-right: 10px;
+}
+
+.roomList {
+    
 }

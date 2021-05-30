@@ -1,10 +1,33 @@
 import axios from '../../API/axios'; // ganti pake axios
+import baseUrl from "../../API/baseUrl"
 // const RevenueDB = 'http://localhost:4000/revenues';
 // const expensesDB = 'http://localhost:4000/expenses';
 // const RoomDB = 'http://localhost:4000/rooms';
 // const TenantDB = 'http://localhost:4000/tenant';
 let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZXZlbG9wbWVudEBtYWlsLmNvbSIsImlhdCI6MTYyMjM2ODIzOX0.KHtaQ7w_Q0Z9uitiXS9gVuLWmr7Aj6pxe4pa8OmFTCE"
 // ACTION REVENUE ===========================================================
+
+export const postLogin = (email, password) => {
+  return axios({
+    method: "POST",
+    url: `/login`,
+    data: {
+      email,
+      password
+    }
+  })
+  .then(response => {
+    const access_token = response.data.access_token;
+    console.log(access_token);
+    localStorage.setItem("access_token", access_token);
+    return response;
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
+
 export const fetchRevenue = () => {
   
   return (dispatch) => {
@@ -14,7 +37,6 @@ export const fetchRevenue = () => {
 
 //           access_token: token
 //         }
-
           access_token: localStorage.access_token,
         },
 
@@ -132,24 +154,19 @@ export const editPropertyData = (
 // ACTION ROOM ===========================================================
 export const fetchRoom = () => {
   return (dispatch) => {
-    axios
-      .get('/rooms', {
-        headers: {
-
-//           access_token: token
-//         }
-
-          access_token: localStorage.access_token,
-        },
-
-      })
-      .then((room) => {
-        console.log(room.data, '<<<< di Action Room');
-        return dispatch({ type: 'ROOM/FETCH', payload: room.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios({
+      method: "GET",
+      url: `${baseUrl}/rooms`,
+      headers: {access_token: localStorage.getItem('access_token')}
+    })
+    .then(response => {
+      console.log(response.data);
+      const dataRooms = response.data;
+      return dispatch({ type: 'ROOM/FETCH', payload: dataRooms });
+    })
+    .catch(err => {
+      console.log(err);
+    })
   };
 };
 

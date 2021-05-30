@@ -119,7 +119,7 @@ function ProfilePage() {
                   <div className='text-center mt-3'>
                     <Image
                       src={property[0]?.image}
-                      class='rounded'
+                      className='rounded'
                       alt='Kamar Kosan'
                       style={{ width: '100%' }}
                       rounded

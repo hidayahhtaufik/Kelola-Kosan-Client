@@ -1,3 +1,4 @@
+import {Redirect} from 'react-router-dom';
 import React, { useEffect, useState  } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
@@ -24,7 +25,7 @@ import {
 // console.log(defaults);
 defaults.plugins.legend.position = 'right';
 
-function HomePage() {
+function HomePage({component: Component, ...rest}) {
   const dispatch = useDispatch();
 
   const revenueData = useSelector((state) => state.revenue.revenues);
@@ -150,7 +151,7 @@ function HomePage() {
       },
     ],
   };
-
+  console.log(rest, "INI REST DI HOME")
   useEffect(() => {
     dispatch(fetchRevenue());
   }, []);
