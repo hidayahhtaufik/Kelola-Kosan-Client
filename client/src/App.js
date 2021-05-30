@@ -7,7 +7,7 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import TenantPage from './pages/TenantPage';
 import CalendarPage from './pages/CalendarPage';
-import GalleryPage from './pages/GalleryPage';
+import PaymentPage from './pages/PaymentPage';
 import RoomPage from './pages/RoomPage';
 
 function App() {
@@ -21,8 +21,8 @@ function App() {
           <Route path='/login'>
             <Login />
           </Route>
-          <Route path='/gallery'>
-            <GalleryPage />
+          <Route path='/payments'>
+            <PaymentPage />
           </Route>
           <Route path='/calendar'>
             <CalendarPage />

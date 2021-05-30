@@ -6,6 +6,7 @@ import * as RiIcons from 'react-icons/ri';
 import * as BsIcons from 'react-icons/bs';
 import * as IoIcons from 'react-icons/io5';
 import * as IoIcons4 from 'react-icons/io';
+import * as MdIcons from 'react-icons/md';
 import './Sidebar.css';
 
 const Side = (props, navigation) => {
@@ -83,12 +84,12 @@ const Side = (props, navigation) => {
         <Nav.Item className='nav'>
           <Nav.Link
             onClick={() => {
-              History.push('/gallery');
+              History.push('/payments');
             }}
             style={{ color: 'white' }}
           >
-            <IoIcons4.IoMdPhotos />
-            <span>Gallery</span>
+            <MdIcons.MdPayment />
+            <span>Payments</span>
           </Nav.Link>
         </Nav.Item>
         <hr />
