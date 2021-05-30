@@ -7,7 +7,7 @@ const revenueReducer = (state = initialState, action) => {
 
   switch (type) {
     case 'REVENUE/FETCH':
-      console.log(payload, '<<<<< DI STORE');
+      console.log(payload, '<<<<< DI STORE REVENUE');
       return { ...state, revenues: payload };
     default:
       return state;

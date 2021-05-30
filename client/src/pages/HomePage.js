@@ -13,7 +13,11 @@ import {
   NavDropdown,
 } from 'react-bootstrap';
 import { Doughnut, Bar, defaults } from 'react-chartjs-2';
-import { fetchRevenue, fetchRoom } from '../store/actions/actions';
+import {
+  fetchRevenue,
+  fetchRoom,
+  fetchExpenses,
+} from '../store/actions/actions';
 
 // console.log(defaults);
 defaults.plugins.legend.position = 'right';
@@ -22,19 +26,29 @@ function HomePage() {
   const dispatch = useDispatch();
 
   const revenueData = useSelector((state) => state.revenue.revenues);
+  const expenseData = useSelector((state) => state.expense.expenses);
+
   const roomData = useSelector((state) => state.room.rooms);
 
-  // Kebutuhan Revenue
+  // Kebutuhan Revenue =======================================================
   let newDataRevenue = [];
   for (let i = 0; i < revenueData.length; i++) {
     const revenue = revenueData[i].total;
-    // console.log(revenue, '<< Ini');
     newDataRevenue.push(revenue);
   }
   console.log(revenueData, '<<< DI Home Revenue');
   console.log(newDataRevenue, '<<< Data Baru Revenue');
 
-  // Kebutuhan Room
+  // Kebutuhan Expense ======================================================
+  let newDataExpense = [];
+  for (let i = 0; i < expenseData.length; i++) {
+    const expense = expenseData[i].total;
+    newDataExpense.push(expense);
+  }
+  console.log(expenseData, '<<< DI Home Expense');
+  console.log(newDataExpense, '<<< Data Baru Expense');
+
+  // Kebutuhan Room ===========================================================
   let emptyStatus = 0;
   let maintenaceStatus = 0;
   let occupiedStatus = 0;
@@ -68,14 +82,25 @@ function HomePage() {
     ],
     datasets: [
       {
-        label: 'Profit',
-        data: [
-          60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
-        ],
+        label: 'Income',
+        // data: [
+        //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+        // ],
         data: newDataRevenue,
         fill: false,
         backgroundColor: 'rgba(75, 192, 192)',
         borderColor: 'rgba(75, 192, 192, 1)',
+        tension: 0.1,
+      },
+      {
+        label: 'Expense',
+        // data: [
+        //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
+        // ],
+        data: newDataExpense,
+        fill: false,
+        backgroundColor: 'rgba(255, 99, 132)',
+        borderColor: 'rgba(255, 99, 132, 1)',
         tension: 0.1,
       },
     ],
@@ -87,7 +112,7 @@ function HomePage() {
     datasets: [
       {
         label: '# of Votes',
-        data: [12, 19, 2],
+        // data: [12, 19, 2],
         data: [emptyStatus, maintenaceStatus, occupiedStatus],
         backgroundColor: [
           'rgba(255, 99, 132, 0.8)',
@@ -112,6 +137,10 @@ function HomePage() {
     dispatch(fetchRoom());
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchExpenses());
+  }, []);
+
   return (
     <>
       {/* <Navigation /> */}
@@ -128,7 +157,7 @@ function HomePage() {
             </Row>
             <Row className='shadow m-5 border border-3'>
               <Col className='m-2'>
-                <h3 className='text-center mb-3'>Grafik Profit</h3>
+                <h3 className='text-center mb-3'>Grafik Income</h3>
                 <Row>
                   <Col>
                     <Bar data={dataGraph} />
@@ -136,9 +165,21 @@ function HomePage() {
                   <Col className='d-flex justify-content-center align-items-center'>
                     <div className='text-center' style={{ width: '100%' }}>
                       <h2>Bulan: {newMonth()}</h2>
-                      <h2>
-                        Rp. {newDataRevenue[numberMonth()]?.toLocaleString()}
-                      </h2>
+                      <h3>
+                        Income : Rp.{' '}
+                        {newDataRevenue[numberMonth()]?.toLocaleString()} /month
+                      </h3>
+                      <h3>
+                        Expense : Rp.{' '}
+                        {newDataExpense[numberMonth()]?.toLocaleString()} /month
+                      </h3>
+                      <h3>
+                        Profit : Rp.{' '}
+                        {Number(
+                          newDataRevenue[numberMonth()] -
+                            newDataExpense[numberMonth()]
+                        )?.toLocaleString()}
+                      </h3>
                     </div>
                   </Col>
                 </Row>

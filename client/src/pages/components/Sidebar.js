@@ -83,7 +83,7 @@ const Side = (props, navigation) => {
         <Nav.Item className='nav'>
           <Nav.Link
             onClick={() => {
-              History.push('/Gallery');
+              History.push('/gallery');
             }}
             style={{ color: 'white' }}
           >
@@ -95,7 +95,7 @@ const Side = (props, navigation) => {
         <Nav.Item className='nav'>
           <Nav.Link
             onClick={() => {
-              History.push('/Gallery');
+              History.push('/login');
             }}
             style={{ color: 'white' }}
           >
