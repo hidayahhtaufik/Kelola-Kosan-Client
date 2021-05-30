@@ -9,6 +9,7 @@ import TenantPage from './pages/TenantPage';
 import CalendarPage from './pages/CalendarPage';
 import GalleryPage from './pages/GalleryPage';
 import RoomPage from './pages/RoomPage';
+import ProtectedRoute from './protectedRoute';
 
 function App() {
   return (
@@ -36,9 +37,9 @@ function App() {
           <Route path='/rooms'>
             <RoomPage />
           </Route>
-          <Route path='/'>
+          <ProtectedRoute path='/'>
             <HomePage />
-          </Route>
+          </ProtectedRoute>
         </Switch>
       </div>
     </>
