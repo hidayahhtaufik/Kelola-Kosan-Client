@@ -146,18 +146,40 @@ function HomePage() {
       {/* <Navigation /> */}
       <Container fluid>
         <Row>
-          <Col xs={2} id='sidebar-wrapper'>
+          <Col xs={2}>
             <Sidebar />
           </Col>
-          <Col xs={10} id='page-content-wrapper'>
-            <Row className='justify-content-md-center'>
+          <Col
+            xs={10}
+            style={{ border: 'solid', borderColor: 'blue', padding: '20px' }}
+          >
+            <Row
+              className='justify-content-md-center'
+              style={{ border: 'solid', borderColor: 'red', padding: '20px' }}
+            >
               <Col>
                 <h1 className='text-center'>Dashboard</h1>
               </Col>
             </Row>
             <Row className='shadow m-5 border border-3'>
-              <Col className='m-2'>
-                <h3 className='text-center mb-3'>Grafik Income</h3>
+              <Col
+                className='m-2'
+                style={{
+                  border: 'solid',
+                  borderColor: 'green',
+                  padding: '20px',
+                }}
+              >
+                <h3
+                  className='text-center mb-3'
+                  style={{
+                    border: 'solid',
+                    borderColor: 'red',
+                    padding: '10px',
+                  }}
+                >
+                  Grafik Income
+                </h3>
                 <Row>
                   <Col>
                     <Bar data={dataGraph} />
@@ -188,15 +210,31 @@ function HomePage() {
             <Row className='shadow m-5 border border-3'>
               <Col
                 className='m-2 d-flex align-items-center'
-                style={{ flexDirection: 'column' }}
+                style={{
+                  flexDirection: 'column',
+                  border: 'solid',
+                  borderColor: 'yellow',
+                  padding: '20px',
+                }}
               >
-                <h3 className='text-center'>Grafik Occupancy</h3>
+                <h3
+                  className='text-center mb-3'
+                  style={{
+                    border: 'solid',
+                    borderColor: 'red',
+                    padding: '10px',
+                  }}
+                >
+                  Grafik Occupancy
+                </h3>
                 <div
                   // className='d-flex justify-content-center'
                   style={{
                     borderWidth: '10rem',
                     width: '50%',
                     borderColor: 'red',
+                    border: 'solid',
+                    padding: '5px',
                   }}
                 >
                   <Doughnut data={dataPie} />

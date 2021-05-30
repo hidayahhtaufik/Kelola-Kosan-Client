@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProperties } from '../store/actions/actions';
+import { fetchProperties, fetchRoom } from '../store/actions/actions';
 import Sidebar from './components/Sidebar';
 import styles from './styling/profileProperty.module.css';
 
@@ -23,6 +23,8 @@ function ProfilePage() {
   const dispatch = useDispatch();
 
   const propertiesData = useSelector((state) => state.property.properties);
+  const roomData = useSelector((state) => state.room.rooms);
+  console.log(roomData);
 
   console.log(propertiesData);
   console.log(property, '<<< Local');
@@ -31,6 +33,10 @@ function ProfilePage() {
     setLoading(true);
     dispatch(fetchProperties(loading, setLoading, property, setProperty));
     // setProperty(propertiesData);
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchRoom());
   }, []);
 
   function handleEditButton() {
@@ -104,7 +110,7 @@ function ProfilePage() {
                     <tbody>
                       <tr>
                         <td>Name Owner:</td>
-                        <td>Maman Al-Katiri</td>
+                        <td>{property[0]?.username}</td>
                       </tr>
                     </tbody>
                     <tbody>
@@ -122,13 +128,13 @@ function ProfilePage() {
                     <tbody>
                       <tr>
                         <td>Email:</td>
-                        <td>owner_email@gmail.com</td>
+                        <td>{property[0]?.email}</td>
                       </tr>
                     </tbody>
                     <tbody>
                       <tr>
                         <td>Quantity Room:</td>
-                        <td>20 Room</td>
+                        <td>{roomData.length} Room</td>
                       </tr>
                     </tbody>
                   </Table>

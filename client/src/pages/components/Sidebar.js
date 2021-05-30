@@ -43,7 +43,7 @@ const Side = (props, navigation) => {
             }}
             style={{ color: 'white' }}
           >
-            <RiIcons.RiProfileFill />
+            <IoIcons.IoHome />
             <span>Property Profile</span>
           </Nav.Link>
         </Nav.Item>
