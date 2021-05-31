@@ -184,6 +184,26 @@ export const fetchRoom = () => {
   };
 };
 
+export const changeRoomStatus = (payload) => {
+  const { roomId, status } = payload;
+  console.log(payload);
+  return (dispatch) => {
+    axios
+      .patch(`/rooms/${roomId}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((response) => {
+        console.log(response, '<<<< di Action Room INIIIIII');
+        return dispatch(fetchRoom());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 // ACTION TENANT ===========================================================
 export const fetchTenant = () => {
   return (dispatch) => {
@@ -270,6 +290,24 @@ export const deletePayment = (id) => {
         },
       })
       .then((_) => {
+        return dispatch(fetchPayment());
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const updatePayment = (payload) => {
+  console.log(payload, '<<<<<<<<< Payload di action');
+  return (dispatch) => {
+    axios
+      .put(`/payments/${payload.id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((response) => {
+        const updatedData = response.data.updatedData;
+        console.log(updatedData, 'INI ACTION UPDATE PAYMENT');
         return dispatch(fetchPayment());
       })
       .catch((err) => console.log(err));

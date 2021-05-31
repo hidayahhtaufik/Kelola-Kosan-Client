@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
+import { dateOnly } from '../helpers/helpers';
 import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,8 +10,9 @@ import {
   fetchRoom,
   createPayment,
   deletePayment,
+  changeRoomStatus,
+  updatePayment,
 } from '../store/actions/actions';
-import { dateOnly } from '../../src/helpers/helpers';
 
 import {
   Container,
@@ -26,6 +28,9 @@ import {
 
 function PaymentPage() {
   const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
+  const [idEdit, setIdEdit] = useState(0);
   const [name, setName] = useState('');
   const [roomNumber, setRoomNumber] = useState(0);
   const [month, setMonth] = useState(0);
@@ -33,19 +38,30 @@ function PaymentPage() {
   const [nextDueDate, setNextDueDate] = useState('');
   const [paidCash, setPaidCash] = useState(0);
 
+  const [nameEdit, setNameEdit] = useState('');
+  const [roomNumberEdit, setRoomNumberEdit] = useState(0);
+  const [monthEdit, setMonthEdit] = useState(0);
+  const [yearEdit, setYearEdit] = useState(0);
+  const [nextDueDateEdit, setNextDueDateEdit] = useState('');
+  const [paidCashEdit, setPaidCashEdit] = useState(0);
+
   const tenantData = useSelector((state) => state.tenant.tenantsData);
-  console.log(tenantData, '<<<<<<<<<<<<<<<<<<<<<<<<<<<< DI payment');
 
   const dispatch = useDispatch();
 
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
 
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
+
   const paymentData = useSelector((state) => state.payment.payments);
   const roomData = useSelector((state) => state.room.rooms);
-  console.log(paymentData, '<< Data Payment');
-  console.log(roomNumber, '<< Id Room');
-  console.log(name, '<< Name');
+  // console.log(paymentData, '<< Data Payment');
+  // console.log(roomNumber, '<< Id Room');
+  // console.log(nameEdit, '<< Name');
+
+  let newDataPayment = [...paymentData];
 
   function handleSubmitButtonAdd() {
     const newPaymentData = {
@@ -56,15 +72,49 @@ function PaymentPage() {
       roomId: +roomNumber,
       tenanId: +name,
     };
-    console.log(newPaymentData, 'Click Button');
+
+    const statusUpdate = {
+      roomId: +roomNumber,
+      status: 'occupied',
+    };
     dispatch(createPayment(newPaymentData));
+    // dispatch(changeRoomStatus(statusUpdate));
     dispatch(fetchRoom());
     handleCloseAdd();
+  }
+
+  function handleSubmitButtonEdit(event) {
+    const newDataEditPayment = {
+      id: +idEdit,
+      month: +monthEdit,
+      year: +yearEdit,
+      nextDueDate: nextDueDateEdit,
+      paidCash: +paidCashEdit,
+      // roomId: +roomNumberEdit,
+      // tenanId: +nameEdit,
+    };
+    console.log(newDataEditPayment, '<<<<<<<<<<<<<<<< DI PAYMENT PAGE');
+
+    dispatch(updatePayment(newDataEditPayment));
+    handleCloseEdit();
+
+    console.log(newDataEditPayment, '<< New Data Edit Payment');
   }
 
   function handleDeletePayment(id) {
     console.log(id);
     dispatch(deletePayment(id));
+  }
+
+  function handleEditButton(e) {
+    setIdEdit(e.id);
+    setNameEdit(e.Tenant.id);
+    setRoomNumberEdit(e.Room.id);
+    setMonthEdit(e.month);
+    setYearEdit(e.year);
+    setNextDueDateEdit(e.nextDueDate);
+    setPaidCashEdit(e.paidCash);
+    handleShowEdit();
   }
 
   useEffect(() => {
@@ -81,7 +131,6 @@ function PaymentPage() {
 
   return (
     <>
-      {/* <Navigation /> */}
       <Container fluid>
         <Row>
           <Col xs={2}>
@@ -111,7 +160,7 @@ function PaymentPage() {
                 Add Payment
               </Button>
               <Grid
-                data={paymentData.map((e, index) => {
+                data={newDataPayment.map((e, index) => {
                   const monthYear = `${e.month}-${e.year}`;
 
                   return [
@@ -127,7 +176,7 @@ function PaymentPage() {
                         <Button
                           variant={'primary'}
                           size='sm'
-                          onClick={() => console.log(`${e.Tenant.name} edited`)}
+                          onClick={() => handleEditButton(e)}
                         >
                           Edit
                         </Button>{' '}
@@ -184,12 +233,6 @@ function PaymentPage() {
                       </option>
                     ))}
                   </select>
-                  {/* 
-                <Form.Control
-                  type='text'
-                  // defaultValue={property[0]?.name}
-                  onChange={(e) => setName(e.target.value)}
-                /> */}
                 </Form.Group>
                 <Form.Group className='mb-3'>
                   <Form.Label>Room Number:</Form.Label>
@@ -259,6 +302,113 @@ function PaymentPage() {
               }}
             >
               Add Payment
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={showEdit} onHide={handleCloseEdit}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Payment</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className='container p-3'>
+              <Form>
+                {/* <Form.Group className='mb-3'>
+                  <Form.Label>Name:</Form.Label>
+                  <select
+                    className='custom-select'
+                    selected={nameEdit}
+                    onChange={(e) => setNameEdit(e.target.value)}
+                  >
+                    <option disabled>Open this select Name</option>
+                    {tenantData.map((e) => {
+                      console.log(e, ' <<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+                      return (
+                        <option
+                          key={e.id}
+                          value={e.id}
+                          selected={
+                            nameEdit ? (nameEdit == e.id ? true : false) : false
+                          }
+                        >
+                          {e.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Room Number:</Form.Label>
+                  <select
+                    className='custom-select'
+                    selected={roomNumberEdit}
+                    onChange={(e) => setRoomNumber(e.target.value)}
+                  >
+                    {roomData?.map((e) => {
+                      return (
+                        <option
+                          key={e.id}
+                          defaultValue={e.id}
+                          selected={
+                            roomNumberEdit
+                              ? roomNumberEdit == e.id
+                                ? true
+                                : false
+                              : false
+                          }
+                        >
+                          {e.number}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </Form.Group> */}
+                <Form.Group className='mb-3'>
+                  <Form.Label>Month:</Form.Label>
+                  <Form.Control
+                    type='number'
+                    defaultValue={monthEdit}
+                    onChange={(e) => setMonthEdit(e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Year:</Form.Label>
+                  <Form.Control
+                    type='number'
+                    defaultValue={yearEdit}
+                    onChange={(e) => setYearEdit(e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Next DueDate:</Form.Label>
+                  <Form.Control
+                    type='date'
+                    defaultValue={dateOnly(nextDueDateEdit)}
+                    onChange={(e) => setNextDueDateEdit(e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Paid Cash:</Form.Label>
+                  <Form.Control
+                    type='number'
+                    defaultValue={paidCashEdit}
+                    onChange={(e) => setPaidCashEdit(e.target.value)}
+                  />
+                </Form.Group>
+              </Form>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='secondary' onClick={handleCloseEdit}>
+              Close
+            </Button>
+            <Button
+              variant='primary'
+              onClick={(event) => {
+                handleSubmitButtonEdit(event);
+              }}
+            >
+              Edit Payment
             </Button>
           </Modal.Footer>
         </Modal>
