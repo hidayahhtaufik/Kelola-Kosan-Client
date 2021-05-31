@@ -202,6 +202,47 @@ export const fetchTenant = () => {
   };
 };
 
+export const createTenant = payload => {
+  return(dispatch) => {
+    axios
+      .post('/tenant', payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then( _ => {
+        return dispatch(fetchTenant())
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+export const updateTenant = (id, payload) => {
+  return(dispatch) => {
+    axios
+      .put(`/tenant/${id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then( _ => { return dispatch(fetchTenant()) })
+      .catch(err => console.log(err))
+  }
+}
+
+export const deleteTenant = id => {
+  return(dispatch) => {
+    axios
+      .delete(`/tenant/${id}`, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then( _ => {return dispatch(fetchTenant())})
+      .catch(err => console.log(err))
+  }
+}
+
 // POST REGISTER USER ========================================================
 export const userRegister = (email, username, password) => {
   // console.log(email, username, password, 'masyuk cuy')
