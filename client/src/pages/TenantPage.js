@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from './components/Sidebar';
-import Navigation from './components/Navigation';
+import React, { useEffect, useState } from 'react'
+import Sidebar from './components/Sidebar'
+import Navigation from './components/Navigation'
 import { _, Grid } from 'gridjs-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTenant, createTenant, updateTenant, deleteTenant } from '../store/actions/actions';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchTenant, createTenant, updateTenant, deleteTenant } from '../store/actions/actions'
 import { dateOnly } from '../helpers/helpers'
-import { jsPDF } from "jspdf"
+import styles from "./styling/tenant.module.css"
+import * as FaIcons from 'react-icons/fa'
+import * as MdIcons from 'react-icons/md'
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+
 
 import {
   Container,
@@ -87,30 +92,48 @@ function TenantPage() {
   }
 
   const handleExportToPdf = () => {
+    const doc = new jsPDF()
+
+    doc.text("List of Tenant", 85, 10)
+    doc.autoTable({
+      head: [['Id', 'Name', 'Email', 'Phone', 'Check In']],
+      body: 
+        tenantData.map(t => {
+          return(
+            [ t.id, t.name, t.email, t.phone, dateOnly(t.checkIn) ]
+          )
+        }),
+      
+    })
     
+    doc.save('table.pdf')
   }
 
   return (
     <>
       {/* <Navigation /> */}
-      <Container fluid>
+      <Container fluid className={styles.headContainer}>
         <Row>
           <Col xs={2}>
             <Sidebar />
           </Col>
           <Col xs={10}>
             <Row className='justify-content-md-center'>
-              <h1>Halaman Tenant</h1>
+              <h1 className={styles.fontCustom}>Halaman Tenant</h1>
             </Row>
             <Row className='m-5 flex-column'>
               <Button
+                variant="default"
                 onClick={() => { 
                   console.log('clicked');
                   handleShow()
                 }}
-                style={{ alignSelf: 'flex-end' }}
-              >
-                Add Tenant
+                style={{ alignSelf: 'flex-end', color: '#0069D9', fontSize: '1.2rem' }}
+              > 
+                <MdIcons.MdPersonAdd 
+                  style={{ fontSize: '1.5rem', color: '#0069D9', alignItems: 'center' }}
+                />{' '}
+                Add
               </Button>
 
 
@@ -128,20 +151,22 @@ function TenantPage() {
                       <>
                         {' '}
                         <Button
-                          variant={'primary'}
+                          style={{ fontSize: '1.5rem', color: '#343F56', alignItems: 'center' }}
+                          variant={'default'}
                           size='sm'
                           onClick={() => {
                             handleShowEditForm(e)
                           }}
                         >
-                          Edit
+                          <FaIcons.FaEdit />
                         </Button>{' '}
                         <Button
-                          variant={'danger'}
+                          style={{ fontSize: '1.5rem', color: '#f54748' }}
+                          variant={'default'}
                           size='sm'
                           onClick={() => handleDeleteTenant(e.id)}
                         >
-                          delete
+                          <MdIcons.MdDelete />
                         </Button>{' '}
                       </>
                     ),
@@ -157,11 +182,27 @@ function TenantPage() {
                   'Action',
                 ]}
                 sort={true}
-                search={true}
+                search= {true}
                 pagination={{
                   enabled: true,
                   limit: 10,
                   summary: false,
+                }}
+                style={{
+                  table: {
+                    color: '#343f56',
+                  },
+                  th: {
+                    'background-color': '#343F56',
+                    color: '#FFF',
+                    'text-align': 'center'
+                  },
+                  td: {
+                    'background-color': '##EEF3F8'
+                  },
+                  footer: {
+                    'background-color': '#343F56'
+                  }
                 }}
               ></Grid>
 
@@ -176,9 +217,15 @@ function TenantPage() {
                   Export To PDF
                 </Button>
               </div>
+              {
+                
+              }
 
               {/* Modal Add Tenant */}
-              <Modal show={show} onHide={handleClose}>
+              <Modal
+                style={{ color: '#343F56' }}
+                show={show} 
+                onHide={handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
