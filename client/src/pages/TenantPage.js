@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Sidebar from './components/Sidebar'
-import Navigation from './components/Navigation'
+
+import React, { useEffect, useState } from 'react';
+import Sidebar from './components/Sidebar';
 import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchTenant, createTenant, updateTenant, deleteTenant } from '../store/actions/actions'
