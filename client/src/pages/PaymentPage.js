@@ -4,6 +4,10 @@ import Navigation from './components/Navigation';
 import { dateOnly } from '../helpers/helpers';
 import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as FaIcons from 'react-icons/fa';
+import * as MdIcons from 'react-icons/md';
+// import * as AiIcons from 'react-icons/ai';
+import styles from './styling/payment.module.css';
 import {
   fetchPayment,
   fetchTenant,
@@ -138,54 +142,54 @@ function PaymentPage() {
           </Col>
           <Col
             xs={10}
-            style={{ border: 'solid', borderColor: 'blue', padding: '20px' }}
+           style={{ padding: "20px"}}
           >
             <Row
               className='justify-content-md-center'
-              style={{ border: 'solid', borderColor: 'red', padding: '20px' }}
+              style={{ padding: '20px', borderRadius: 20 }}
             >
-              <h1>Halaman Payment</h1>
+              <h1 className={styles.title}>Payments</h1>
             </Row>
             <Row
               className='m-5 flex-column'
-              style={{ border: 'solid', borderColor: 'green' }}
+              style={{ paddingLeft: '30px', paddingRight: '30px', borderRadius: 20}}
             >
               <Button
                 onClick={() => {
                   console.log('clicked');
                   handleShowAdd();
                 }}
-                style={{ alignSelf: 'flex-end' }}
+                style={{ marginTop: 30, color: '77acf1', alignSelf: 'flex-end'}}
               >
                 Add Payment
               </Button>
               <Grid
                 data={newDataPayment.map((e, index) => {
                   const monthYear = `${e.month}-${e.year}`;
-
+                  const yearPaid = `Rp. ${e.paidCash?.toLocaleString()}`
                   return [
                     index + 1,
                     e.Tenant.name,
                     monthYear,
                     dateOnly(e.nextDueDate),
-                    e.paidCash,
+                    yearPaid,
                     e.Room.number,
                     _(
                       <>
                         {' '}
                         <Button
-                          variant={'primary'}
+                          variant={'info'}
                           size='sm'
                           onClick={() => handleEditButton(e)}
                         >
-                          Edit
+                          <FaIcons.FaEdit />
                         </Button>{' '}
                         <Button
                           variant={'danger'}
                           size='sm'
                           onClick={() => handleDeletePayment(e.id)}
                         >
-                          delete
+                          <MdIcons.MdDelete />
                         </Button>{' '}
                       </>
                     ),
@@ -198,7 +202,7 @@ function PaymentPage() {
                   'Next DueDate',
                   'Paid Cash',
                   'No.Room',
-                  'Action',
+                  'Action'
                 ]}
                 sort={true}
                 search={true}
@@ -206,6 +210,25 @@ function PaymentPage() {
                   enabled: true,
                   limit: 5,
                   summary: false,
+                }}
+                style={{
+                  table: {
+                    color: '#343f56',
+                    'justify-content': 'center',
+                    'text-align': 'center',
+
+                  },
+                  th: {
+                    'background-color': '#343F56',
+                    color: '#FFF',
+                    'text-align': 'center'
+                  },
+                  td: {
+                    'background-color': '##EEF3F8'
+                  },
+                  footer: {
+                    'background-color': '#343F56'
+                  }
                 }}
               ></Grid>
             </Row>
