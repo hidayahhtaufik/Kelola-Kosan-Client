@@ -11,6 +11,12 @@ import './Sidebar.css';
 
 const Side = (props, navigation) => {
   const History = useHistory();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    History.push("/login");
+  };
+
   return (
     <>
       <Nav
@@ -93,15 +99,16 @@ const Side = (props, navigation) => {
           </Nav.Link>
         </Nav.Item>
         <hr />
-        <Nav.Item
-          className='nav'
-          onClick={() => {
-            History.push('/login');
-          }}
-        >
-          <Nav.Link style={{ color: 'white' }}>
-            <IoIcons4.IoMdExit />
-            <span>Logout</span>
+
+        <Nav.Item className='nav' onClick={() => {
+              handleLogout();
+            }}>
+          <Nav.Link
+            style={{ color: 'white' }}
+          >
+            <IoIcons4.IoMdExit/>
+            <span >Logout</span>
+
           </Nav.Link>
         </Nav.Item>
       </Nav>
