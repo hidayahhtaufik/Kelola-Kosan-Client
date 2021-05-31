@@ -59,6 +59,7 @@ function PaymentPage() {
     console.log(newPaymentData, 'Click Button');
     dispatch(createPayment(newPaymentData));
     dispatch(fetchRoom());
+    handleCloseAdd();
   }
 
   function handleDeletePayment(id) {
@@ -110,11 +111,11 @@ function PaymentPage() {
                 Add Payment
               </Button>
               <Grid
-                data={paymentData.map((e) => {
+                data={paymentData.map((e, index) => {
                   const monthYear = `${e.month}-${e.year}`;
 
                   return [
-                    e.id,
+                    index + 1,
                     e.Tenant.name,
                     monthYear,
                     dateOnly(e.nextDueDate),
@@ -147,14 +148,14 @@ function PaymentPage() {
                   'Month',
                   'Next DueDate',
                   'Paid Cash',
-                  'Room Number',
+                  'No.Room',
                   'Action',
                 ]}
                 sort={true}
                 search={true}
                 pagination={{
                   enabled: true,
-                  limit: 3,
+                  limit: 5,
                   summary: false,
                 }}
               ></Grid>
@@ -174,6 +175,9 @@ function PaymentPage() {
                     className='custom-select'
                     onChange={(e) => setName(e.target.value)}
                   >
+                    <option selected disabled>
+                      Open this select Name
+                    </option>
                     {tenantData.map((e) => (
                       <option key={e.id} value={e.id}>
                         {e.name}
@@ -193,6 +197,9 @@ function PaymentPage() {
                     className='custom-select'
                     onChange={(e) => setRoomNumber(e.target.value)}
                   >
+                    <option selected disabled>
+                      Open this select Room
+                    </option>
                     {roomData.map((e) => {
                       return e.status === 'empty' ? (
                         <option key={e.id} value={e.id}>
@@ -200,7 +207,7 @@ function PaymentPage() {
                         </option>
                       ) : (
                         <option key={e.id} defaultValue={e.id} disabled>
-                          Not Available
+                          {e.number}
                         </option>
                       );
                     })}
