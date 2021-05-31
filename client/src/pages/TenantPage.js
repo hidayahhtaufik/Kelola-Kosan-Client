@@ -4,6 +4,8 @@ import Navigation from './components/Navigation';
 import { _ , Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTenant } from '../store/actions/actions';
+import { FiEdit } from "react-icons/fi";
+import { FaTrash } from "react-icons/fa";
 
 import {
   Container,
@@ -48,7 +50,8 @@ function TenantPage() {
                     e.phone,
                     new Date(e.checkIn).toDateString(),
                     e.checkOut && new Date(e.checkOut).toDateString(),
-                    _(<> <Button variant={"primary"} onClick={() => console.log(`${e.name} edited`)}>Edit</Button> <Button variant={"danger"} onClick={() => console.log(`${e.name} deleted`)}>delete</Button> </>)
+                    _(<> <Button style={{marginRight: "2px"}} variant={"info"} size={"sm"} onClick={() => console.log(`${e.name} edited`)}><FiEdit/> Edit</Button>
+                    <Button style={{marginLeft: "2px"}} variant={"danger"} size={"sm"} onClick={() => console.log(`${e.name} deleted`)}><FaTrash/> Delete</Button> </>)
                   ]
                 })}
                 columns={[
