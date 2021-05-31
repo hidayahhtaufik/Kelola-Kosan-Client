@@ -1,5 +1,5 @@
 import axios from '../../API/axios'; // ganti pake axios
-import baseUrl from '../../API/baseUrl';
+// import baseUrl from '../../API/baseUrl';
 // const RevenueDB = 'http://localhost:4000/revenues';
 // const expensesDB = 'http://localhost:4000/expenses';
 // const RoomDB = 'http://localhost:4000/rooms';
@@ -184,6 +184,37 @@ export const fetchRoom = () => {
   };
 };
 
+<<<<<<< HEAD
+export const deleteRoom = (id) => {
+  return (dispatch) => {
+    axios
+      .delete(`/rooms/${id}`, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then((_) => {
+        return dispatch(fetchRoom());
+      })
+      .catch((err) => {
+        console.log(err, 'error del room')
+      })
+  }
+}
+
+export const createRoom = (payload) => {
+  return (dispatch) => {
+    axios
+      .post('/rooms', payload, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then()
+      .catch()
+  }
+}
+=======
 export const changeRoomStatus = (payload) => {
   const { roomId, status } = payload;
   console.log(payload);
@@ -203,6 +234,7 @@ export const changeRoomStatus = (payload) => {
       });
   };
 };
+>>>>>>> b98ebb828e9d1505d488f5a88e53f37f2b659d79
 
 // ACTION TENANT ===========================================================
 export const fetchTenant = () => {
@@ -264,7 +296,7 @@ export const deleteTenant = id => {
 }
 
 // POST REGISTER USER ========================================================
-export const userRegister = (email, username, password) => {
+export const userRegister = (email, username, password, fullName, bankAccount) => {
   // console.log(email, username, password, 'masyuk cuy')
   return (dispatch) => {
     axios
@@ -272,9 +304,11 @@ export const userRegister = (email, username, password) => {
         email,
         username,
         password,
+        fullName,
+        bankAccount
       })
       .then((response) => {
-        console.log(response, ' ini response register user cuk');
+        console.log(response, ' ini response register user');
       })
       .catch((err) => {
         console.log(err, 'err reg user fakk');
