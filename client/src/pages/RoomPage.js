@@ -5,8 +5,8 @@ import Sidebar from "./components/Sidebar";
 import styles from "./styling/room.module.css"
 import { useSelector, useDispatch } from "react-redux"
 import { fetchRoom, deleteRoom } from "../store/actions/actions"
-import { FiEdit } from "react-icons/fi";
-import { FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { GrAdd } from "react-icons/gr";
 
 function Room() {
@@ -73,8 +73,8 @@ function Room() {
             data={rooms.map((e) => {
               return [
                 e.number,
-                e.status,
-                e.type,
+                e.status.toUpperCase(),
+                e.type.toUpperCase(),
                 `Rp${e.price},00`,
                 _(
                   <div style={{display: "flex", justifyContent: "space-around"}}>
@@ -84,14 +84,14 @@ function Room() {
                       // style={{color: "#fff", background: "#77acf1"}}
                       size='sm'
                       onClick={() => console.log(`${e.name} edited`)}
-                    ><FiEdit />
+                    ><FaEdit />
                           Edit
                         </Button>{' '}
                     <Button
                       variant={'danger'}
                       size='sm'
                       onClick={() => { handleDeleteRoom(e.id) }}
-                    ><FaTrash />
+                    ><MdDelete />
                           delete
                         </Button>{' '}
                   </div>

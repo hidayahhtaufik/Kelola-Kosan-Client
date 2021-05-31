@@ -233,7 +233,7 @@ export const fetchTenant = () => {
 };
 
 // POST REGISTER USER ========================================================
-export const userRegister = (email, username, password) => {
+export const userRegister = (email, username, password, fullName, bankAccount) => {
   // console.log(email, username, password, 'masyuk cuy')
   return (dispatch) => {
     axios
@@ -241,6 +241,8 @@ export const userRegister = (email, username, password) => {
         email,
         username,
         password,
+        fullName,
+        bankAccount
       })
       .then((response) => {
         console.log(response, ' ini response register user');
