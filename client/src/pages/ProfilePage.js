@@ -80,22 +80,28 @@ function ProfilePage() {
           {loading ? (
             <h1>Loading..</h1>
           ) : (
-            <Col
-              xs={10}
-              style={{ border: 'solid', borderColor: 'blue', padding: '20px' }}
-            >
+            <Col xs={10} style={{ padding: '20px' }}>
               <Row
                 className='justify-content-md-center mb-2'
-                style={{ border: 'solid', borderColor: 'red', padding: '20px' }}
+                // style={{ padding: '20px' }}
               >
-                <h1>Property Profile</h1>
+                <h1
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: '50px',
+                  }}
+                >
+                  Property Profile
+                </h1>
               </Row>
               <Row
                 className='mb-2'
                 style={{
-                  border: 'solid',
-                  borderColor: 'yellow',
+                  // border: 'solid',
+                  // borderColor: 'yellow',
                   padding: '20px',
+                  backgroundColor: '#f54748',
+                  borderTopRightRadius: '30px',
                 }}
               >
                 <Col>
