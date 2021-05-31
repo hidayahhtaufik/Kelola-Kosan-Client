@@ -184,6 +184,7 @@ export const fetchRoom = () => {
   };
 };
 
+<<<<<<< HEAD
 export const deleteRoom = (id) => {
   return (dispatch) => {
     axios
@@ -213,6 +214,27 @@ export const createRoom = (payload) => {
       .catch()
   }
 }
+=======
+export const changeRoomStatus = (payload) => {
+  const { roomId, status } = payload;
+  console.log(payload);
+  return (dispatch) => {
+    axios
+      .patch(`/rooms/${roomId}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((response) => {
+        console.log(response, '<<<< di Action Room INIIIIII');
+        return dispatch(fetchRoom());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+>>>>>>> b98ebb828e9d1505d488f5a88e53f37f2b659d79
 
 // ACTION TENANT ===========================================================
 export const fetchTenant = () => {
@@ -231,6 +253,47 @@ export const fetchTenant = () => {
       });
   };
 };
+
+export const createTenant = payload => {
+  return(dispatch) => {
+    axios
+      .post('/tenant', payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then( _ => {
+        return dispatch(fetchTenant())
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+export const updateTenant = (id, payload) => {
+  return(dispatch) => {
+    axios
+      .put(`/tenant/${id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then( _ => { return dispatch(fetchTenant()) })
+      .catch(err => console.log(err))
+  }
+}
+
+export const deleteTenant = id => {
+  return(dispatch) => {
+    axios
+      .delete(`/tenant/${id}`, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then( _ => {return dispatch(fetchTenant())})
+      .catch(err => console.log(err))
+  }
+}
 
 // POST REGISTER USER ========================================================
 export const userRegister = (email, username, password, fullName, bankAccount) => {
@@ -302,6 +365,24 @@ export const deletePayment = (id) => {
         },
       })
       .then((_) => {
+        return dispatch(fetchPayment());
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const updatePayment = (payload) => {
+  console.log(payload, '<<<<<<<<< Payload di action');
+  return (dispatch) => {
+    axios
+      .put(`/payments/${payload.id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((response) => {
+        const updatedData = response.data.updatedData;
+        console.log(updatedData, 'INI ACTION UPDATE PAYMENT');
         return dispatch(fetchPayment());
       })
       .catch((err) => console.log(err));

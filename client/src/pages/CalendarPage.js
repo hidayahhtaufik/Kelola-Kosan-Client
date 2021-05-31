@@ -14,7 +14,6 @@ import {
 function CalendarPage() {
   return (
     <>
-      {/* <Navigation /> */}
       <Container fluid>
         <Row>
           <Col xs={2} id='sidebar-wrapper'>
