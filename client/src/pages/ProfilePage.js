@@ -102,17 +102,22 @@ function ProfilePage() {
                   padding: '20px',
                   backgroundColor: '#f54748',
                   borderTopRightRadius: '30px',
+                  borderBottomLeftRadius: '30px',
                 }}
               >
                 <Col>
-                  <h3 className='text-center'>{property[0]?.name}</h3>
+                  <h3 className='text-center' style={{ color: 'white' }}>
+                    {property[0]?.name}
+                  </h3>
                 </Col>
               </Row>
               <Row
                 style={{
-                  border: 'solid',
-                  borderColor: 'green',
+                  // border: 'solid',
+                  // borderColor: 'green',
                   padding: '20px',
+                  backgroundColor: 'white',
+                  borderRadius: 30,
                 }}
               >
                 <Col
