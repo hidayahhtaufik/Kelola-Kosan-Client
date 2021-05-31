@@ -30,6 +30,7 @@ function PaymentPage() {
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
+  const [idEdit, setIdEdit] = useState(0);
   const [name, setName] = useState('');
   const [roomNumber, setRoomNumber] = useState(0);
   const [month, setMonth] = useState(0);
@@ -37,7 +38,6 @@ function PaymentPage() {
   const [nextDueDate, setNextDueDate] = useState('');
   const [paidCash, setPaidCash] = useState(0);
 
-  const [idEdit, setIdEdit] = useState(0);
   const [nameEdit, setNameEdit] = useState('');
   const [roomNumberEdit, setRoomNumberEdit] = useState(0);
   const [monthEdit, setMonthEdit] = useState(0);
@@ -46,7 +46,6 @@ function PaymentPage() {
   const [paidCashEdit, setPaidCashEdit] = useState(0);
 
   const tenantData = useSelector((state) => state.tenant.tenantsData);
-  // console.log(tenantData, '<<<<<<<<<<<<<<<<<<<<<<<<<<<< DI payment');
 
   const dispatch = useDispatch();
 
@@ -60,7 +59,7 @@ function PaymentPage() {
   const roomData = useSelector((state) => state.room.rooms);
   // console.log(paymentData, '<< Data Payment');
   // console.log(roomNumber, '<< Id Room');
-  console.log(nameEdit, '<< Name');
+  // console.log(nameEdit, '<< Name');
 
   let newDataPayment = [...paymentData];
 
@@ -84,17 +83,17 @@ function PaymentPage() {
     handleCloseAdd();
   }
 
-  function handleSubmitButtonEdit() {
-    console.log();
+  function handleSubmitButtonEdit(event) {
     const newDataEditPayment = {
       id: +idEdit,
       month: +monthEdit,
       year: +yearEdit,
       nextDueDate: nextDueDateEdit,
       paidCash: +paidCashEdit,
-      roomId: +roomNumberEdit,
-      tenanId: +nameEdit,
+      // roomId: +roomNumberEdit,
+      // tenanId: +nameEdit,
     };
+    console.log(newDataEditPayment, '<<<<<<<<<<<<<<<< DI PAYMENT PAGE');
 
     dispatch(updatePayment(newDataEditPayment));
     handleCloseEdit();
@@ -108,7 +107,6 @@ function PaymentPage() {
   }
 
   function handleEditButton(e) {
-    // console.log(e.id, '<<<<<<<<<<<<<<<<<<<< INI ID');
     setIdEdit(e.id);
     setNameEdit(e.Tenant.id);
     setRoomNumberEdit(e.Room.id);
@@ -133,7 +131,6 @@ function PaymentPage() {
 
   return (
     <>
-      {/* <Navigation /> */}
       <Container fluid>
         <Row>
           <Col xs={2}>
@@ -316,7 +313,7 @@ function PaymentPage() {
           <Modal.Body>
             <div className='container p-3'>
               <Form>
-                <Form.Group className='mb-3'>
+                {/* <Form.Group className='mb-3'>
                   <Form.Label>Name:</Form.Label>
                   <select
                     className='custom-select'
@@ -347,9 +344,7 @@ function PaymentPage() {
                     selected={roomNumberEdit}
                     onChange={(e) => setRoomNumber(e.target.value)}
                   >
-                    {/* <option disabled>Open this select Room</option> */}
                     {roomData?.map((e) => {
-                      // console.log(e.number, ' <<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                       return (
                         <option
                           key={e.id}
@@ -367,14 +362,13 @@ function PaymentPage() {
                       );
                     })}
                   </select>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className='mb-3'>
                   <Form.Label>Month:</Form.Label>
                   <Form.Control
                     type='number'
                     defaultValue={monthEdit}
-                    // defaultValue={property[0]?.address}
-                    onChange={(e) => setMonth(e.target.value)}
+                    onChange={(e) => setMonthEdit(e.target.value)}
                   />
                 </Form.Group>
                 <Form.Group className='mb-3'>
@@ -382,8 +376,7 @@ function PaymentPage() {
                   <Form.Control
                     type='number'
                     defaultValue={yearEdit}
-                    // defaultValue={property[0]?.image}
-                    onChange={(e) => setYear(e.target.value)}
+                    onChange={(e) => setYearEdit(e.target.value)}
                   />
                 </Form.Group>
                 <Form.Group className='mb-3'>
@@ -391,8 +384,7 @@ function PaymentPage() {
                   <Form.Control
                     type='date'
                     defaultValue={dateOnly(nextDueDateEdit)}
-                    // defaultValue={property[0]?.phone}
-                    onChange={(e) => setNextDueDate(e.target.value)}
+                    onChange={(e) => setNextDueDateEdit(e.target.value)}
                   />
                 </Form.Group>
                 <Form.Group className='mb-3'>
@@ -400,8 +392,7 @@ function PaymentPage() {
                   <Form.Control
                     type='number'
                     defaultValue={paidCashEdit}
-                    // defaultValue={property[0]?.image}
-                    onChange={(e) => setPaidCash(e.target.value)}
+                    onChange={(e) => setPaidCashEdit(e.target.value)}
                   />
                 </Form.Group>
               </Form>

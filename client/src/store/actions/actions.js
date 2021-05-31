@@ -297,6 +297,7 @@ export const deletePayment = (id) => {
 };
 
 export const updatePayment = (payload) => {
+  console.log(payload, '<<<<<<<<< Payload di action');
   return (dispatch) => {
     axios
       .put(`/payments/${payload.id}`, payload, {
@@ -304,7 +305,9 @@ export const updatePayment = (payload) => {
           access_token: localStorage.access_token,
         },
       })
-      .then((_) => {
+      .then((response) => {
+        const updatedData = response.data.updatedData;
+        console.log(updatedData, 'INI ACTION UPDATE PAYMENT');
         return dispatch(fetchPayment());
       })
       .catch((err) => console.log(err));
