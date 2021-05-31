@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import './styling/home.module.css';
 import Sidebar from './components/Sidebar';
-import Navigation from './components/Navigation';
+import { _, Grid } from 'gridjs-react';
+import * as FaIcons from 'react-icons/fa';
+import * as MdIcons from 'react-icons/md';
 import { newMonth, numberMonth } from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -26,7 +29,7 @@ import {
 } from '../store/actions/actions';
 
 // console.log(defaults);
-defaults.plugins.legend.position = 'right';
+defaults.plugins.legend.position = 'top';
 
 function HomePage({ component: Component, ...rest }) {
   const dispatch = useDispatch();
@@ -205,39 +208,46 @@ function HomePage({ component: Component, ...rest }) {
 
   return (
     <>
-      {/* <Navigation /> */}
       <Container fluid>
         <Row>
           <Col xs={2}>
             <Sidebar />
           </Col>
-          <Col
-            xs={10}
-            style={{ border: 'solid', borderColor: 'blue', padding: '20px' }}
-          >
-            <Row
-              className='justify-content-md-center'
-              style={{ border: 'solid', borderColor: 'red', padding: '20px' }}
-            >
+          <Col xs={10} style={{ padding: '20px' }}>
+            <Row className='justify-content-md-center ' id='titlePage'>
               <Col>
-                <h1 className='text-center'>Dashboard</h1>
+                <h1
+                  className='text-center'
+                  id='titleFont'
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: '50px',
+                  }}
+                >
+                  Dashboard
+                </h1>
               </Col>
             </Row>
-            <Row className='shadow m-5 border border-3'>
+            <Row
+              className='shadow m-5 border border-3'
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 30,
+              }}
+            >
               <Col
                 className='m-2'
                 style={{
-                  border: 'solid',
-                  borderColor: 'green',
                   padding: '20px',
                 }}
               >
                 <h3
                   className='text-center mb-3'
                   style={{
-                    border: 'solid',
-                    borderColor: 'red',
+                    // border: 'solid',
+                    // borderColor: 'red',
                     padding: '10px',
+                    fontWeight: 'bold',
                   }}
                 >
                   Grafik Income
@@ -247,45 +257,73 @@ function HomePage({ component: Component, ...rest }) {
                     <Bar data={dataGraph} />
                   </Col>
                   <Col className='d-flex justify-content-center align-items-center'>
-                    <div className='text-center' style={{ width: '100%' }}>
-                      <h2>Month: {newMonth()}</h2>
-                      <h3>
-                        Income : Rp.{' '}
-                        {newDataRevenue[numberMonth()]?.toLocaleString()} /month
-                      </h3>
-                      <h3>
-                        Expense : Rp.{' '}
-                        {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
-                        /month
-                      </h3>
-                      <h3>
-                        Profit : Rp.{' '}
-                        {Number(
-                          newDataRevenue[numberMonth()] -
-                            newDataExpenseBar[numberMonth()]
-                        )?.toLocaleString()}
-                      </h3>
-                    </div>
+                    {/* <div className='text-center' style={{ width: '100%' }}></div> */}
+                    <Table bordered hover>
+                      <tbody>
+                        <tr>
+                          <td>Month:</td>
+                          <td>{newMonth()}</td>
+                        </tr>
+                      </tbody>
+                      <tbody>
+                        <tr>
+                          <td>Income:</td>
+                          <td>
+                            Rp.{' '}
+                            {newDataRevenue[numberMonth()]?.toLocaleString()}{' '}
+                            /month
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody>
+                        <tr>
+                          <td>Expases:</td>
+                          <td>
+                            Rp.{' '}
+                            {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
+                            /month
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody>
+                        <tr>
+                          <td>Profit:</td>
+                          <td>
+                            Rp.{' '}
+                            {Number(
+                              newDataRevenue[numberMonth()] -
+                                newDataExpenseBar[numberMonth()]
+                            )?.toLocaleString()}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                    {/* </div> */}
                   </Col>
                 </Row>
               </Col>
             </Row>
-            <Row className='shadow m-5 border border-3'>
+            <Row
+              className='shadow m-5 border border-3'
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 30,
+              }}
+            >
               <Col
                 className='m-2 d-flex align-items-center'
                 style={{
                   flexDirection: 'column',
-                  border: 'solid',
-                  borderColor: 'yellow',
                   padding: '20px',
                 }}
               >
                 <h3
                   className='text-center mb-3'
                   style={{
-                    border: 'solid',
-                    borderColor: 'red',
+                    // border: 'solid',
+                    // borderColor: 'red',
                     padding: '10px',
+                    fontWeight: 'bold',
                   }}
                 >
                   Grafik Occupancy
@@ -295,8 +333,8 @@ function HomePage({ component: Component, ...rest }) {
                   style={{
                     borderWidth: '10rem',
                     width: '50%',
-                    borderColor: 'red',
-                    border: 'solid',
+                    // borderColor: 'red',
+                    // border: 'solid',
                     padding: '5px',
                   }}
                 >
@@ -306,82 +344,94 @@ function HomePage({ component: Component, ...rest }) {
             </Row>
 
             {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Expense */}
-            <Row className='shadow m-5 border border-3'>
+            <Row
+              className='shadow m-5 border border-3'
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 30,
+              }}
+            >
               <Col
                 className='m-2 d-flex align-items-center'
                 style={{
                   flexDirection: 'column',
-                  border: 'solid',
-                  borderColor: 'yellow',
                   padding: '20px',
                 }}
               >
                 <h3
                   className='text-center mb-3'
                   style={{
-                    border: 'solid',
-                    borderColor: 'red',
+                    // border: 'solid',
+                    // borderColor: 'red',
                     padding: '10px',
+                    fontWeight: 'bold',
                   }}
                 >
-                  CRUD EXPENSE
+                  Expense Table
                 </h3>
 
-                {/* ADDD */}
-                <Row>
-                  <Button
-                    style={{ margin: '0.5rem' }}
-                    variant='primary'
-                    onClick={handleShowAddForm}
-                  >
-                    Add
-                  </Button>
-                </Row>
+                <Button
+                  // style={{ margin: '0.5rem' }}
+                  variant='primary'
+                  onClick={handleShowAddForm}
+                >
+                  Input Expanse
+                </Button>
 
-                <Table striped bordered hover size='sm'>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Title</th>
-                      <th>Month</th>
-                      <th>Year</th>
-                      <th>Total</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-
-                  {newDataExpense.map((expense) => {
-                    return (
-                      <tbody>
-                        <tr>
-                          <td>{expense.id}</td>
-                          <td>{expense.title}</td>
-                          <td>{expense.month}</td>
-                          <td>{expense.year}</td>
-                          <td>{expense.total}</td>
-                          <td>
-                            <Row>
-                              <Button
-                                style={{ margin: '0.5rem' }}
-                                onClick={(_) => handleShowUpdateForm(expense)}
-                                variant='primary'
-                              >
-                                Update
-                              </Button>
-                              <Button
-                                style={{ margin: '0.5rem' }}
-                                onClick={(_) => handelDeleteExpense(expense.id)}
-                                variant='danger'
-                              >
-                                Delete
-                              </Button>
-                            </Row>
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
+                <Grid
+                  data={newDataExpense.map((e, index) => {
+                    return [
+                      index + 1,
+                      e.title,
+                      e.month,
+                      e.year,
+                      e.total,
+                      _(
+                        <>
+                          {' '}
+                          <Button
+                            variant={'info'}
+                            size='sm'
+                            onClick={() => handleShowUpdateForm(e)}
+                          >
+                            <FaIcons.FaEdit />
+                          </Button>{' '}
+                          <Button
+                            variant={'danger'}
+                            size='sm'
+                            onClick={() => handelDeleteExpense(e.id)}
+                          >
+                            <MdIcons.MdDelete />
+                          </Button>{' '}
+                        </>
+                      ),
+                    ];
                   })}
-                </Table>
+                  columns={['Id', 'Title', 'Month', 'Year', 'Total', 'Action']}
+                  sort={true}
+                  search={true}
+                  pagination={{
+                    enabled: true,
+                    limit: 5,
+                    summary: false,
+                  }}
+                  style={{
+                    table: {
+                      color: '#343f56',
+                    },
+                    th: {
+                      'background-color': '#343F56',
+                      color: '#FFF',
+                      'text-align': 'center',
+                    },
+                    td: {
+                      'background-color': '##EEF3F8',
+                    },
+                    footer: {
+                      'background-color': '#343F56',
+                    },
+                  }}
+                ></Grid>
 
                 <Modal show={showAddForm} onHide={handleCloseAddForm}>
                   <Modal.Header closeButton>
@@ -504,7 +554,6 @@ function HomePage({ component: Component, ...rest }) {
                 </Modal>
               </Col>
             </Row>
-            {/* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense*/}
           </Col>
         </Row>
       </Container>

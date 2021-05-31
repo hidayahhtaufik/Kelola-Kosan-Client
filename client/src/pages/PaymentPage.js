@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import Navigation from './components/Navigation';
 import { dateOnly } from '../helpers/helpers';
 import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
