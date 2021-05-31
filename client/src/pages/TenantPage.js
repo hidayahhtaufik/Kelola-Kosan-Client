@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Sidebar from './components/Sidebar';
-import Navigation from './components/Navigation';
 import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTenant } from '../store/actions/actions';
