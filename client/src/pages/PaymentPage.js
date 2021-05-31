@@ -5,6 +5,7 @@ import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
+import jsPDF from 'jspdf'
 // import * as AiIcons from 'react-icons/ai';
 import styles from './styling/payment.module.css';
 import {
@@ -132,6 +133,27 @@ function PaymentPage() {
     dispatch(fetchRoom());
   }, []);
 
+
+  const handleExportToPdf = () => {
+    const doc = new jsPDF()
+
+    doc.text("List of Payments", 85, 10)
+    doc.autoTable({
+      head: [['No.', 'Name', 'Month', 'Year', 'Next Due Date', 'Paid Cash']],
+      body: 
+        paymentData.map(e => {
+          return(
+            [ e.id, e.Tenant.name, e.month, e.year, dateOnly(e.nextDueDate), `Rp. ${e.paidCash?.toLocaleString()}` ]
+          )
+        }),
+      
+    })
+    
+    doc.save('Payments_Tabel.pdf')
+  }
+
+
+
   return (
     <>
       <Container fluid>
@@ -230,6 +252,17 @@ function PaymentPage() {
                   }
                 }}
               ></Grid>
+              <div style={{ alignSelf: 'flex-end' }}>
+                <Button
+                  onClick={() => { 
+                    console.log('clicked');
+                    handleExportToPdf()
+                  }}
+                  variant="light"
+                >
+                  Export To PDF
+                </Button>
+              </div>
             </Row>
           </Col>
         </Row>
