@@ -6,10 +6,17 @@ import * as RiIcons from 'react-icons/ri';
 import * as BsIcons from 'react-icons/bs';
 import * as IoIcons from 'react-icons/io5';
 import * as IoIcons4 from 'react-icons/io';
+import * as MdIcons from 'react-icons/md';
 import './Sidebar.css';
 
 const Side = (props, navigation) => {
   const History = useHistory();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    History.push("/login");
+  };
+
   return (
     <>
       <Nav
@@ -25,82 +32,83 @@ const Side = (props, navigation) => {
           </h3>
         </div>
         <hr />
-        <Nav.Item className='nav '>
-          <Nav.Link
-            onClick={() => {
-              History.push('/');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav '
+          onClick={() => {
+            History.push('/');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <RiIcons.RiLayoutMasonryFill />
             <span>Dashboard</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/profile');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/profile');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <IoIcons.IoHome />
             <span>Property Profile</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/rooms');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/rooms');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <RiIcons.RiProfileFill />
             <span>Your Rooms</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/tenant');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/tenant');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <BsIcons.BsFillPeopleFill />
             <span>Tenant</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/calendar');
-            }}
-            style={{ color: 'white' }}
-          >
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/calendar');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
             <IoIcons.IoCalendar />
             <span>Calendar</span>
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className='nav'>
-          <Nav.Link
-            onClick={() => {
-              History.push('/gallery');
-            }}
-            style={{ color: 'white' }}
-          >
-            <IoIcons4.IoMdPhotos />
-            <span>Gallery</span>
+        <Nav.Item
+          className='nav'
+          onClick={() => {
+            History.push('/payments');
+          }}
+        >
+          <Nav.Link style={{ color: 'white' }}>
+            <MdIcons.MdPayment />
+            <span>Payments</span>
           </Nav.Link>
         </Nav.Item>
         <hr />
-        <Nav.Item className='nav'>
+
+        <Nav.Item className='nav' onClick={() => {
+              handleLogout();
+            }}>
           <Nav.Link
-            onClick={() => {
-              History.push('/login');
-            }}
             style={{ color: 'white' }}
           >
-            <IoIcons4.IoMdExit />
-            <span>Logout</span>
+            <IoIcons4.IoMdExit/>
+            <span >Logout</span>
+
           </Nav.Link>
         </Nav.Item>
       </Nav>

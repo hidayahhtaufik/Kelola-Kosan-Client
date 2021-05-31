@@ -12,6 +12,9 @@ function logger() {
   };
 }
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, logger)));
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk, logger))
+);
 
 export default store;

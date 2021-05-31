@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
-import { _ , Grid } from 'gridjs-react';
+import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTenant } from '../store/actions/actions';
 import { FiEdit } from "react-icons/fi";
@@ -22,7 +22,6 @@ function TenantPage() {
 
   const tenantData = useSelector((state) => state.tenant.tenantsData);
 
-
   useEffect(() => {
     dispatch(fetchTenant());
   }, []);
@@ -32,17 +31,24 @@ function TenantPage() {
       {/* <Navigation /> */}
       <Container fluid>
         <Row>
-          <Col xs={2} id='sidebar-wrapper'>
+          <Col xs={2}>
             <Sidebar />
           </Col>
-          <Col xs={10} id='page-content-wrapper'>
+          <Col xs={10}>
             <Row className='justify-content-md-center'>
               <h1>Halaman Tenant</h1>
             </Row>
             <Row className='m-5 flex-column'>
-              <Button onClick={() => {console.log("clicked")}} style={{ alignSelf: "flex-end" }}>Add Tenant</Button>
+              <Button
+                onClick={() => {
+                  console.log('clicked');
+                }}
+                style={{ alignSelf: 'flex-end' }}
+              >
+                Add Tenant
+              </Button>
               <Grid
-                data={tenantData.map(e => {
+                data={tenantData.map((e) => {
                   return [
                     e.id,
                     e.name,
@@ -50,9 +56,26 @@ function TenantPage() {
                     e.phone,
                     new Date(e.checkIn).toDateString(),
                     e.checkOut && new Date(e.checkOut).toDateString(),
-                    _(<> <Button style={{marginRight: "2px"}} variant={"info"} size={"sm"} onClick={() => console.log(`${e.name} edited`)}><FiEdit/> Edit</Button>
-                    <Button style={{marginLeft: "2px"}} variant={"danger"} size={"sm"} onClick={() => console.log(`${e.name} deleted`)}><FaTrash/> Delete</Button> </>)
-                  ]
+                    _(
+                      <>
+                        {' '}
+                        <Button
+                          variant={'primary'}
+                          size='sm'
+                          onClick={() => console.log(`${e.name} edited`)}
+                        ><FiEdit/>
+                          Edit
+                        </Button>{' '}
+                        <Button
+                          variant={'danger'}
+                          size='sm'
+                          onClick={() => console.log(`${e.name} deleted`)}
+                        ><FaTrash/>
+                          delete
+                        </Button>{' '}
+                      </>
+                    ),
+                  ];
                 })}
                 columns={[
                   'Room',
@@ -61,7 +84,7 @@ function TenantPage() {
                   'Phone',
                   'CheckIn',
                   'CheckOut',
-                  'Action'
+                  'Action',
                 ]}
                 sort={true}
                 search={true}
