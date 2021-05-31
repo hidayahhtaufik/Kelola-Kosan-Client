@@ -58,7 +58,7 @@ function PaymentPage() {
   const roomData = useSelector((state) => state.room.rooms);
   // console.log(paymentData, '<< Data Payment');
   // console.log(roomNumber, '<< Id Room');
-  console.log(roomData, '<< Name');
+  console.log(nameEdit, '<< Name');
 
   let newDataPayment = [...paymentData];
 
@@ -82,7 +82,18 @@ function PaymentPage() {
     handleCloseAdd();
   }
 
-  function handleSubmitButtonEdit() {}
+  function handleSubmitButtonEdit() {
+    const newDataEditPayment = {
+      month: +monthEdit,
+      year: +yearEdit,
+      nextDueDate: nextDueDateEdit,
+      paidCash: +paidCashEdit,
+      roomId: +roomNumberEdit,
+      tenanId: +nameEdit,
+    };
+
+    console.log(newDataEditPayment, '<< New Data Edit Payment');
+  }
 
   function handleDeletePayment(id) {
     console.log(id);
@@ -91,8 +102,8 @@ function PaymentPage() {
 
   function handleEditButton(e) {
     // console.log(e);
-    setNameEdit(e.Tenant.name);
-    setRoomNumberEdit(e.Room.number);
+    setNameEdit(e.Tenant.id);
+    setRoomNumberEdit(e.Room.id);
     setMonthEdit(e.month);
     setYearEdit(e.year);
     setNextDueDateEdit(e.nextDueDate);
@@ -314,20 +325,17 @@ function PaymentPage() {
                   <select
                     className='custom-select'
                     selected={nameEdit}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setNameEdit(e.target.value)}
                   >
                     <option disabled>Open this select Name</option>
                     {tenantData.map((e) => {
+                      console.log(e, ' <<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                       return (
                         <option
                           key={e.id}
                           value={e.id}
                           selected={
-                            nameEdit
-                              ? nameEdit == e.name
-                                ? true
-                                : false
-                              : false
+                            nameEdit ? (nameEdit == e.id ? true : false) : false
                           }
                         >
                           {e.name}
@@ -352,7 +360,7 @@ function PaymentPage() {
                           defaultValue={e.id}
                           selected={
                             roomNumberEdit
-                              ? roomNumberEdit == e.number
+                              ? roomNumberEdit == e.id
                                 ? true
                                 : false
                               : false
@@ -410,7 +418,7 @@ function PaymentPage() {
             <Button
               variant='primary'
               onClick={(event) => {
-                handleSubmitButtonAdd(event);
+                handleSubmitButtonEdit(event);
               }}
             >
               Edit Payment
