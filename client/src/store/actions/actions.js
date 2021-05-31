@@ -184,6 +184,26 @@ export const fetchRoom = () => {
   };
 };
 
+export const changeRoomStatus = (payload) => {
+  const { roomId, status } = payload;
+  console.log(payload);
+  return (dispatch) => {
+    axios
+      .patch(`/rooms/${roomId}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((response) => {
+        console.log(response, '<<<< di Action Room INIIIIII');
+        return dispatch(fetchRoom());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 // ACTION TENANT ===========================================================
 export const fetchTenant = () => {
   return (dispatch) => {
