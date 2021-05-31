@@ -3,7 +3,13 @@ import Sidebar from './components/Sidebar';
 import Navigation from './components/Navigation';
 import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPayment, fetchTenant, fetchRoom } from '../store/actions/actions';
+import {
+  fetchPayment,
+  fetchTenant,
+  fetchRoom,
+  createPayment,
+  deletePayment,
+} from '../store/actions/actions';
 import { dateOnly } from '../../src/helpers/helpers';
 
 import {
@@ -43,14 +49,21 @@ function PaymentPage() {
 
   function handleSubmitButtonAdd() {
     const newPaymentData = {
-      month,
-      year,
+      month: +month,
+      year: +year,
       nextDueDate,
-      paidCash,
+      paidCash: +paidCash,
       roomId: +roomNumber,
-      tenanID: +name,
+      tenanId: +name,
     };
     console.log(newPaymentData, 'Click Button');
+    dispatch(createPayment(newPaymentData));
+    dispatch(fetchRoom());
+  }
+
+  function handleDeletePayment(id) {
+    console.log(id);
+    dispatch(deletePayment(id));
   }
 
   useEffect(() => {
@@ -120,9 +133,7 @@ function PaymentPage() {
                         <Button
                           variant={'danger'}
                           size='sm'
-                          onClick={() =>
-                            console.log(`${e.Tenant.name} deleted`)
-                          }
+                          onClick={() => handleDeletePayment(e.id)}
                         >
                           delete
                         </Button>{' '}

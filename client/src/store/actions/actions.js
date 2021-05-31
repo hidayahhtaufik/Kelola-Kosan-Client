@@ -84,37 +84,34 @@ export const createExpenses = (payload) => {
 };
 
 export const updateExpenses = (id, payload) => {
-  return(dispatch) => {
+  return (dispatch) => {
     axios
       .put(`/expenses/${id}`, payload, {
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
-      .then( _ => { 
-        return dispatch(fetchExpenses())
+      .then((_) => {
+        return dispatch(fetchExpenses());
       })
-      .catch(err => console.log(err))
-
-  }
-}
+      .catch((err) => console.log(err));
+  };
+};
 
 export const deleteExpense = (id) => {
-  return(dispatch) => {
+  return (dispatch) => {
     axios
       .delete(`/expenses/${id}`, {
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
-      .then( _ => { 
-        return dispatch(fetchExpenses())
+      .then((_) => {
+        return dispatch(fetchExpenses());
       })
-      .catch(err => console.log(err))
-  }
-}
-
-
+      .catch((err) => console.log(err));
+  };
+};
 
 // ACTION PROPERTIES ===========================================================
 export const fetchProperties = (loading, setLoading, property, setProperty) => {
@@ -240,5 +237,41 @@ export const fetchPayment = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+};
+
+export const createPayment = (payload) => {
+  const { month, year, nextDueDate, paidCash, roomId, tenanId } = payload;
+  const newPayload = { month, year, nextDueDate, paidCash };
+
+  return (dispatch) => {
+    axios
+      .post(`/payments/${roomId}/${tenanId}`, newPayload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then(() => {
+        console.log(payload, '<<<< di Action PAYMENT');
+        return dispatch(fetchPayment());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export const deletePayment = (id) => {
+  return (dispatch) => {
+    axios
+      .delete(`/payments/${id}`, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((_) => {
+        return dispatch(fetchPayment());
+      })
+      .catch((err) => console.log(err));
   };
 };
