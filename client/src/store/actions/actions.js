@@ -265,7 +265,6 @@ export const deleteTenant = id => {
 
 // POST REGISTER USER ========================================================
 export const userRegister = (email, username, password) => {
-  // console.log(email, username, password, 'masyuk cuy')
   return (dispatch) => {
     axios
       .post('/register', {
