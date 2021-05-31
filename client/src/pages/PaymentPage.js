@@ -143,7 +143,7 @@ function PaymentPage() {
       body: 
         paymentData.map(e => {
           return(
-            [ e.id, e.Tenant.name, e.month, e.year, dateOnly(e.nextDueDate), e.paidCash ]
+            [ e.id, e.Tenant.name, e.month, e.year, dateOnly(e.nextDueDate), `Rp. ${e.paidCash?.toLocaleString()}` ]
           )
         }),
       
