@@ -11,6 +11,7 @@ import {
   createPayment,
   deletePayment,
   changeRoomStatus,
+  updatePayment,
 } from '../store/actions/actions';
 
 import {
@@ -36,6 +37,7 @@ function PaymentPage() {
   const [nextDueDate, setNextDueDate] = useState('');
   const [paidCash, setPaidCash] = useState(0);
 
+  const [idEdit, setIdEdit] = useState(0);
   const [nameEdit, setNameEdit] = useState('');
   const [roomNumberEdit, setRoomNumberEdit] = useState(0);
   const [monthEdit, setMonthEdit] = useState(0);
@@ -83,7 +85,9 @@ function PaymentPage() {
   }
 
   function handleSubmitButtonEdit() {
+    console.log();
     const newDataEditPayment = {
+      id: +idEdit,
       month: +monthEdit,
       year: +yearEdit,
       nextDueDate: nextDueDateEdit,
@@ -91,6 +95,9 @@ function PaymentPage() {
       roomId: +roomNumberEdit,
       tenanId: +nameEdit,
     };
+
+    dispatch(updatePayment(newDataEditPayment));
+    handleCloseEdit();
 
     console.log(newDataEditPayment, '<< New Data Edit Payment');
   }
@@ -101,19 +108,14 @@ function PaymentPage() {
   }
 
   function handleEditButton(e) {
-    // console.log(e);
+    // console.log(e.id, '<<<<<<<<<<<<<<<<<<<< INI ID');
+    setIdEdit(e.id);
     setNameEdit(e.Tenant.id);
     setRoomNumberEdit(e.Room.id);
     setMonthEdit(e.month);
     setYearEdit(e.year);
     setNextDueDateEdit(e.nextDueDate);
     setPaidCashEdit(e.paidCash);
-    // console.log(
-    //   nameEdit,
-    //   roomNumberEdit,
-    //   nextDueDateEdit,
-    //   '<<<<<<<<<<<<<<<<<<<<<< Disiniiiiii'
-    // );
     handleShowEdit();
   }
 
@@ -234,12 +236,6 @@ function PaymentPage() {
                       </option>
                     ))}
                   </select>
-                  {/* 
-                <Form.Control
-                  type='text'
-                  // defaultValue={property[0]?.name}
-                  onChange={(e) => setName(e.target.value)}
-                /> */}
                 </Form.Group>
                 <Form.Group className='mb-3'>
                   <Form.Label>Room Number:</Form.Label>

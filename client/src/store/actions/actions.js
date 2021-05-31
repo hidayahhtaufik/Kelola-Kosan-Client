@@ -295,3 +295,18 @@ export const deletePayment = (id) => {
       .catch((err) => console.log(err));
   };
 };
+
+export const updatePayment = (payload) => {
+  return (dispatch) => {
+    axios
+      .put(`/payments/${payload.id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((_) => {
+        return dispatch(fetchPayment());
+      })
+      .catch((err) => console.log(err));
+  };
+};
