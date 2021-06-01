@@ -4,7 +4,10 @@ import Sidebar from './components/Sidebar';
 import { _, Grid } from 'gridjs-react';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
-import { newMonth, numberMonth } from '../helpers/helpers';
+import * as GrIcons from 'react-icons/gr';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { newMonth, numberMonth, month } from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
@@ -194,6 +197,27 @@ function HomePage({ component: Component, ...rest }) {
     ],
   };
   console.log(rest, 'INI REST DI HOME');
+
+  const handleExportToPdf = () => {
+    const doc = new jsPDF();
+
+    doc.text('Expense Report', 85, 10);
+    doc.autoTable({
+      head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
+      body: newDataExpense.map((t) => {
+        return [
+          t.id,
+          t.title,
+          month(t.month),
+          t.year,
+          `Rp. ${t.total?.toLocaleString()}`,
+        ];
+      }),
+    });
+
+    doc.save('expense_report.pdf');
+  };
+
   useEffect(() => {
     dispatch(fetchRevenue());
   }, []);
@@ -370,22 +394,39 @@ function HomePage({ component: Component, ...rest }) {
                   Expense Table
                 </h3>
 
-                <Button
-                  // style={{ margin: '0.5rem' }}
-                  variant='primary'
-                  onClick={handleShowAddForm}
-                >
-                  Input Expanse
-                </Button>
+                <div style={{ alignSelf: 'flex-center' }}>
+                  <Button
+                    className='m-3'
+                    variant='primary'
+                    onClick={() => {
+                      handleShowAddForm();
+                    }}
+                  >
+                    Input Expanse
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      console.log('clicked');
+                      handleExportToPdf();
+                    }}
+                    variant='info'
+                  >
+                    <GrIcons.GrDocumentPdf
+                      style={{ color: 'white' }}
+                      size={'1em'}
+                    />{' '}
+                    Export To PDF
+                  </Button>
+                </div>
 
                 <Grid
                   data={newDataExpense.map((e, index) => {
                     return [
                       index + 1,
                       e.title,
-                      e.month,
+                      month(e.month),
                       e.year,
-                      e.total,
+                      `Rp. ${e.total?.toLocaleString()}`,
                       _(
                         <>
                           {' '}

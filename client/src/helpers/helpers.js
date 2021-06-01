@@ -28,3 +28,22 @@ export const dateOnly = (date) => {
   console.log(newDate);
   return newDate[0];
 };
+
+export const month = (date) => {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  return monthNames[date - 1];
+};
