@@ -209,10 +209,34 @@ export const createRoom = (payload) => {
           access_token: localStorage.access_token,
         },
       })
-      .then()
-      .catch();
-  };
-};
+      .then(response => {
+        console.log(response, 'action respon')
+        return dispatch(fetchRoom())
+      })
+      .catch(err => {
+        console.log(err, 'err di add actions room')
+      })
+  }
+}
+
+export const updateRoom = (payload, id) => {
+  console.log(id, payload, ' id action rom update')
+  return (dispatch) => {
+    axios
+      .put(`/rooms/${id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then(_ => {
+        return dispatch(fetchRoom())
+      })
+      .catch(err => {
+        console.log(err, 'err action edit room')
+      })
+  }
+}
+
 export const changeRoomStatus = (payload) => {
   const { roomId, status } = payload;
   console.log(payload);
@@ -301,7 +325,7 @@ export const userRegister = (
   email,
   username,
   password,
-  fullName,
+  fullname,
   bankAccount
 ) => {
   // console.log(email, username, password, 'masyuk cuy')
@@ -311,7 +335,7 @@ export const userRegister = (
         email,
         username,
         password,
-        fullName,
+        fullname,
         bankAccount,
       })
       .then((response) => {

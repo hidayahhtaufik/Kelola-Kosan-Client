@@ -20,8 +20,13 @@ function Login() {
   };
 
   return (
-    <div className="bg-info d-flex" style={{minHeight: "100vh"}}>
-      <div className="container align-items-center justify-content-around d-flex flex-column mx-auto my-auto bg-white" style={{height: "75vh", maxWidth: "40vw", borderRadius: "30px"}}>
+    <div className="d-flex" style={{
+      minHeight: "100vh",
+      background: "linear-gradient( 90.5deg,  rgba(255,207,139,0.50) 1.1%, rgba(255,207,139,1) 81.3% )"
+      // background: "##00DBDE",
+      // background: "linear-gradient(270deg, #00DBDE 19%, #FC00FF 100%)"
+    }}>
+      <div className="container shadow align-items-center justify-content-around d-flex flex-column mx-auto my-auto bg-white" style={{height: "75vh", maxWidth: "40vw", borderRadius: "30px"}}>
       <div claassName="row">
         <h1>Login</h1>
       </div>
@@ -39,12 +44,11 @@ function Login() {
           </div>
 
           <div className="d-flex justify-content-center">
-            <Button rounded size={"lg"} type="submit" style={{color:"black",
+            <Button rounded variant={"outline-success"} size={"lg"} type="submit" style={{color:"black",
             minWidth: "60%",
             maxWidth: "80%",
-            background: "#85FFBD",
-            background: "linear-gradient(45deg, #85FFBD 0%, #FFFB7D 50%)"}}
-            >Submit</Button>
+            // background: "linear-gradient( 90.5deg,  rgba(255,207,139,0.50) 1.1%, rgba(255,207,139,1) 81.3% )"
+            }}>Login</Button>
           </div>
         </form>
       </div>

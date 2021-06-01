@@ -13,7 +13,7 @@ import { _, Grid } from 'gridjs-react';
 import Sidebar from './components/Sidebar';
 import styles from './styling/room.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchRoom, deleteRoom } from '../store/actions/actions';
+import { fetchRoom, deleteRoom, createRoom, updateRoom } from '../store/actions/actions';
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import * as MdIcons from 'react-icons/md';
@@ -32,6 +32,16 @@ function Room() {
   const [addRoomStatus, setAddRoomStatus] = useState('');
   const [addRoomType, setAddRoomType] = useState('');
   const [addRoomPrice, setAddRoomPrice] = useState(0);
+
+  const [showEditForm, setShowEditForm] = useState(false)
+  const handleCloseEditForm = () => setShowEditForm(false)
+  
+  const [editRoomId, setEditRoomId] = useState()
+  const [editRoomNumber, setEditRoomNumber] = useState()
+  const [editRoomStatus, setEditRoomStatus] = useState()
+  const [editRoomType, setEditRoomType] = useState()
+  const [editRoomPrice, setEditRoomPrice] = useState()
+
 
   let standartRoom = 0;
   let deluxeRoom = 0;
@@ -56,6 +66,40 @@ function Room() {
     setShowAddForm(true);
   };
 
+  function handleAddSubmit(e) {
+    e.preventDefault()
+    let payload = {
+      number: addRoomNumber,
+      status: addRoomStatus,
+      type: addRoomType
+    }
+    setAddRoomNumber(0)
+    dispatch(createRoom(payload))
+    handleCloseAddForm()
+  }
+
+  const handleShowEditRoomForm = (e) => {
+    setEditRoomId(e.id)
+    setEditRoomNumber(e.number)
+    setEditRoomStatus(e.status)
+    setEditRoomType(e.type)
+    setEditRoomPrice(e.price)
+    setShowEditForm(true)
+  }
+
+  const handleEditSubmit = () => {
+    let newPayload = {
+      id: editRoomId,
+      number: editRoomNumber,
+      status: editRoomStatus,
+      type: editRoomType,
+      price: editRoomPrice
+    }
+    console.log(newPayload)
+    dispatch(updateRoom(newPayload, editRoomId))
+    handleCloseEditForm()
+  }
+
   return (
     <Container fluid>
       <Row>
@@ -66,6 +110,7 @@ function Room() {
           <Row className='justify-content-md-center mb-3'>
             <h1 className={styles.title}>Rooms</h1>
           </Row>
+          
 
           <div className='m-5'>
             <Card className={styles.card}>
@@ -146,7 +191,7 @@ function Room() {
                           variant={'primary'}
                           // style={{color: "#fff", background: "#77acf1"}}
                           size='sm'
-                          onClick={() => console.log(`${e.name} edited`)}
+                          onClick={() => { handleShowEditRoomForm(e) }}
                         >
                           <FaEdit />
                         </Button>{' '}
@@ -201,12 +246,13 @@ function Room() {
 
           {/* MODAL ADD */}
           <Modal show={showAddForm} onHide={handleCloseAddForm}>
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title>Add Room</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
-                <Form.Group controlId='formBasicEmail'>
+
+                <Form.Group controlId='formBasicEmail' className="mb-3">
                   <Form.Label>Room Number:</Form.Label>
                   <Form.Control
                     type='number'
@@ -215,42 +261,130 @@ function Room() {
                     onChange={(e) => setAddRoomNumber(e.target.value)}
                   />
                 </Form.Group>
-                <Form.Group controlId='formBasicEmail'>
-                  <Form.Label>Room Status:</Form.Label>
-                  <Form.Control
-                    type='text'
-                    value={addRoomStatus}
-                    onChange={(e) => setAddRoomStatus(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='formBasicEmail'>
-                  <Form.Label>Room Type:</Form.Label>
-                  <Form.Control
-                    type='text'
-                    value={addRoomType}
+
+                <Form.Group className='mb-3'>
+                  <Form.Label>Room Type:</Form.Label><br></br>
+                  <select
+                    className='custom-select'
                     onChange={(e) => setAddRoomType(e.target.value)}
-                  />
+                  >
+                    <option selected disabled>
+                      Select Room Type
+                    </option>
+                    <option value={'standard'}>
+                      Standard Room
+                    </option>
+                    <option value={'deluxe'}>
+                      Deluxe Room
+                    </option>
+                  </select>
                 </Form.Group>
-                <Form.Group controlId='formBasicEmail'>
-                  <Form.Label>Room Price</Form.Label>
-                  <Form.Control
-                    type='number'
-                    min={1}
-                    value={addRoomPrice}
-                    onChange={(e) => setAddRoomPrice(e.target.value)}
-                  />
+
+                <Form.Group controlId='formBasicEmail' className="mb-3">
+                  <Form.Label>Room Status:</Form.Label><br></br>
+                  <select
+                    className='custom-select'
+                    onChange={(e) => setAddRoomStatus(e.target.value)}
+                  >
+                    <option selected disabled>
+                      Select Room Status
+                    </option>
+                    <option value={'empty'}>
+                      Empty
+                    </option>
+                    <option value={'maintenance'}>
+                      Maintenance
+                    </option>
+                    <option value={'occupied'}>
+                      Occupied
+                    </option>
+                  </select>
                 </Form.Group>
+
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant='secondary' onClick={handleCloseAddForm}>
-                Close
-              </Button>
-              <Button variant='primary'>Add</Button>
+              <Button variant="secondary" onClick={handleCloseAddForm}>Close</Button>
+              <Button variant='primary' onClick={handleAddSubmit}>Add</Button>
             </Modal.Footer>
           </Modal>
 
           {/* MODAL EDIT */}
+          <Modal show={showEditForm} onHide={handleCloseEditForm}>
+            <Modal.Header>
+              <Modal.Title>Edit Room</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+
+                <Form.Group controlId='formBasicEmail' className="mb-3">
+                  <Form.Label>Room Number:</Form.Label>
+                  <Form.Control
+                    type="number" min={1}
+                    defaultValue={editRoomNumber}
+                    onChange={e => setEditRoomNumber(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className='mb-3'>
+                  <Form.Label>Room Type:</Form.Label>
+                  <select
+                    className='custom-select'
+                    defaultValue={editRoomType}
+                    onChange={(e) => setEditRoomType(e.target.value)}
+                  >
+                    <option selected disabled>
+                      Select this Room Type
+                    </option>
+                    <option value={'standard'}>
+                      Standard Room
+                    </option>
+                    <option value={'deluxe'}>
+                      Deluxe Room
+                    </option>
+                  </select>
+                </Form.Group>
+
+                <Form.Group controlId='formBasicEmail' className="mb-3">
+                  <Form.Label>Room Status:</Form.Label>
+                  <select
+                    className='custom-select'
+                    defaultValue={editRoomStatus}
+                    onChange={(e) => setEditRoomStatus(e.target.value)}
+                  >
+                    <option selected disabled>
+                      Select Room Status
+                    </option>
+                    <option value={'empty'}>
+                      Empty
+                    </option>
+                    <option value={'maintenance'}>
+                      Maintenance
+                    </option>
+                    <option value={'occupied'}>
+                      Occupied
+                    </option>
+                  </select>
+                </Form.Group>
+
+                <Form.Group controlId='formBasicEmail' className="mb-3">
+                  <Form.Label>Room Price:</Form.Label>
+                  <Form.Control
+                    type="number" min={1}
+                    defaultValue={editRoomPrice}
+                    onChange={e => setEditRoomPrice(e.target.value)}
+                  />
+                </Form.Group>
+
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEditForm}>Close</Button>
+              <Button variant='primary' onClick={handleEditSubmit}>Confirm</Button>
+            </Modal.Footer>
+          </Modal>
+
+
         </Col>
       </Row>
     </Container>
