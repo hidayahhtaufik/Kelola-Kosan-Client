@@ -30,7 +30,6 @@ import {
   fetchReportExpenses
 } from '../store/actions/actions';
 
-// console.log(defaults);
 defaults.plugins.legend.position = 'bottom';
 
 function HomePage({ component: Component, ...rest }) {
@@ -44,7 +43,6 @@ function HomePage({ component: Component, ...rest }) {
   );
   const roomData = useSelector((state) => state.room.rooms);
 
-  // Kebutuhan Revenue =======================================================
   let newDataRevenue = [];
   for (let i = 0; i < revenueData.length; i++) {
     const revenue = revenueData[i].total;
