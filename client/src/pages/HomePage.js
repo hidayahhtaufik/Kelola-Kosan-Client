@@ -238,14 +238,14 @@ function HomePage({ component: Component, ...rest }) {
             <Sidebar />
           </Col>
           <Col xs={10} style={{ padding: '20px' }}>
-            <Row className='justify-content-md-center ' id='titlePage'>
+            <Row className='justify-content-md-center'>
               <Col>
                 <h1
                   className='text-center'
-                  id='titleFont'
                   style={{
                     fontWeight: 'bold',
                     fontSize: '50px',
+                    color: '#343F56',
                   }}
                 >
                   Dashboard
@@ -272,6 +272,7 @@ function HomePage({ component: Component, ...rest }) {
                     // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
+                    color: '#343F56',
                   }}
                 >
                   Grafik Income
@@ -295,7 +296,6 @@ function HomePage({ component: Component, ...rest }) {
                           <td>
                             Rp.{' '}
                             {newDataRevenue[numberMonth()]?.toLocaleString()}{' '}
-                            /month
                           </td>
                         </tr>
                       </tbody>
@@ -305,7 +305,6 @@ function HomePage({ component: Component, ...rest }) {
                           <td>
                             Rp.{' '}
                             {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
-                            /month
                           </td>
                         </tr>
                       </tbody>
@@ -348,6 +347,7 @@ function HomePage({ component: Component, ...rest }) {
                     // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
+                    color: '#343F56',
                   }}
                 >
                   Grafik Occupancy
@@ -396,12 +396,20 @@ function HomePage({ component: Component, ...rest }) {
 
                 <div style={{ alignSelf: 'flex-center' }}>
                   <Button
-                    className='m-3'
-                    variant='primary'
+                    className='mr-2'
+                    variant='primary shadow'
                     onClick={() => {
                       handleShowAddForm();
                     }}
                   >
+                    <MdIcons.MdAdd
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
                     Input Expanse
                   </Button>
                   <Button
@@ -409,12 +417,16 @@ function HomePage({ component: Component, ...rest }) {
                       console.log('clicked');
                       handleExportToPdf();
                     }}
-                    variant='info'
+                    variant='info shadow'
                   >
-                    <GrIcons.GrDocumentPdf
-                      style={{ color: 'white' }}
-                      size={'1em'}
-                    />{' '}
+                    <MdIcons.MdFileDownload
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
                     Export To PDF
                   </Button>
                 </div>
