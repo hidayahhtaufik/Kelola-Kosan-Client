@@ -77,6 +77,7 @@ export const createExpenses = (payload) => {
       })
       .then((_) => {
         console.log(payload, 'aaazz');
+        dispatch(fetchReportExpenses());
         return dispatch(fetchExpenses());
       })
       .catch((err) => console.log(err));
@@ -92,6 +93,7 @@ export const updateExpenses = (id, payload) => {
         },
       })
       .then((_) => {
+        dispatch(fetchReportExpenses());
         return dispatch(fetchExpenses());
       })
       .catch((err) => console.log(err));
@@ -107,6 +109,7 @@ export const deleteExpense = (id) => {
         },
       })
       .then((_) => {
+        dispatch(fetchReportExpenses());
         return dispatch(fetchExpenses());
       })
       .catch((err) => console.log(err));
@@ -414,3 +417,22 @@ export const fetchReportPayment = () => {
       .catch((err) => console.log(err));
   };
 };
+
+export const fetchReportExpenses = () => {
+  return (dispatch) => {
+    axios.get(`expenses/reportExpense`, {
+      headers: {
+        access_token: localStorage.getItem("access_token")
+      }
+    }
+    )
+    .then(response => {
+      console.log(response, "+++++++++++++++++++++++ INI REPORT EXPENSES");
+      let expenseReport = response.data;
+      dispatch({type: "REPORTEXPENSES/FETCH", payload: expenseReport});
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+}

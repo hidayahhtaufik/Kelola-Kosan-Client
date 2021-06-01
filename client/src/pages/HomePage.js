@@ -27,6 +27,7 @@ import {
   deleteExpense,
   fetchPayment,
   fetchReportPayment,
+  fetchReportExpenses
 } from '../store/actions/actions';
 
 // console.log(defaults);
@@ -37,6 +38,7 @@ function HomePage({ component: Component, ...rest }) {
 
   const revenueData = useSelector((state) => state.revenue.revenues);
   const expenseData = useSelector((state) => state.expense.expenses);
+  const reportExpenseData = useSelector((state) => state.expense.reportExpenses);
   const reportPaymentData = useSelector(
     (state) => state.payment.reportPayments
   );
@@ -55,6 +57,12 @@ function HomePage({ component: Component, ...rest }) {
 
   reportPaymentData.map((data) => {
     newDataPayment[data.month - 1] = data.totalPaid;
+  });
+
+  let dataExpenseReport = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  reportExpenseData.map((data) => {
+    dataExpenseReport[data.month - 1] = data.totalExpense;
   });
 
   console.log(newDataPayment);
@@ -120,7 +128,7 @@ function HomePage({ component: Component, ...rest }) {
     const expense = expenseData[i].total;
     newDataExpenseBar.push(expense);
   }
-  console.log(newDataExpenseBar, '<<< Data Baru Graph');
+  
 
   // ? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense
 
@@ -128,7 +136,7 @@ function HomePage({ component: Component, ...rest }) {
   let emptyStatus = 0;
   let maintenaceStatus = 0;
   let occupiedStatus = 0;
-  console.log(roomData, '<<< Di Home Room');
+ 
   for (let i = 0; i < roomData.length; i++) {
     const statusRoom = roomData[i].status;
 
@@ -174,7 +182,7 @@ function HomePage({ component: Component, ...rest }) {
         // data: [
         //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
         // ],
-        data: newDataExpenseBar,
+        data: dataExpenseReport,
         fill: false,
         backgroundColor: 'rgba(255, 99, 132)',
         borderColor: 'rgba(255, 99, 132, 1)',
@@ -235,6 +243,7 @@ function HomePage({ component: Component, ...rest }) {
     dispatch(fetchExpenses());
     dispatch(fetchPayment());
     dispatch(fetchReportPayment());
+    dispatch(fetchReportExpenses());
   }, []);
 
   return (

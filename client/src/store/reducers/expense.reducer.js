@@ -1,5 +1,6 @@
 const initialState = {
   expenses: [],
+  reportExpenses: []
 };
 
 const expensesReducer = (state = initialState, action) => {
@@ -7,8 +8,9 @@ const expensesReducer = (state = initialState, action) => {
 
   switch (type) {
     case 'EXPENSES/FETCH':
-      console.log(payload, '<<<<< DI STORE EXPENSES');
       return { ...state, expenses: payload };
+    case 'REPORTEXPENSES/FETCH':
+      return { ...state, reportExpenses: payload };
     default:
       return state;
   }
