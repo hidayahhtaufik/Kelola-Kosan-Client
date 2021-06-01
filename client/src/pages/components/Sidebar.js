@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
+import { Nav, Image } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import * as RiIcons from 'react-icons/ri';
@@ -7,6 +7,7 @@ import * as BsIcons from 'react-icons/bs';
 import * as IoIcons from 'react-icons/io5';
 import * as IoIcons4 from 'react-icons/io';
 import * as MdIcons from 'react-icons/md';
+import logo from '../components/Logo.png';
 import './Sidebar.css';
 
 const Side = (props, navigation) => {
@@ -25,13 +26,20 @@ const Side = (props, navigation) => {
         defaultActiveKey='/'
         variant='pills'
       >
-        <div className='sidebar-sticky'>
-          <h3
+        <div className='sidebar-sticky align-content-center text-center'>
+          {/* <h3
             className='ml-2 mb-3 text-center'
             style={{ color: '#f54748', fontWeight: 'bold' }}
           >
             MangKosan
-          </h3>
+          </h3> */}
+          <Image
+            src={logo}
+            className='rounded text-center'
+            alt='mangkosan.png'
+            style={{ width: '60%', alignItems: 'center' }}
+            rounded
+          />
         </div>
         <hr />
         <div className='navb'>
