@@ -4,7 +4,10 @@ import Sidebar from './components/Sidebar';
 import { _, Grid } from 'gridjs-react';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
-import { newMonth, numberMonth } from '../helpers/helpers';
+import * as GrIcons from 'react-icons/gr';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { newMonth, numberMonth, month } from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
@@ -18,7 +21,7 @@ import {
   Form,
   Table,
 } from 'react-bootstrap';
-import { Doughnut, Bar, defaults } from 'react-chartjs-2';
+import { Doughnut, Bar, defaults, Pie } from 'react-chartjs-2';
 import {
   fetchRevenue,
   fetchRoom,
@@ -26,17 +29,21 @@ import {
   createExpenses,
   updateExpenses,
   deleteExpense,
+  fetchPayment,
+  fetchReportPayment,
 } from '../store/actions/actions';
 
 // console.log(defaults);
-defaults.plugins.legend.position = 'top';
+defaults.plugins.legend.position = 'bottom';
 
 function HomePage({ component: Component, ...rest }) {
   const dispatch = useDispatch();
 
   const revenueData = useSelector((state) => state.revenue.revenues);
   const expenseData = useSelector((state) => state.expense.expenses);
-
+  const reportPaymentData = useSelector(
+    (state) => state.payment.reportPayments
+  );
   const roomData = useSelector((state) => state.room.rooms);
 
   // Kebutuhan Revenue =======================================================
@@ -47,6 +54,14 @@ function HomePage({ component: Component, ...rest }) {
   }
   console.log(revenueData, '<<< DI Home Revenue');
   console.log(newDataRevenue, '<<< Data Baru Revenue');
+
+  let newDataPayment = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  reportPaymentData.map((data) => {
+    newDataPayment[data.month - 1] = data.totalPaid;
+  });
+
+  console.log(newDataPayment);
 
   // Kebutuhan Expense ======================================================
   // ? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HOME Expense
@@ -151,7 +166,8 @@ function HomePage({ component: Component, ...rest }) {
         // data: [
         //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
         // ],
-        data: newDataRevenue,
+        // data: newDataRevenue,
+        data: newDataPayment,
         fill: false,
         backgroundColor: 'rgba(75, 192, 192)',
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -185,25 +201,44 @@ function HomePage({ component: Component, ...rest }) {
           'rgba(255, 206, 86, 0.8)',
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
+          'rgba(255, 99, 132)',
+          'rgba(54, 162, 235)',
+          'rgba(255, 206, 86)',
         ],
         borderWidth: 1,
+        hoverOffset: 10,
+        radius: '90%',
       },
     ],
   };
   console.log(rest, 'INI REST DI HOME');
+
+  const handleExportToPdf = () => {
+    const doc = new jsPDF();
+
+    doc.text('Expense Report', 85, 10);
+    doc.autoTable({
+      head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
+      body: newDataExpense.map((t) => {
+        return [
+          t.id,
+          t.title,
+          month(t.month),
+          t.year,
+          `Rp. ${t.total?.toLocaleString()}`,
+        ];
+      }),
+    });
+
+    doc.save('expense_report.pdf');
+  };
+
   useEffect(() => {
     dispatch(fetchRevenue());
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchRoom());
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchExpenses());
+    dispatch(fetchPayment());
+    dispatch(fetchReportPayment());
   }, []);
 
   return (
@@ -214,14 +249,14 @@ function HomePage({ component: Component, ...rest }) {
             <Sidebar />
           </Col>
           <Col xs={10} style={{ padding: '20px' }}>
-            <Row className='justify-content-md-center ' id='titlePage'>
+            <Row className='justify-content-md-center'>
               <Col>
                 <h1
                   className='text-center'
-                  id='titleFont'
                   style={{
                     fontWeight: 'bold',
                     fontSize: '50px',
+                    color: '#343F56',
                   }}
                 >
                   Dashboard
@@ -248,6 +283,7 @@ function HomePage({ component: Component, ...rest }) {
                     // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
+                    color: '#343F56',
                   }}
                 >
                   Grafik Income
@@ -270,8 +306,7 @@ function HomePage({ component: Component, ...rest }) {
                           <td>Income:</td>
                           <td>
                             Rp.{' '}
-                            {newDataRevenue[numberMonth()]?.toLocaleString()}{' '}
-                            /month
+                            {newDataPayment[numberMonth()]?.toLocaleString()}{' '}
                           </td>
                         </tr>
                       </tbody>
@@ -281,7 +316,6 @@ function HomePage({ component: Component, ...rest }) {
                           <td>
                             Rp.{' '}
                             {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
-                            /month
                           </td>
                         </tr>
                       </tbody>
@@ -291,7 +325,7 @@ function HomePage({ component: Component, ...rest }) {
                           <td>
                             Rp.{' '}
                             {Number(
-                              newDataRevenue[numberMonth()] -
+                              newDataPayment[numberMonth()] -
                                 newDataExpenseBar[numberMonth()]
                             )?.toLocaleString()}
                           </td>
@@ -324,6 +358,7 @@ function HomePage({ component: Component, ...rest }) {
                     // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
+                    color: '#343F56',
                   }}
                 >
                   Grafik Occupancy
@@ -370,22 +405,51 @@ function HomePage({ component: Component, ...rest }) {
                   Expense Table
                 </h3>
 
-                <Button
-                  // style={{ margin: '0.5rem' }}
-                  variant='primary'
-                  onClick={handleShowAddForm}
-                >
-                  Input Expanse
-                </Button>
+                <div style={{ alignSelf: 'flex-center' }}>
+                  <Button
+                    className='mr-2'
+                    variant='primary shadow'
+                    onClick={() => {
+                      handleShowAddForm();
+                    }}
+                  >
+                    <MdIcons.MdAdd
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
+                    Input Expanse
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      console.log('clicked');
+                      handleExportToPdf();
+                    }}
+                    variant='info shadow'
+                  >
+                    <MdIcons.MdFileDownload
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
+                    Export To PDF
+                  </Button>
+                </div>
 
                 <Grid
                   data={newDataExpense.map((e, index) => {
                     return [
                       index + 1,
                       e.title,
-                      e.month,
+                      month(e.month),
                       e.year,
-                      e.total,
+                      `Rp. ${e.total?.toLocaleString()}`,
                       _(
                         <>
                           {' '}

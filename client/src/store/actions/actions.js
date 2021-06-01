@@ -189,25 +189,25 @@ export const deleteRoom = (id) => {
     axios
       .delete(`/rooms/${id}`, {
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
       .then((_) => {
         return dispatch(fetchRoom());
       })
       .catch((err) => {
-        console.log(err, 'error del room')
-      })
-  }
-}
+        console.log(err, 'error del room');
+      });
+  };
+};
 
 export const createRoom = (payload) => {
   return (dispatch) => {
     axios
       .post('/rooms', payload, {
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
       .then(response => {
         console.log(response, 'action respon')
@@ -275,49 +275,59 @@ export const fetchTenant = () => {
   };
 };
 
-export const createTenant = payload => {
-  return(dispatch) => {
+export const createTenant = (payload) => {
+  return (dispatch) => {
     axios
       .post('/tenant', payload, {
         headers: {
           access_token: localStorage.access_token,
         },
       })
-      .then( _ => {
-        return dispatch(fetchTenant())
+      .then((_) => {
+        return dispatch(fetchTenant());
       })
-      .catch(err => console.log(err))
-  }
-}
+      .catch((err) => console.log(err));
+  };
+};
 
 export const updateTenant = (id, payload) => {
-  return(dispatch) => {
+  return (dispatch) => {
     axios
       .put(`/tenant/${id}`, payload, {
         headers: {
           access_token: localStorage.access_token,
         },
       })
-      .then( _ => { return dispatch(fetchTenant()) })
-      .catch(err => console.log(err))
-  }
-}
+      .then((_) => {
+        return dispatch(fetchTenant());
+      })
+      .catch((err) => console.log(err));
+  };
+};
 
-export const deleteTenant = id => {
-  return(dispatch) => {
+export const deleteTenant = (id) => {
+  return (dispatch) => {
     axios
       .delete(`/tenant/${id}`, {
         headers: {
           access_token: localStorage.access_token,
         },
       })
-      .then( _ => {return dispatch(fetchTenant())})
-      .catch(err => console.log(err))
-  }
-}
+      .then((_) => {
+        return dispatch(fetchTenant());
+      })
+      .catch((err) => console.log(err));
+  };
+};
 
 // POST REGISTER USER ========================================================
-export const userRegister = (email, username, password, fullname, bankAccount) => {
+export const userRegister = (
+  email,
+  username,
+  password,
+  fullname,
+  bankAccount
+) => {
   // console.log(email, username, password, 'masyuk cuy')
   return (dispatch) => {
     axios
@@ -326,7 +336,7 @@ export const userRegister = (email, username, password, fullname, bankAccount) =
         username,
         password,
         fullname,
-        bankAccount
+        bankAccount,
       })
       .then((response) => {
         console.log(response, ' ini response register user');
@@ -405,6 +415,25 @@ export const updatePayment = (payload) => {
         const updatedData = response.data.updatedData;
         console.log(updatedData, 'INI ACTION UPDATE PAYMENT');
         return dispatch(fetchPayment());
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const fetchReportPayment = () => {
+  return (dispatch) => {
+    axios
+      .get('payments/reportPayment', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((response) => {
+        console.log(response.data, 'DI ACTION >>>>>>>>>>');
+        return dispatch({
+          type: 'PAYMENTREPORT/FETCH',
+          payload: response.data,
+        });
       })
       .catch((err) => console.log(err));
   };

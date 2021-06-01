@@ -5,7 +5,7 @@ import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
-import jsPDF from 'jspdf'
+import jsPDF from 'jspdf';
 // import * as AiIcons from 'react-icons/ai';
 import styles from './styling/payment.module.css';
 import {
@@ -133,26 +133,26 @@ function PaymentPage() {
     dispatch(fetchRoom());
   }, []);
 
-
   const handleExportToPdf = () => {
-    const doc = new jsPDF()
+    const doc = new jsPDF();
 
-    doc.text("List of Payments", 85, 10)
+    doc.text('List of Payments', 85, 10);
     doc.autoTable({
       head: [['No.', 'Name', 'Month', 'Year', 'Next Due Date', 'Paid Cash']],
-      body: 
-        paymentData.map(e => {
-          return(
-            [ e.id, e.Tenant.name, e.month, e.year, dateOnly(e.nextDueDate), `Rp. ${e.paidCash?.toLocaleString()}` ]
-          )
-        }),
-      
-    })
-    
-    doc.save('Payments_Tabel.pdf')
-  }
+      body: paymentData.map((e) => {
+        return [
+          e.id,
+          e.Tenant.name,
+          e.month,
+          e.year,
+          dateOnly(e.nextDueDate),
+          `Rp. ${e.paidCash?.toLocaleString()}`,
+        ];
+      }),
+    });
 
-
+    doc.save('Payments_Tabel.pdf');
+  };
 
   return (
     <>
@@ -161,108 +161,159 @@ function PaymentPage() {
           <Col xs={2}>
             <Sidebar />
           </Col>
-          <Col
-            xs={10}
-           style={{ padding: "20px"}}
-          >
+          <Col xs={10} style={{ padding: '20px' }}>
             <Row
               className='justify-content-md-center'
               style={{ padding: '20px', borderRadius: 20 }}
             >
-              <h1 className={styles.title}>Payments</h1>
+              <h1
+                // className={styles.title}
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: '50px',
+                  color: '#343F56',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                Payments
+              </h1>
             </Row>
             <Row
               className='m-5 flex-column'
-              style={{ paddingLeft: '30px', paddingRight: '30px', borderRadius: 20}}
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 30,
+                padding: '10px',
+              }}
             >
-              <Button
-                onClick={() => {
-                  console.log('clicked');
-                  handleShowAdd();
-                }}
-                style={{ marginTop: 30, color: '77acf1', alignSelf: 'flex-end'}}
-              >
-                Add Payment
-              </Button>
-              <Grid
-                data={newDataPayment.map((e, index) => {
-                  const monthYear = `${e.month}-${e.year}`;
-                  const yearPaid = `Rp. ${e.paidCash?.toLocaleString()}`
-                  return [
-                    index + 1,
-                    e.Tenant.name,
-                    monthYear,
-                    dateOnly(e.nextDueDate),
-                    yearPaid,
-                    e.Room.number,
-                    _(
-                      <>
-                        {' '}
-                        <Button
-                          variant={'info'}
-                          size='sm'
-                          onClick={() => handleEditButton(e)}
-                        >
-                          <FaIcons.FaEdit />
-                        </Button>{' '}
-                        <Button
-                          variant={'danger'}
-                          size='sm'
-                          onClick={() => handleDeletePayment(e.id)}
-                        >
-                          <MdIcons.MdDelete />
-                        </Button>{' '}
-                      </>
-                    ),
-                  ];
-                })}
-                columns={[
-                  'No',
-                  'Name',
-                  'Month',
-                  'Next DueDate',
-                  'Paid Cash',
-                  'No.Room',
-                  'Action'
-                ]}
-                sort={true}
-                search={true}
-                pagination={{
-                  enabled: true,
-                  limit: 5,
-                  summary: false,
-                }}
+              <Col
+                className='m-2 d-flex align-items-center'
                 style={{
-                  table: {
-                    color: '#343f56',
-                    'justify-content': 'center',
-                    'text-align': 'center',
-
-                  },
-                  th: {
-                    'background-color': '#343F56',
-                    color: '#FFF',
-                    'text-align': 'center'
-                  },
-                  td: {
-                    'background-color': '##EEF3F8'
-                  },
-                  footer: {
-                    'background-color': '#343F56'
-                  }
+                  flexDirection: 'column',
+                  padding: '20px',
                 }}
-              ></Grid>
-              <div style={{ alignSelf: 'flex-end' }}>
-                <Button
-                  onClick={() => { 
-                    console.log('clicked');
-                    handleExportToPdf()
+              >
+                <h3
+                  className='text-center mb-3'
+                  style={{
+                    // border: 'solid',
+                    // borderColor: 'red',
+                    padding: '10px',
+                    fontWeight: 'bold',
+                    color: '#343F56',
                   }}
-                  variant="light"
                 >
-                  Export To PDF
-                </Button>
-              </div>
+                  Payments Table
+                </h3>
+                <div style={{ alignSelf: 'flex-center' }}>
+                  <Button
+                    className='mr-2'
+                    variant='primary shadow'
+                    onClick={() => {
+                      console.log('clicked');
+                      handleShowAdd();
+                    }}
+                    style={{
+                      color: '77acf1',
+                    }}
+                  >
+                    <MdIcons.MdAdd
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
+                    Add Payment
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      console.log('clicked');
+                      handleExportToPdf();
+                    }}
+                    variant='info shadow'
+                  >
+                    <MdIcons.MdFileDownload
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
+                    Export To PDF
+                  </Button>
+                </div>
+                <Grid
+                  data={newDataPayment.map((e, index) => {
+                    const monthYear = `${e.month}-${e.year}`;
+                    const yearPaid = `Rp. ${e.paidCash?.toLocaleString()}`;
+                    return [
+                      index + 1,
+                      e.Tenant.name,
+                      monthYear,
+                      dateOnly(e.nextDueDate),
+                      yearPaid,
+                      e.Room.number,
+                      _(
+                        <>
+                          {' '}
+                          <Button
+                            variant={'info'}
+                            size='sm'
+                            onClick={() => handleEditButton(e)}
+                          >
+                            <FaIcons.FaEdit />
+                          </Button>{' '}
+                          <Button
+                            variant={'danger'}
+                            size='sm'
+                            onClick={() => handleDeletePayment(e.id)}
+                          >
+                            <MdIcons.MdDelete />
+                          </Button>{' '}
+                        </>
+                      ),
+                    ];
+                  })}
+                  columns={[
+                    'No',
+                    'Name',
+                    'Month',
+                    'Next DueDate',
+                    'Paid Cash',
+                    'No.Room',
+                    'Action',
+                  ]}
+                  sort={true}
+                  search={true}
+                  pagination={{
+                    enabled: true,
+                    limit: 5,
+                    summary: false,
+                  }}
+                  style={{
+                    table: {
+                      color: '#343f56',
+                      'justify-content': 'center',
+                      'text-align': 'center',
+                    },
+                    th: {
+                      'background-color': '#343F56',
+                      color: '#FFF',
+                      'text-align': 'center',
+                    },
+                    td: {
+                      'background-color': '##EEF3F8',
+                    },
+                    footer: {
+                      'background-color': '#343F56',
+                    },
+                  }}
+                ></Grid>
+              </Col>
             </Row>
           </Col>
         </Row>
@@ -299,12 +350,8 @@ function PaymentPage() {
                       Open this select Room
                     </option>
                     {roomData.map((e) => {
-                      return e.status === 'empty' ? (
+                      return (
                         <option key={e.id} value={e.id}>
-                          {e.number}
-                        </option>
-                      ) : (
-                        <option key={e.id} defaultValue={e.id} disabled>
                           {e.number}
                         </option>
                       );
