@@ -78,7 +78,15 @@ function ProfilePage() {
             <Sidebar />
           </Col>
           {loading ? (
-            <h1>Loading..</h1>
+            <Col
+              xs={10}
+              style={{ padding: '20px' }}
+              className='align-self-center'
+            >
+              <Row className='justify-content-md-center align-content-center mb-2'>
+                <h1>Loading..</h1>
+              </Row>
+            </Col>
           ) : (
             <Col xs={10} style={{ padding: '20px' }}>
               <Row
@@ -89,6 +97,7 @@ function ProfilePage() {
                   style={{
                     fontWeight: 'bold',
                     fontSize: '50px',
+                    color: '#343F56',
                   }}
                 >
                   Property Profile
