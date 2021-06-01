@@ -1,5 +1,5 @@
 import axios from '../../API/axios'; // ganti pake axios
-import baseUrl from '../../API/baseUrl';
+// import baseUrl from '../../API/baseUrl';
 // const RevenueDB = 'http://localhost:4000/revenues';
 // const expensesDB = 'http://localhost:4000/expenses';
 // const RoomDB = 'http://localhost:4000/rooms';
@@ -184,6 +184,35 @@ export const fetchRoom = () => {
   };
 };
 
+export const deleteRoom = (id) => {
+  return (dispatch) => {
+    axios
+      .delete(`/rooms/${id}`, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((_) => {
+        return dispatch(fetchRoom());
+      })
+      .catch((err) => {
+        console.log(err, 'error del room');
+      });
+  };
+};
+
+export const createRoom = (payload) => {
+  return (dispatch) => {
+    axios
+      .post('/rooms', payload, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then()
+      .catch();
+  };
+};
 export const changeRoomStatus = (payload) => {
   const { roomId, status } = payload;
   console.log(payload);
@@ -222,58 +251,71 @@ export const fetchTenant = () => {
   };
 };
 
-export const createTenant = payload => {
-  return(dispatch) => {
+export const createTenant = (payload) => {
+  return (dispatch) => {
     axios
       .post('/tenant', payload, {
         headers: {
           access_token: localStorage.access_token,
         },
       })
-      .then( _ => {
-        return dispatch(fetchTenant())
+      .then((_) => {
+        return dispatch(fetchTenant());
       })
-      .catch(err => console.log(err))
-  }
-}
+      .catch((err) => console.log(err));
+  };
+};
 
 export const updateTenant = (id, payload) => {
-  return(dispatch) => {
+  return (dispatch) => {
     axios
       .put(`/tenant/${id}`, payload, {
         headers: {
           access_token: localStorage.access_token,
         },
       })
-      .then( _ => { return dispatch(fetchTenant()) })
-      .catch(err => console.log(err))
-  }
-}
+      .then((_) => {
+        return dispatch(fetchTenant());
+      })
+      .catch((err) => console.log(err));
+  };
+};
 
-export const deleteTenant = id => {
-  return(dispatch) => {
+export const deleteTenant = (id) => {
+  return (dispatch) => {
     axios
       .delete(`/tenant/${id}`, {
         headers: {
           access_token: localStorage.access_token,
         },
       })
-      .then( _ => {return dispatch(fetchTenant())})
-      .catch(err => console.log(err))
-  }
-}
+      .then((_) => {
+        return dispatch(fetchTenant());
+      })
+      .catch((err) => console.log(err));
+  };
+};
 
 // POST REGISTER USER ========================================================
-export const userRegister = (email, username, password) => {
+export const userRegister = (
+  email,
+  username,
+  password,
+  fullName,
+  bankAccount
+) => {
+  // console.log(email, username, password, 'masyuk cuy')
   return (dispatch) => {
     axios
       .post('/register', {
         email,
         username,
         password,
+        fullName,
+        bankAccount,
       })
       .then((response) => {
-        console.log(response, ' ini response register user cuk');
+        console.log(response, ' ini response register user');
       })
       .catch((err) => {
         console.log(err, 'err reg user fakk');

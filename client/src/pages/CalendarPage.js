@@ -16,12 +16,21 @@ function CalendarPage() {
     <>
       <Container fluid>
         <Row>
-          <Col xs={2} id='sidebar-wrapper'>
+          <Col xs={2}>
             <Sidebar />
           </Col>
-          <Col xs={10} id='page-content-wrapper'>
+          <Col xs={10} style={{ padding: '20px' }}>
             <Row className='justify-content-md-center'>
-              <h1>Halaman Calendar</h1>
+              <h1
+                className='text-center'
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: '50px',
+                  color: '#343F56',
+                }}
+              >
+                Calendar
+              </h1>
             </Row>
           </Col>
         </Row>

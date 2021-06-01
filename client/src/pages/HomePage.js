@@ -4,7 +4,10 @@ import Sidebar from './components/Sidebar';
 import { _, Grid } from 'gridjs-react';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
-import { newMonth, numberMonth } from '../helpers/helpers';
+import * as GrIcons from 'react-icons/gr';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { newMonth, numberMonth, month } from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
@@ -194,6 +197,27 @@ function HomePage({ component: Component, ...rest }) {
     ],
   };
   console.log(rest, 'INI REST DI HOME');
+
+  const handleExportToPdf = () => {
+    const doc = new jsPDF();
+
+    doc.text('Expense Report', 85, 10);
+    doc.autoTable({
+      head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
+      body: newDataExpense.map((t) => {
+        return [
+          t.id,
+          t.title,
+          month(t.month),
+          t.year,
+          `Rp. ${t.total?.toLocaleString()}`,
+        ];
+      }),
+    });
+
+    doc.save('expense_report.pdf');
+  };
+
   useEffect(() => {
     dispatch(fetchRevenue());
   }, []);
@@ -214,14 +238,14 @@ function HomePage({ component: Component, ...rest }) {
             <Sidebar />
           </Col>
           <Col xs={10} style={{ padding: '20px' }}>
-            <Row className='justify-content-md-center ' id='titlePage'>
+            <Row className='justify-content-md-center'>
               <Col>
                 <h1
                   className='text-center'
-                  id='titleFont'
                   style={{
                     fontWeight: 'bold',
                     fontSize: '50px',
+                    color: '#343F56',
                   }}
                 >
                   Dashboard
@@ -248,6 +272,7 @@ function HomePage({ component: Component, ...rest }) {
                     // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
+                    color: '#343F56',
                   }}
                 >
                   Grafik Income
@@ -271,7 +296,6 @@ function HomePage({ component: Component, ...rest }) {
                           <td>
                             Rp.{' '}
                             {newDataRevenue[numberMonth()]?.toLocaleString()}{' '}
-                            /month
                           </td>
                         </tr>
                       </tbody>
@@ -281,7 +305,6 @@ function HomePage({ component: Component, ...rest }) {
                           <td>
                             Rp.{' '}
                             {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
-                            /month
                           </td>
                         </tr>
                       </tbody>
@@ -324,6 +347,7 @@ function HomePage({ component: Component, ...rest }) {
                     // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
+                    color: '#343F56',
                   }}
                 >
                   Grafik Occupancy
@@ -370,22 +394,51 @@ function HomePage({ component: Component, ...rest }) {
                   Expense Table
                 </h3>
 
-                <Button
-                  // style={{ margin: '0.5rem' }}
-                  variant='primary'
-                  onClick={handleShowAddForm}
-                >
-                  Input Expanse
-                </Button>
+                <div style={{ alignSelf: 'flex-center' }}>
+                  <Button
+                    className='mr-2'
+                    variant='primary shadow'
+                    onClick={() => {
+                      handleShowAddForm();
+                    }}
+                  >
+                    <MdIcons.MdAdd
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
+                    Input Expanse
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      console.log('clicked');
+                      handleExportToPdf();
+                    }}
+                    variant='info shadow'
+                  >
+                    <MdIcons.MdFileDownload
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
+                    Export To PDF
+                  </Button>
+                </div>
 
                 <Grid
                   data={newDataExpense.map((e, index) => {
                     return [
                       index + 1,
                       e.title,
-                      e.month,
+                      month(e.month),
                       e.year,
-                      e.total,
+                      `Rp. ${e.total?.toLocaleString()}`,
                       _(
                         <>
                           {' '}
