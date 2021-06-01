@@ -94,19 +94,19 @@ const Side = (props, navigation) => {
             </Nav.Link>
           </Nav.Item>
         </div>
-        <div className='navb'>
+        {/* <div className='navb'>
           <Nav.Item
             // className='nav'
             onClick={() => {
-              History.push('/calendar');
+              History.push('/history');
             }}
           >
             <Nav.Link style={{ color: 'white' }}>
               <IoIcons.IoCalendar size={20} />
-              <span>Calendar</span>
+              <span>History</span>
             </Nav.Link>
           </Nav.Item>
-        </div>
+        </div> */}
         <div className='navb'>
           <Nav.Item
             // className='nav'

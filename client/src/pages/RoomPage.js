@@ -13,7 +13,12 @@ import { _, Grid } from 'gridjs-react';
 import Sidebar from './components/Sidebar';
 import styles from './styling/room.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchRoom, deleteRoom, createRoom, updateRoom } from '../store/actions/actions';
+import {
+  fetchRoom,
+  deleteRoom,
+  createRoom,
+  updateRoom,
+} from '../store/actions/actions';
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import * as MdIcons from 'react-icons/md';
@@ -33,15 +38,14 @@ function Room() {
   const [addRoomType, setAddRoomType] = useState('');
   const [addRoomPrice, setAddRoomPrice] = useState(0);
 
-  const [showEditForm, setShowEditForm] = useState(false)
-  const handleCloseEditForm = () => setShowEditForm(false)
-  
-  const [editRoomId, setEditRoomId] = useState()
-  const [editRoomNumber, setEditRoomNumber] = useState()
-  const [editRoomStatus, setEditRoomStatus] = useState()
-  const [editRoomType, setEditRoomType] = useState()
-  const [editRoomPrice, setEditRoomPrice] = useState()
+  const [showEditForm, setShowEditForm] = useState(false);
+  const handleCloseEditForm = () => setShowEditForm(false);
 
+  const [editRoomId, setEditRoomId] = useState();
+  const [editRoomNumber, setEditRoomNumber] = useState();
+  const [editRoomStatus, setEditRoomStatus] = useState();
+  const [editRoomType, setEditRoomType] = useState();
+  const [editRoomPrice, setEditRoomPrice] = useState();
 
   let standartRoom = 0;
   let deluxeRoom = 0;
@@ -67,25 +71,25 @@ function Room() {
   };
 
   function handleAddSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     let payload = {
       number: addRoomNumber,
       status: addRoomStatus,
-      type: addRoomType
-    }
-    setAddRoomNumber(0)
-    dispatch(createRoom(payload))
-    handleCloseAddForm()
+      type: addRoomType,
+    };
+    setAddRoomNumber(0);
+    dispatch(createRoom(payload));
+    handleCloseAddForm();
   }
 
   const handleShowEditRoomForm = (e) => {
-    setEditRoomId(e.id)
-    setEditRoomNumber(e.number)
-    setEditRoomStatus(e.status)
-    setEditRoomType(e.type)
-    setEditRoomPrice(e.price)
-    setShowEditForm(true)
-  }
+    setEditRoomId(e.id);
+    setEditRoomNumber(e.number);
+    setEditRoomStatus(e.status);
+    setEditRoomType(e.type);
+    setEditRoomPrice(e.price);
+    setShowEditForm(true);
+  };
 
   const handleEditSubmit = () => {
     let newPayload = {
@@ -93,12 +97,12 @@ function Room() {
       number: editRoomNumber,
       status: editRoomStatus,
       type: editRoomType,
-      price: editRoomPrice
-    }
-    console.log(newPayload)
-    dispatch(updateRoom(newPayload, editRoomId))
-    handleCloseEditForm()
-  }
+      price: editRoomPrice,
+    };
+    console.log(newPayload);
+    dispatch(updateRoom(newPayload, editRoomId));
+    handleCloseEditForm();
+  };
 
   return (
     <Container fluid>
@@ -110,7 +114,6 @@ function Room() {
           <Row className='justify-content-md-center mb-3'>
             <h1 className={styles.title}>Rooms</h1>
           </Row>
-          
 
           <div className='m-5'>
             <Card className={styles.card}>
@@ -178,7 +181,7 @@ function Room() {
                 </Button>
               </div>
               <Grid
-                data={rooms.map((e) => {
+                data={rooms?.map((e) => {
                   return [
                     e.number,
                     e.status.toUpperCase(),
@@ -191,7 +194,9 @@ function Room() {
                           variant={'primary'}
                           // style={{color: "#fff", background: "#77acf1"}}
                           size='sm'
-                          onClick={() => { handleShowEditRoomForm(e) }}
+                          onClick={() => {
+                            handleShowEditRoomForm(e);
+                          }}
                         >
                           <FaEdit />
                         </Button>{' '}
@@ -251,8 +256,7 @@ function Room() {
             </Modal.Header>
             <Modal.Body>
               <Form>
-
-                <Form.Group controlId='formBasicEmail' className="mb-3">
+                <Form.Group controlId='formBasicEmail' className='mb-3'>
                   <Form.Label>Room Number:</Form.Label>
                   <Form.Control
                     type='number'
@@ -263,7 +267,8 @@ function Room() {
                 </Form.Group>
 
                 <Form.Group className='mb-3'>
-                  <Form.Label>Room Type:</Form.Label><br></br>
+                  <Form.Label>Room Type:</Form.Label>
+                  <br></br>
                   <select
                     className='custom-select'
                     onChange={(e) => setAddRoomType(e.target.value)}
@@ -271,17 +276,14 @@ function Room() {
                     <option selected disabled>
                       Select Room Type
                     </option>
-                    <option value={'standard'}>
-                      Standard Room
-                    </option>
-                    <option value={'deluxe'}>
-                      Deluxe Room
-                    </option>
+                    <option value={'standard'}>Standard Room</option>
+                    <option value={'deluxe'}>Deluxe Room</option>
                   </select>
                 </Form.Group>
 
-                <Form.Group controlId='formBasicEmail' className="mb-3">
-                  <Form.Label>Room Status:</Form.Label><br></br>
+                <Form.Group controlId='formBasicEmail' className='mb-3'>
+                  <Form.Label>Room Status:</Form.Label>
+                  <br></br>
                   <select
                     className='custom-select'
                     onChange={(e) => setAddRoomStatus(e.target.value)}
@@ -289,23 +291,20 @@ function Room() {
                     <option selected disabled>
                       Select Room Status
                     </option>
-                    <option value={'empty'}>
-                      Empty
-                    </option>
-                    <option value={'maintenance'}>
-                      Maintenance
-                    </option>
-                    <option value={'occupied'}>
-                      Occupied
-                    </option>
+                    <option value={'empty'}>Empty</option>
+                    <option value={'maintenance'}>Maintenance</option>
+                    <option value={'occupied'}>Occupied</option>
                   </select>
                 </Form.Group>
-
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseAddForm}>Close</Button>
-              <Button variant='primary' onClick={handleAddSubmit}>Add</Button>
+              <Button variant='secondary' onClick={handleCloseAddForm}>
+                Close
+              </Button>
+              <Button variant='primary' onClick={handleAddSubmit}>
+                Add
+              </Button>
             </Modal.Footer>
           </Modal>
 
@@ -316,13 +315,13 @@ function Room() {
             </Modal.Header>
             <Modal.Body>
               <Form>
-
-                <Form.Group controlId='formBasicEmail' className="mb-3">
+                <Form.Group controlId='formBasicEmail' className='mb-3'>
                   <Form.Label>Room Number:</Form.Label>
                   <Form.Control
-                    type="number" min={1}
+                    type='number'
+                    min={1}
                     defaultValue={editRoomNumber}
-                    onChange={e => setEditRoomNumber(e.target.value)}
+                    onChange={(e) => setEditRoomNumber(e.target.value)}
                   />
                 </Form.Group>
 
@@ -336,16 +335,12 @@ function Room() {
                     <option selected disabled>
                       Select this Room Type
                     </option>
-                    <option value={'standard'}>
-                      Standard Room
-                    </option>
-                    <option value={'deluxe'}>
-                      Deluxe Room
-                    </option>
+                    <option value={'standard'}>Standard Room</option>
+                    <option value={'deluxe'}>Deluxe Room</option>
                   </select>
                 </Form.Group>
 
-                <Form.Group controlId='formBasicEmail' className="mb-3">
+                <Form.Group controlId='formBasicEmail' className='mb-3'>
                   <Form.Label>Room Status:</Form.Label>
                   <select
                     className='custom-select'
@@ -355,36 +350,32 @@ function Room() {
                     <option selected disabled>
                       Select Room Status
                     </option>
-                    <option value={'empty'}>
-                      Empty
-                    </option>
-                    <option value={'maintenance'}>
-                      Maintenance
-                    </option>
-                    <option value={'occupied'}>
-                      Occupied
-                    </option>
+                    <option value={'empty'}>Empty</option>
+                    <option value={'maintenance'}>Maintenance</option>
+                    <option value={'occupied'}>Occupied</option>
                   </select>
                 </Form.Group>
 
-                <Form.Group controlId='formBasicEmail' className="mb-3">
+                <Form.Group controlId='formBasicEmail' className='mb-3'>
                   <Form.Label>Room Price:</Form.Label>
                   <Form.Control
-                    type="number" min={1}
+                    type='number'
+                    min={1}
                     defaultValue={editRoomPrice}
-                    onChange={e => setEditRoomPrice(e.target.value)}
+                    onChange={(e) => setEditRoomPrice(e.target.value)}
                   />
                 </Form.Group>
-
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseEditForm}>Close</Button>
-              <Button variant='primary' onClick={handleEditSubmit}>Confirm</Button>
+              <Button variant='secondary' onClick={handleCloseEditForm}>
+                Close
+              </Button>
+              <Button variant='primary' onClick={handleEditSubmit}>
+                Confirm
+              </Button>
             </Modal.Footer>
           </Modal>
-
-
         </Col>
       </Row>
     </Container>

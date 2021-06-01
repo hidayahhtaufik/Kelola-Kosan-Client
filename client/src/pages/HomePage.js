@@ -286,7 +286,7 @@ function HomePage({ component: Component, ...rest }) {
                     color: '#343F56',
                   }}
                 >
-                  Grafik Income
+                  Income & Outcome
                 </h3>
                 <Row>
                   <Col>
@@ -312,7 +312,7 @@ function HomePage({ component: Component, ...rest }) {
                       </tbody>
                       <tbody>
                         <tr>
-                          <td>Expases:</td>
+                          <td>Expenses:</td>
                           <td>
                             Rp.{' '}
                             {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
@@ -361,7 +361,7 @@ function HomePage({ component: Component, ...rest }) {
                     color: '#343F56',
                   }}
                 >
-                  Grafik Occupancy
+                  Diagram Occupancy
                 </h3>
                 <div
                   // className='d-flex justify-content-center'
@@ -421,7 +421,7 @@ function HomePage({ component: Component, ...rest }) {
                         marginRight: '3px',
                       }}
                     />
-                    Input Expanse
+                    Input Expense
                   </Button>
                   <Button
                     onClick={() => {

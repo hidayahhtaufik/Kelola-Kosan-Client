@@ -11,7 +11,7 @@ import {
   NavDropdown,
 } from 'react-bootstrap';
 
-function CalendarPage() {
+function HistoryPage() {
   return (
     <>
       <Container fluid>
@@ -29,7 +29,7 @@ function CalendarPage() {
                   color: '#343F56',
                 }}
               >
-                Calendar
+                History
               </h1>
             </Row>
           </Col>
@@ -39,4 +39,4 @@ function CalendarPage() {
   );
 }
 
-export default CalendarPage;
+export default HistoryPage;
