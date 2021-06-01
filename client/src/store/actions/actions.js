@@ -184,7 +184,6 @@ export const fetchRoom = () => {
   };
 };
 
-<<<<<<< HEAD
 export const deleteRoom = (id) => {
   return (dispatch) => {
     axios
@@ -210,11 +209,34 @@ export const createRoom = (payload) => {
           access_token: localStorage.access_token
         }
       })
-      .then()
-      .catch()
+      .then(response => {
+        console.log(response, 'action respon')
+        return dispatch(fetchRoom())
+      })
+      .catch(err => {
+        console.log(err, 'err di add actions room')
+      })
   }
 }
-=======
+
+export const updateRoom = (payload, id) => {
+  console.log(id, payload, ' id action rom update')
+  return (dispatch) => {
+    axios
+      .put(`/rooms/${id}`, payload, {
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then(_ => {
+        return dispatch(fetchRoom())
+      })
+      .catch(err => {
+        console.log(err, 'err action edit room')
+      })
+  }
+}
+
 export const changeRoomStatus = (payload) => {
   const { roomId, status } = payload;
   console.log(payload);
@@ -234,7 +256,6 @@ export const changeRoomStatus = (payload) => {
       });
   };
 };
->>>>>>> b98ebb828e9d1505d488f5a88e53f37f2b659d79
 
 // ACTION TENANT ===========================================================
 export const fetchTenant = () => {
@@ -296,7 +317,7 @@ export const deleteTenant = id => {
 }
 
 // POST REGISTER USER ========================================================
-export const userRegister = (email, username, password, fullName, bankAccount) => {
+export const userRegister = (email, username, password, fullname, bankAccount) => {
   // console.log(email, username, password, 'masyuk cuy')
   return (dispatch) => {
     axios
@@ -304,7 +325,7 @@ export const userRegister = (email, username, password, fullName, bankAccount) =
         email,
         username,
         password,
-        fullName,
+        fullname,
         bankAccount
       })
       .then((response) => {
