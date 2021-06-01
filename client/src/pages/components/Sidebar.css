@@ -34,8 +34,9 @@
   text-decoration: none;
   background-color: #fb9300;
   /* font-weight: bold; */
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  /* border-right: 30px; */
   cursor: pointer;
 }
 
