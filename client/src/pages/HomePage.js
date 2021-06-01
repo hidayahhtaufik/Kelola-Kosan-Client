@@ -4,7 +4,6 @@ import Sidebar from './components/Sidebar';
 import { _, Grid } from 'gridjs-react';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
-import * as GrIcons from 'react-icons/gr';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { newMonth, numberMonth, month } from '../helpers/helpers';
@@ -14,14 +13,11 @@ import {
   Row,
   Col,
   Button,
-  Navbar,
-  Nav,
-  NavDropdown,
   Modal,
   Form,
   Table,
 } from 'react-bootstrap';
-import { Doughnut, Bar, defaults, Pie } from 'react-chartjs-2';
+import { Doughnut, Bar, defaults} from 'react-chartjs-2';
 import {
   fetchRevenue,
   fetchRoom,
