@@ -350,12 +350,8 @@ function PaymentPage() {
                       Open this select Room
                     </option>
                     {roomData.map((e) => {
-                      return e.status === 'empty' ? (
+                      return (
                         <option key={e.id} value={e.id}>
-                          {e.number}
-                        </option>
-                      ) : (
-                        <option key={e.id} defaultValue={e.id} disabled>
                           {e.number}
                         </option>
                       );

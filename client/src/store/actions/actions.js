@@ -395,3 +395,22 @@ export const updatePayment = (payload) => {
       .catch((err) => console.log(err));
   };
 };
+
+export const fetchReportPayment = () => {
+  return (dispatch) => {
+    axios
+      .get('payments/reportPayment', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      })
+      .then((response) => {
+        console.log(response.data, 'DI ACTION >>>>>>>>>>');
+        return dispatch({
+          type: 'PAYMENTREPORT/FETCH',
+          payload: response.data,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+};
