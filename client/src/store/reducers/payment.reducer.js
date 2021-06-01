@@ -1,5 +1,6 @@
 const initialState = {
   payments: [],
+  reportPayments: [],
 };
 
 const paymentReducer = (state = initialState, action) => {
@@ -9,6 +10,8 @@ const paymentReducer = (state = initialState, action) => {
     case 'PAYMENT/FETCH':
       console.log(payload, '<<<<< DI STORE PAYMENT');
       return { ...state, payments: payload };
+    case 'PAYMENTREPORT/FETCH':
+      return { ...state, reportPayments: payload };
     default:
       return state;
   }

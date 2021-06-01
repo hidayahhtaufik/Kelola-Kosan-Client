@@ -21,7 +21,7 @@ import {
   Form,
   Table,
 } from 'react-bootstrap';
-import { Doughnut, Bar, defaults } from 'react-chartjs-2';
+import { Doughnut, Bar, defaults, Pie } from 'react-chartjs-2';
 import {
   fetchRevenue,
   fetchRoom,
@@ -29,17 +29,21 @@ import {
   createExpenses,
   updateExpenses,
   deleteExpense,
+  fetchPayment,
+  fetchReportPayment,
 } from '../store/actions/actions';
 
 // console.log(defaults);
-defaults.plugins.legend.position = 'top';
+defaults.plugins.legend.position = 'bottom';
 
 function HomePage({ component: Component, ...rest }) {
   const dispatch = useDispatch();
 
   const revenueData = useSelector((state) => state.revenue.revenues);
   const expenseData = useSelector((state) => state.expense.expenses);
-
+  const reportPaymentData = useSelector(
+    (state) => state.payment.reportPayments
+  );
   const roomData = useSelector((state) => state.room.rooms);
 
   // Kebutuhan Revenue =======================================================
@@ -50,6 +54,14 @@ function HomePage({ component: Component, ...rest }) {
   }
   console.log(revenueData, '<<< DI Home Revenue');
   console.log(newDataRevenue, '<<< Data Baru Revenue');
+
+  let newDataPayment = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  reportPaymentData.map((data) => {
+    newDataPayment[data.month - 1] = data.totalPaid;
+  });
+
+  console.log(newDataPayment);
 
   // Kebutuhan Expense ======================================================
   // ? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HOME Expense
@@ -154,7 +166,8 @@ function HomePage({ component: Component, ...rest }) {
         // data: [
         //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
         // ],
-        data: newDataRevenue,
+        // data: newDataRevenue,
+        data: newDataPayment,
         fill: false,
         backgroundColor: 'rgba(75, 192, 192)',
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -188,11 +201,13 @@ function HomePage({ component: Component, ...rest }) {
           'rgba(255, 206, 86, 0.8)',
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
+          'rgba(255, 99, 132)',
+          'rgba(54, 162, 235)',
+          'rgba(255, 206, 86)',
         ],
         borderWidth: 1,
+        hoverOffset: 10,
+        radius: '90%',
       },
     ],
   };
@@ -220,14 +235,10 @@ function HomePage({ component: Component, ...rest }) {
 
   useEffect(() => {
     dispatch(fetchRevenue());
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchRoom());
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchExpenses());
+    dispatch(fetchPayment());
+    dispatch(fetchReportPayment());
   }, []);
 
   return (
@@ -295,7 +306,7 @@ function HomePage({ component: Component, ...rest }) {
                           <td>Income:</td>
                           <td>
                             Rp.{' '}
-                            {newDataRevenue[numberMonth()]?.toLocaleString()}{' '}
+                            {newDataPayment[numberMonth()]?.toLocaleString()}{' '}
                           </td>
                         </tr>
                       </tbody>
@@ -314,7 +325,7 @@ function HomePage({ component: Component, ...rest }) {
                           <td>
                             Rp.{' '}
                             {Number(
-                              newDataRevenue[numberMonth()] -
+                              newDataPayment[numberMonth()] -
                                 newDataExpenseBar[numberMonth()]
                             )?.toLocaleString()}
                           </td>
