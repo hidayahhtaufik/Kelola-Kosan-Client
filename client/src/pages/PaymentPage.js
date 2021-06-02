@@ -181,10 +181,7 @@ function PaymentPage() {
             <Sidebar />
           </Col>
           <Col xs={10} style={{ padding: '20px' }}>
-            <Row
-              className='justify-content-md-center'
-              style={{ padding: '20px', borderRadius: 20 }}
-            >
+            <Row className='justify-content-md-center'>
               <h1
                 // className={styles.title}
                 style={{
@@ -203,7 +200,7 @@ function PaymentPage() {
               style={{
                 backgroundColor: 'white',
                 borderRadius: 30,
-                padding: '10px',
+                padding: '20px',
               }}
             >
               <Col
@@ -301,7 +298,7 @@ function PaymentPage() {
                     'No',
                     'Name',
                     'Month',
-                    'Next DueDate',
+                    'Due Date',
                     'Paid Cash',
                     'No.Room',
                     'Action',
