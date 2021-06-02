@@ -74,6 +74,11 @@ function HomePage({ component: Component, ...rest }) {
 
   let newDataExpense = [...expenseData];
 
+  console.log(
+    newDataExpense,
+    '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DATA EXPENSE'
+  );
+
   const [expenseAddTitle, setExpenseAddTitle] = useState('');
   const [expenseAddMonth, setExpenseAddMonth] = useState(0);
   const [expenseAddYear, setExpenseAddYear] = useState(0);
@@ -235,35 +240,9 @@ function HomePage({ component: Component, ...rest }) {
     doc.text('Expenses Report', 85, 10);
     doc.autoTable({
       head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
-      body: reportExpenseData.map((t, index) => {
+      body: newDataExpense.map((t, index) => {
         return [
           index + 1,
-          t.title,
-          month(t.month),
-          t.year,
-          `Rp. ${t.totalPaid?.toLocaleString()}`,
-        ];
-      }),
-    });
-
-    doc.save('general_report.pdf');
-  };
-
-  const handleReportPdf = () => {
-    const doc = new jsPDF();
-
-    doc.text('Revenues Report', 85, 10);
-    doc.autoTable({
-      head: [[]],
-    });
-
-    doc.addPage();
-    doc.text('Expense Report', 85, 10);
-    doc.autoTable({
-      head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
-      body: newDataExpense.map((t) => {
-        return [
-          t.id,
           t.title,
           month(t.month),
           t.year,
@@ -272,7 +251,7 @@ function HomePage({ component: Component, ...rest }) {
       }),
     });
 
-    doc.save('expense_report.pdf');
+    doc.save('general_report.pdf');
   };
 
   useEffect(() => {
