@@ -178,8 +178,6 @@ function HistoryPage() {
                 <h3
                   className='text-center mb-3'
                   style={{
-                    // border: 'solid',
-                    // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
                   }}
