@@ -219,6 +219,45 @@ function HomePage({ component: Component, ...rest }) {
   const handleExportToPdf = () => {
     const doc = new jsPDF();
 
+    doc.text('Revenues Report', 85, 10);
+    doc.autoTable({
+      head: [['Month', 'Year', 'Total']],
+      body: reportPaymentData.map((t, index) => {
+        return [
+          index,
+          month(t.month),
+          t.year,
+          `Rp. ${t.totalPaid?.toLocaleString()}`,
+        ];
+      }),
+    });
+    doc.addPage();
+    doc.text('Expenses Report', 85, 10);
+    doc.autoTable({
+      head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
+      body: reportExpenseData.map((t, index) => {
+        return [
+          index,
+          t.title,
+          month(t.month),
+          t.year,
+          `Rp. ${t.totalPaid?.toLocaleString()}`,
+        ];
+      }),
+    });
+
+    doc.save('general_report.pdf');
+  };
+
+  const handleReportPdf = () => {
+    const doc = new jsPDF();
+
+    doc.text('Revenues Report', 85, 10);
+    doc.autoTable({
+      head: [[]],
+    });
+
+    doc.addPage();
     doc.text('Expense Report', 85, 10);
     doc.autoTable({
       head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
@@ -283,8 +322,6 @@ function HomePage({ component: Component, ...rest }) {
                 <h3
                   className='text-center mb-3'
                   style={{
-                    // border: 'solid',
-                    // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
                     color: '#343F56',
@@ -292,6 +329,26 @@ function HomePage({ component: Component, ...rest }) {
                 >
                   Income & Outcome
                 </h3>
+                <div className='d-flex justify-content-lg-end'>
+                  <Button
+                    onClick={() => {
+                      console.log('clicked');
+                      handleReportPdf();
+                    }}
+                    variant='info shadow'
+                  >
+                    <MdIcons.MdFileDownload
+                      style={{
+                        fontSize: '1.3rem',
+                        color: '#fff',
+                        alignItems: 'center',
+                        marginRight: '3px',
+                      }}
+                    />
+                    Export To PDF
+                  </Button>
+                </div>
+
                 <Row>
                   <Col>
                     <Bar data={dataGraph} />
@@ -503,7 +560,7 @@ function HomePage({ component: Component, ...rest }) {
 
                 <Modal show={showAddForm} onHide={handleCloseAddForm}>
                   <Modal.Header closeButton>
-                    <Modal.Title>Input New Expense</Modal.Title>
+                    <Modal.Title>Add Expense</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     <Form>

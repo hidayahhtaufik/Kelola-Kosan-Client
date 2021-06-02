@@ -20,37 +20,6 @@ function Login() {
   };
 
   return (
-    // <Container className='m-5'>
-    //   <Row>
-    //     <Col>
-    //       <Container className='justify-content-md-center'>
-    //         <Row>
-    //           <Col>
-    //             <h1>Login</h1>
-    //           </Col>
-    //         </Row>
-    //         <Row>
-    //           <Col>
-    //             <Form>
-    //               <Form.Group className='mb-3'>
-    //                 <Form.Label>Email address</Form.Label>
-    //                 <Form.Control type='email' placeholder='Enter email' />
-    //               </Form.Group>
-    //               <Form.Group className='mb-3'>
-    //                 <Form.Label>Password</Form.Label>
-    //                 <Form.Control type='password' placeholder='Password' />
-    //               </Form.Group>
-    //               <Button variant='primary' type='submit'>
-    //                 Submit
-    //               </Button>
-    //             </Form>
-    //           </Col>
-    //         </Row>
-    //       </Container>
-    //     </Col>
-    //   </Row>
-    // </Container>
-
     <div
       className='d-flex'
       style={{
@@ -69,25 +38,40 @@ function Login() {
           <h1>Login</h1>
         </div>
 
-        <div className='row' style={{ width: '90%' }}>
-          <form onSubmit={(event) => handleSubmit(event)}>
+        <div
+          className='row d-flex justify-content-center'
+          style={{ width: '100%' }}
+        >
+          <form
+            onSubmit={(event) => handleSubmit(event)}
+            style={{ width: '80%' }}
+          >
             <div className='mb-3'>
-              <label className='form-label'>Email address</label>
+              <label for='exampleInputEmail1' className='form-label'>
+                Email address
+              </label>
               <input
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder='Email Address'
                 type='email'
                 className='form-control'
+                id='exampleInputEmail1'
                 aria-describedby='emailHelp'
               />
+              <div id='emailHelp' className='form-text'>
+                We'll never share your email with anyone else.
+              </div>
             </div>
             <div className='mb-3'>
-              <label className='form-label'>Password</label>
+              <label for='exampleInputPassword1' className='form-label'>
+                Password
+              </label>
               <input
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder='Password'
                 type='password'
                 className='form-control'
+                id='exampleInputPassword1'
               />
             </div>
 
@@ -98,7 +82,7 @@ function Login() {
                 size={'lg'}
                 type='submit'
                 style={{
-                  // color: 'black',
+                  color: 'black',
                   minWidth: '60%',
                   maxWidth: '80%',
                   // background: "linear-gradient( 90.5deg,  rgba(255,207,139,0.50) 1.1%, rgba(255,207,139,1) 81.3% )"
@@ -112,7 +96,7 @@ function Login() {
 
         <div className='row'>
           <h6>
-            Don't have an account?
+            Don't have an account?{' '}
             <Link to='/register'>
               <span>Register here</span>
             </Link>
