@@ -37,12 +37,12 @@ function HistoryPage() {
   let newDataExpense = [...expenseData];
 
   const [expenseAddTitle, setExpenseAddTitle] = useState('');
-  const [expenseAddMonth, setExpenseAddMonth] = useState(0);
+  const [expenseAddMonth, setExpenseAddMonth] = useState('');
   const [expenseAddYear, setExpenseAddYear] = useState(0);
   const [expenseAddTotal, setExpenseAddTotal] = useState(0);
 
   const [expenseUpdateTitle, setExpenseUpdateTitle] = useState('');
-  const [expenseUpdateMonth, setExpenseUpdateMonth] = useState(0);
+  const [expenseUpdateMonth, setExpenseUpdateMonth] = useState('');
   const [expenseUpdateYear, setExpenseUpdateYear] = useState(0);
   const [expenseUpdateTotal, setExpenseUpdateTotal] = useState(0);
   const [expenseUpdateId, setExpenseUpdateId] = useState('');
@@ -62,7 +62,7 @@ function HistoryPage() {
   const addExpenseTransaction = () => {
     const newDataExpense = {
       title: expenseAddTitle,
-      month: expenseAddMonth,
+      month: +expenseAddMonth,
       year: expenseAddYear,
       total: expenseAddTotal,
     };
@@ -73,7 +73,7 @@ function HistoryPage() {
   const updateExpenseTransaction = () => {
     const updateDataExpense = {
       title: expenseUpdateTitle,
-      month: expenseUpdateMonth,
+      month: +expenseUpdateMonth,
       year: expenseUpdateYear,
       total: expenseUpdateTotal,
     };
@@ -103,30 +103,16 @@ function HistoryPage() {
   const handleExportToPdf = () => {
     const doc = new jsPDF();
 
-    // doc.text('Revenues Report', 85, 10);
-    // doc.autoTable({
-    //   head: [['Month', 'Year', 'Total']],
-    //   body: reportPaymentData.map((t, index) => {
-    //     return [
-    //       index,
-    //       month(t.month),
-    //       t.year,
-    //       `Rp. ${t.totalPaid?.toLocaleString()}`,
-    //     ];
-    //   }),
-    // });
-    // doc.addPage();
-
     doc.text('Expenses Report', 85, 10);
     doc.autoTable({
       head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
-      body: reportExpenseData.map((t, index) => {
+      body: newDataExpense.map((t, index) => {
         return [
           index + 1,
           t.title,
           month(t.month),
           t.year,
-          `Rp. ${t.totalPaid?.toLocaleString()}`,
+          `Rp. ${t.total?.toLocaleString()}`,
         ];
       }),
     });
@@ -168,6 +154,8 @@ function HistoryPage() {
                   fontWeight: 'bold',
                   fontSize: '50px',
                   color: '#343F56',
+                  justifyContent: 'center',
+                  textAlign: 'center',
                 }}
               >
                 History
@@ -297,37 +285,61 @@ function HistoryPage() {
                   </Modal.Header>
                   <Modal.Body>
                     <Form>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                           type='text'
-                          placeholder='expense title'
+                          placeholder='Expense description'
                           value={expenseAddTitle}
                           onChange={(e) => setExpenseAddTitle(e.target.value)}
                         />
                       </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Month</Form.Label>
-                        <Form.Control
+                        <select
+                          className='custom-select'
+                          value={expenseAddMonth}
+                          onChange={(e) => setExpenseAddMonth(e.target.value)}
+                        >
+                          <option selected disabled>
+                            Select Month
+                          </option>
+                          <option value='1'>January</option>
+                          <option value='2'>February</option>
+                          <option value='3'>March</option>
+                          <option value='4'>April</option>
+                          <option value='5'>May</option>
+                          <option value='6'>June</option>
+                          <option value='7'>July</option>
+                          <option value='8'>August</option>
+                          <option value='9'>September</option>
+                          <option value='10'>October</option>
+                          <option value='11'>November</option>
+                          <option value='12'>December</option>
+                        </select>
+                        {/* <Form.Control
                           type='number'
+                          placeholder='Month ( 1-12 )'
                           min={1}
                           max={12}
                           value={expenseAddMonth}
                           onChange={(e) => setExpenseAddMonth(e.target.value)}
-                        />
+                        /> */}
                       </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Year</Form.Label>
                         <Form.Control
                           type='number'
+                          placeholder='Year ex:2021'
                           min={1}
                           value={expenseAddYear}
                           onChange={(e) => setExpenseAddYear(e.target.value)}
                         />
                       </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Total</Form.Label>
                         <Form.Control
+                          placeholder='Total expenses'
                           type='number'
                           min={1}
                           value={expenseAddTotal}
@@ -353,42 +365,68 @@ function HistoryPage() {
                   </Modal.Header>
                   <Modal.Body>
                     <Form>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                           type='text'
-                          placeholder='expense title'
+                          placeholder='expense description'
                           value={expenseUpdateTitle}
                           onChange={(e) =>
                             setExpenseUpdateTitle(e.target.value)
                           }
                         />
                       </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Month</Form.Label>
-                        <Form.Control
+                        <select
+                          className='custom-select'
+                          value={expenseUpdateMonth}
+                          onChange={(e) =>
+                            setExpenseUpdateMonth(e.target.value)
+                          }
+                        >
+                          <option selected disabled>
+                            Select Month
+                          </option>
+                          <option value='1'>January</option>
+                          <option value='2'>February</option>
+                          <option value='3'>March</option>
+                          <option value='4'>April</option>
+                          <option value='5'>May</option>
+                          <option value='6'>June</option>
+                          <option value='7'>July</option>
+                          <option value='8'>August</option>
+                          <option value='9'>September</option>
+                          <option value='10'>October</option>
+                          <option value='11'>November</option>
+                          <option value='12'>December</option>
+                        </select>
+                        {/* <Form.Control
                           type='number'
+                          placeholder='Input Month ( 1-12 )'
                           min={1}
                           max={12}
                           value={expenseUpdateMonth}
                           onChange={(e) =>
                             setExpenseUpdateMonth(e.target.value)
                           }
-                        />
+                        /> */}
                       </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Year</Form.Label>
                         <Form.Control
                           type='number'
+                          placeholder='Input year ex:2021'
                           min={1}
                           value={expenseUpdateYear}
                           onChange={(e) => setExpenseUpdateYear(e.target.value)}
                         />
                       </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
+                      <Form.Group>
                         <Form.Label>Total</Form.Label>
                         <Form.Control
                           type='number'
+                          placeholder='Input total'
                           min={1}
                           value={expenseUpdateTotal}
                           onChange={(e) =>
@@ -470,7 +508,12 @@ function HistoryPage() {
                       `Rp. ${e.totalPaid?.toLocaleString()}`,
                     ];
                   })}
-                  columns={['Id', 'Month', 'Year', 'Total']}
+                  columns={[
+                    { name: 'Id', width: '20%' },
+                    { name: 'Month', width: '30%' },
+                    { name: 'Year', width: '30%' },
+                    { name: 'Total', width: '40%' },
+                  ]}
                   sort={true}
                   search={true}
                   pagination={{
@@ -493,6 +536,7 @@ function HistoryPage() {
                     footer: {
                       'background-color': '#343F56',
                     },
+                    width: 100,
                   }}
                 ></Grid>
               </Col>
