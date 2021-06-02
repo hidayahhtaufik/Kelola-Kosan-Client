@@ -157,10 +157,16 @@ function TenantPage() {
 
     doc.text('List of Tenant', 85, 10);
     doc.autoTable({
+      headStyles: { fillColor: '#343F56' },
       head: [['Id', 'Name', 'Email', 'Phone', 'Check In']],
+      footStyles: { fillColor: '#343F56' },
+      foot: [{fillColor: '#343F56'}],
       body: tenantData.map((t) => {
-        return [t.id, t.name, t.email, t.phone, dateOnly(t.checkIn)];
+        return (
+          [t.id, t.name, t.email, t.phone, dateOnly(t.checkIn)]
+        )
       }),
+      
     });
 
     doc.save('table.pdf');

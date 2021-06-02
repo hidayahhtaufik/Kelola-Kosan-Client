@@ -30,6 +30,7 @@ import {
   Modal,
   Form,
 } from 'react-bootstrap';
+import { month } from '../helpers/helpers'
 
 function PaymentPage() {
   const [showAdd, setShowAdd] = useState(false);
@@ -194,16 +195,43 @@ function PaymentPage() {
   }, []);
 
   const handleExportToPdf = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF()
 
-    doc.text('List of Payments', 85, 10);
+    doc.setFontSize(25)
+    doc.setTextColor(52, 63, 86)
+    doc.text('Mangkosan', 34, 10, {
+      lineHeightFactor : 5
+    })
+    doc.setFontSize(15)
+    doc.text('Logo |', 15, 10, {
+      lineHeightFactor : 5,
+    })
+    doc.setFontSize(10)
+    doc.text('Alamat : Jl. Nama Jalan, Jakarta Barat', 35, 16)
+    doc.setLineWidth(20)
+
+
+    doc.setFontSize(20)
+    doc.text('List of Payments', 85, 35);
     doc.autoTable({
+      margin: { top: 40 },
+      headStyles: { fillColor: '#343F56', halign: 'center' },
       head: [['No.', 'Name', 'Month', 'Year', 'Next Due Date', 'Paid Cash']],
+      columnStyles: {
+        1: { minCellWidth: 30 },
+        2: { halign: 'center' },
+        3: { halign: 'center' },
+        4: { cellWidth: 30, halign: 'center' },
+        5: { halign: 'right', margin : { right: 30 } }
+      },
+      foot: [{ fillColor: '#343F56' }],
+      footStyles: { fillColor: '#343F56' },
+      bodyStyles: {lineColor: '#343F56', lineWidth: 0},
       body: paymentData.map((e) => {
         return [
           e.id,
           e.Tenant.name,
-          e.month,
+          monthFormat(e.month),
           e.year,
           dateOnly(e.nextDueDate),
           `Rp. ${e.paidCash?.toLocaleString()}`,
