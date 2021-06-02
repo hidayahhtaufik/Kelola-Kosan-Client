@@ -11,7 +11,7 @@ import {
 import { _, Grid } from 'gridjs-react';
 import Sidebar from './components/Sidebar';
 import styles from './styling/room.module.css';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchRoom,
@@ -22,8 +22,6 @@ import {
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import * as MdIcons from 'react-icons/md';
-import { GrAdd } from 'react-icons/gr';
-import { IconContext } from 'react-icons';
 
 function Room() {
   const dispatch = useDispatch();
@@ -57,6 +55,19 @@ function Room() {
     }
   });
 
+  let occupiedStatus = 0;
+  let maintenanceStatus = 0;
+  let emptyStatus = 0;
+  rooms.map((room) => {
+    if (room.status === 'occupied') {
+      occupiedStatus++;
+    } else if (room.status === 'maintenance') {
+      maintenanceStatus++;
+    } else if (room.status === 'empty') {
+      emptyStatus++;
+    }
+  });
+
   function handleDeleteRoom(id) {
     Swal.fire({
       title: 'Are you sure?',
@@ -75,17 +86,17 @@ function Room() {
           showConfirmButton: false,
           position: 'top-end',
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
         Toast.fire({
           icon: 'success',
-          title:'Room sucessfully deleted.'
-        })
+          title: 'Room sucessfully deleted.',
+        });
         dispatch(deleteRoom(id));
       }
-    })
+    });
   }
 
   useEffect(() => {
@@ -114,15 +125,15 @@ function Room() {
       timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Room Added'
-    })
+      title: 'Room Added',
+    });
   }
 
   const handleShowEditRoomForm = (e) => {
@@ -142,7 +153,7 @@ function Room() {
       type: editRoomType,
       price: editRoomPrice,
     };
-    console.log(newPayload);
+    console.log(newPayload, '<<<<<<< New Payload');
     dispatch(updateRoom(newPayload, editRoomId));
     handleCloseEditForm();
     const Toast = Swal.mixin({
@@ -152,15 +163,15 @@ function Room() {
       timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Updated Successfully'
-    })
+      title: 'Updated Successfully',
+    });
   };
 
   return (
@@ -174,32 +185,71 @@ function Room() {
             <h1 className={styles.title}>Rooms</h1>
           </Row>
 
-          <div className='m-5'>
-            <Card className={styles.card}>
-              <Card.Body className='flex-column'>
-                <Row>
-                  <Col xs={9} onClick={() => console.log('STANDARD ROOMS')}>
-                    <h4 style={{ color: '#343f56' }}>
-                      {standartRoom} Standard Rooms
-                    </h4>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-            <Card className={styles.card}>
-              <Card.Body className='flex-column'>
-                <Row>
-                  <Col xs={9}>
-                    <h4 style={{ color: '#343f56' }}>
-                      {deluxeRoom} Deluxe Rooms
-                    </h4>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </div>
+          <Row className=' m-5 justify-content-md-center'>
+            <Col
+              className='text-center shadow mr-2'
+              style={{
+                padding: '20px',
+                backgroundColor: '#f54748',
+                borderRadius: 20,
+                color: 'white',
+                fontSize: '25px',
+              }}
+            >
+              {standartRoom} Standard Rooms
+            </Col>
+            <Col
+              className='text-center shadow ml-2'
+              style={{
+                padding: '20px',
+                backgroundColor: '#fb9300',
+                borderRadius: 20,
+                color: 'white',
+                fontSize: '25px',
+              }}
+            >
+              {deluxeRoom} Deluxe Rooms
+            </Col>
+          </Row>
 
-          <div className={styles.wrapper}></div>
+          <Row className=' m-5 justify-content-md-center'>
+            <Col
+              className='text-center shadow '
+              style={{
+                padding: '20px',
+                backgroundColor: `rgb(255, 206, 86)`,
+                borderRadius: 20,
+                color: 'white',
+                fontSize: '20px',
+              }}
+            >
+              {occupiedStatus} Occupied
+            </Col>
+            <Col
+              className='text-center shadow mr-2 ml-2'
+              style={{
+                padding: '20px',
+                backgroundColor: 'rgb(54, 162, 235)',
+                borderRadius: 20,
+                color: 'white',
+                fontSize: '20px',
+              }}
+            >
+              {maintenanceStatus} Maintenance
+            </Col>
+            <Col
+              className='text-center shadow '
+              style={{
+                padding: '20px',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderRadius: 20,
+                color: 'white',
+                fontSize: '20px',
+              }}
+            >
+              {emptyStatus} Empty
+            </Col>
+          </Row>
 
           <Row
             className='shadow m-5 border border-3'
@@ -210,7 +260,7 @@ function Room() {
             }}
           >
             <Col>
-              <h3
+              <h2
                 className='text-center mb-3'
                 style={{
                   // border: 'solid',
@@ -221,7 +271,7 @@ function Room() {
                 }}
               >
                 Room Table
-              </h3>
+              </h2>
               <div className='d-flex justify-content-end align-items-center'>
                 <Button
                   variant='primary shadow'

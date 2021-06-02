@@ -5,7 +5,7 @@ import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
 // import * as AiIcons from 'react-icons/ai';
 import styles from './styling/payment.module.css';
@@ -93,15 +93,15 @@ function PaymentPage() {
       timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Payment Added'
-    })
+      title: 'Payment Added',
+    });
   }
 
   function handleSubmitButtonEdit(event) {
@@ -125,15 +125,15 @@ function PaymentPage() {
       timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Updeted Successfully'
-    })
+      title: 'Updeted Successfully',
+    });
 
     console.log(newDataEditPayment, '<< New Data Edit Payment');
   }
@@ -150,6 +150,7 @@ function PaymentPage() {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(deletePayment(id));
         const Toast = Swal.mixin({
           toast: true,
           timer: 2000,
@@ -157,17 +158,16 @@ function PaymentPage() {
           showConfirmButton: false,
           position: 'top-end',
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
         Toast.fire({
           icon: 'success',
-          title:'Payment sucessfully deleted.'
-        })
-        dispatch(deletePayment(id));
+          title: 'Payment sucessfully deleted.',
+        });
       }
-    })
+    });
   }
 
   function handleEditButton(e) {
@@ -270,7 +270,7 @@ function PaymentPage() {
                   padding: '20px',
                 }}
               >
-                <h3
+                <h2
                   className='text-center mb-3'
                   style={{
                     // border: 'solid',
@@ -281,7 +281,7 @@ function PaymentPage() {
                   }}
                 >
                   Payments Table
-                </h3>
+                </h2>
                 <div style={{ alignSelf: 'flex-center' }}>
                   <Button
                     className='mr-2'

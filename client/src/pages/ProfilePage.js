@@ -45,11 +45,11 @@ function ProfilePage() {
     setLoading(true);
     dispatch(fetchProperties(loading, setLoading, property, setProperty));
     // setProperty(propertiesData);
-    setName(propertiesData[0].name);
-    setFullName(propertiesData[0].fullName);
-    setAddress(propertiesData[0].address);
-    setImage(propertiesData[0].image);
-    setPhone(propertiesData[0].phone);
+    setName(propertiesData[0]?.name);
+    setFullName(propertiesData[0]?.fullName);
+    setAddress(propertiesData[0]?.address);
+    setImage(propertiesData[0]?.image);
+    setPhone(propertiesData[0]?.phone);
   }, []);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ function ProfilePage() {
                 >
                   <Col>
                     <h3 className='text-center' style={{ color: 'white' }}>
-                      {name}
+                      {property[0]?.name}
                     </h3>
                   </Col>
                 </Row>

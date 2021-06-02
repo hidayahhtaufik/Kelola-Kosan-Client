@@ -212,33 +212,33 @@ export const createRoom = (payload) => {
           access_token: localStorage.access_token,
         },
       })
-      .then(response => {
-        console.log(response, 'action respon add romm')
-        return dispatch(fetchRoom())
+      .then((response) => {
+        console.log(response, 'action respon add romm');
+        return dispatch(fetchRoom());
       })
-      .catch(err => {
-        console.log(err, 'err di add actions room')
-      })
-  }
-}
+      .catch((err) => {
+        console.log(err, 'err di add actions room');
+      });
+  };
+};
 
 export const updateRoom = (payload, id) => {
-  console.log(id, payload, ' id action rom update')
+  console.log(id, payload, ' id action rom update');
   return (dispatch) => {
     axios
       .put(`/rooms/${id}`, payload, {
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
-      .then(_ => {
-        return dispatch(fetchRoom())
+      .then((_) => {
+        return dispatch(fetchRoom());
       })
-      .catch(err => {
-        console.log(err, 'err action edit room')
-      })
-  }
-}
+      .catch((err) => {
+        console.log(err, 'err action edit room');
+      });
+  };
+};
 
 export const changeRoomStatus = (payload) => {
   const { roomId, status } = payload;
@@ -317,6 +317,7 @@ export const deleteTenant = (id) => {
         },
       })
       .then((_) => {
+        console.log('berhasil Delete DI Action');
         return dispatch(fetchTenant());
       })
       .catch((err) => console.log(err));
@@ -444,19 +445,19 @@ export const fetchReportPayment = () => {
 
 export const fetchReportExpenses = () => {
   return (dispatch) => {
-    axios.get(`expenses/reportExpense`, {
-      headers: {
-        access_token: localStorage.getItem("access_token")
-      }
-    }
-    )
-    .then(response => {
-      console.log(response, "+++++++++++++++++++++++ INI REPORT EXPENSES");
-      let expenseReport = response.data;
-      dispatch({type: "REPORTEXPENSES/FETCH", payload: expenseReport});
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
-}
+    axios
+      .get(`expenses/reportExpense`, {
+        headers: {
+          access_token: localStorage.getItem('access_token'),
+        },
+      })
+      .then((response) => {
+        console.log(response, '+++++++++++++++++++++++ INI REPORT EXPENSES');
+        let expenseReport = response.data;
+        dispatch({ type: 'REPORTEXPENSES/FETCH', payload: expenseReport });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
