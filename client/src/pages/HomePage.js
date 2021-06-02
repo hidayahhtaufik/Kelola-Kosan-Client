@@ -30,7 +30,7 @@ import {
   fetchReportExpenses,
 } from '../store/actions/actions';
 
-defaults.plugins.legend.position = 'bottom';
+defaults.plugins.legend.position = 'right';
 
 function HomePage({ component: Component, ...rest }) {
   const dispatch = useDispatch();
@@ -172,8 +172,8 @@ function HomePage({ component: Component, ...rest }) {
         // data: newDataRevenue,
         data: newDataPayment,
         fill: false,
-        backgroundColor: 'rgba(75, 192, 192)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgb(54, 162, 235)',
+        borderColor: 'rgba(54, 162, 235, 1)',
         tension: 0.1,
       },
       {
@@ -221,10 +221,10 @@ function HomePage({ component: Component, ...rest }) {
 
     doc.text('Revenues Report', 85, 10);
     doc.autoTable({
-      head: [['Month', 'Year', 'Total']],
+      head: [['Id', 'Month', 'Year', 'Total']],
       body: reportPaymentData.map((t, index) => {
         return [
-          index,
+          index + 1,
           month(t.month),
           t.year,
           `Rp. ${t.totalPaid?.toLocaleString()}`,
@@ -237,7 +237,7 @@ function HomePage({ component: Component, ...rest }) {
       head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
       body: reportExpenseData.map((t, index) => {
         return [
-          index,
+          index + 1,
           t.title,
           month(t.month),
           t.year,
@@ -306,6 +306,70 @@ function HomePage({ component: Component, ...rest }) {
                 </h1>
               </Col>
             </Row>
+            <Row className='justify-content-md-centen m-5'>
+              <Col
+                className='text-center shadow '
+                style={{
+                  padding: '20px',
+                  backgroundColor: 'rgb(255,216,120)',
+                  borderRadius: 20,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: '30px',
+                }}
+              >
+                {newMonth(new Date())}
+              </Col>
+            </Row>
+            <Row className='justify-content-md-centen m-5'>
+              <Col
+                className='text-center shadow '
+                style={{
+                  padding: '20px',
+                  backgroundColor: 'rgb(54, 162, 235)',
+                  borderRadius: 20,
+                  color: 'white',
+                  fontSize: '20px',
+                }}
+              >
+                Income
+                <div>Rp. {newDataPayment[numberMonth()]?.toLocaleString()}</div>
+              </Col>
+              <Col
+                className='text-center shadow mr-4 ml-4'
+                style={{
+                  padding: '20px',
+                  backgroundColor: 'rgba(255, 99, 132)',
+                  borderRadius: 20,
+                  color: 'white',
+                  fontSize: '20px',
+                }}
+              >
+                Expense
+                <div>
+                  Rp. {newDataExpenseBar[numberMonth()]?.toLocaleString()}
+                </div>
+              </Col>
+              <Col
+                className='text-center shadow '
+                style={{
+                  padding: '20px',
+                  backgroundColor: 'rgba(75, 192, 192)',
+                  borderRadius: 20,
+                  color: 'white',
+                  fontSize: '20px',
+                }}
+              >
+                Profit
+                <div style={{ fontWeight: 'bold' }}>
+                  Rp.
+                  {Number(
+                    newDataPayment[numberMonth()] -
+                      newDataExpenseBar[numberMonth()]
+                  )?.toLocaleString()}
+                </div>
+              </Col>
+            </Row>
             <Row
               className='shadow m-5 border border-3'
               style={{
@@ -329,11 +393,11 @@ function HomePage({ component: Component, ...rest }) {
                 >
                   Income & Outcome
                 </h3>
-                <div className='d-flex justify-content-lg-end'>
+                <div className='d-flex justify-content-lg-center mb-3'>
                   <Button
                     onClick={() => {
                       console.log('clicked');
-                      handleReportPdf();
+                      handleExportToPdf();
                     }}
                     variant='info shadow'
                   >
@@ -350,11 +414,10 @@ function HomePage({ component: Component, ...rest }) {
                 </div>
 
                 <Row>
-                  <Col>
+                  <Col className='text-center'>
                     <Bar data={dataGraph} />
                   </Col>
-                  <Col className='d-flex justify-content-center align-items-center'>
-                    {/* <div className='text-center' style={{ width: '100%' }}></div> */}
+                  {/* <Col className='d-flex justify-content-center align-items-center'>
                     <Table bordered hover>
                       <tbody>
                         <tr>
@@ -393,8 +456,7 @@ function HomePage({ component: Component, ...rest }) {
                         </tr>
                       </tbody>
                     </Table>
-                    {/* </div> */}
-                  </Col>
+                  </Col> */}
                 </Row>
               </Col>
             </Row>
@@ -439,8 +501,7 @@ function HomePage({ component: Component, ...rest }) {
               </Col>
             </Row>
 
-            {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start Expense */}
-            <Row
+            {/* <Row
               className='shadow m-5 border border-3'
               style={{
                 backgroundColor: 'white',
@@ -613,7 +674,6 @@ function HomePage({ component: Component, ...rest }) {
                   </Modal.Footer>
                 </Modal>
 
-                {/* Update */}
                 <Modal show={showUpdateForm} onHide={handleCloseUpdateForm}>
                   <Modal.Header closeButton>
                     <Modal.Title>Update Expense</Modal.Title>
@@ -678,7 +738,7 @@ function HomePage({ component: Component, ...rest }) {
                   </Modal.Footer>
                 </Modal>
               </Col>
-            </Row>
+            </Row> */}
           </Col>
         </Row>
       </Container>
