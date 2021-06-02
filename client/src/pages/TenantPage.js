@@ -9,7 +9,7 @@ import {
   deleteTenant,
 } from '../store/actions/actions';
 import { dateOnly } from '../helpers/helpers';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import styles from './styling/tenant.module.css';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
@@ -54,6 +54,7 @@ function TenantPage() {
   const [editEmail, setEditEmail] = useState('');
   const [editPhone, setEditPhone] = useState('');
   const [editCheckIn, setEditCheckIn] = useState('');
+  const [editCheckOut, setEditCheckOut] = useState('');
   const [editId, setEditId] = useState('');
 
   const handleShowEditForm = (e) => {
@@ -61,6 +62,7 @@ function TenantPage() {
     setEditEmail(e.email);
     setEditPhone(e.phone);
     setEditCheckIn(e.checkIn);
+    setEditCheckOut(e.checkOut);
     setEditId(e.id);
     setShowEditForm(true);
   };
@@ -72,7 +74,7 @@ function TenantPage() {
     setEmail('');
     setPhone('');
     setCheckIn('');
-    
+
     dispatch(createTenant(newTenant));
     handleClose();
     const Toast = Swal.mixin({
@@ -82,15 +84,15 @@ function TenantPage() {
       timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Tenant Added'
-    })
+      title: 'Tenant Added',
+    });
   };
 
   const handleUpdateTenant = () => {
@@ -99,7 +101,7 @@ function TenantPage() {
       email: editEmail,
       phone: editPhone,
       checkIn: editCheckIn,
-      checkOut: null,
+      checkOut: editCheckOut,
     };
     dispatch(updateTenant(editId, updateDataTenant));
     handleCloseEditForm();
@@ -110,15 +112,15 @@ function TenantPage() {
       timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Updated Successfully'
-    })
+      title: 'Updated Successfully',
+    });
   };
 
   const handleDeleteTenant = (id) => {
@@ -132,6 +134,8 @@ function TenantPage() {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(deleteTenant(id));
+        console.log(id, '<<<<<<<<<<<<<<<< DELETE ID');
         const Toast = Swal.mixin({
           toast: true,
           timer: 2000,
@@ -139,17 +143,16 @@ function TenantPage() {
           showConfirmButton: false,
           position: 'top-end',
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
         Toast.fire({
           icon: 'success',
-          title:'Tenant sucessfully deleted.'
-        })
-        dispatch(deleteTenant(id));
+          title: 'Tenant sucessfully deleted.',
+        });
       }
-    })
+    });
   };
 
   const handleExportToPdf = () => {
@@ -157,6 +160,7 @@ function TenantPage() {
 
     doc.text('List of Tenant', 85, 10);
     doc.autoTable({
+
       headStyles: { fillColor: '#343F56' },
       head: [['Id', 'Name', 'Email', 'Phone', 'Check In']],
       footStyles: { fillColor: '#343F56' },
@@ -165,6 +169,7 @@ function TenantPage() {
         return (
           [t.id, t.name, t.email, t.phone, dateOnly(t.checkIn)]
         )
+
       }),
       
     });
@@ -206,7 +211,7 @@ function TenantPage() {
                   padding: '20px',
                 }}
               >
-                <h3
+                <h2
                   className='text-center mb-3'
                   style={{
                     // border: 'solid',
@@ -217,7 +222,7 @@ function TenantPage() {
                   }}
                 >
                   Tenants Table
-                </h3>
+                </h2>
                 <div style={{ alignSelf: 'flex-center' }}>
                   <Button
                     className='mr-2'
@@ -275,12 +280,12 @@ function TenantPage() {
                         <>
                           {' '}
                           <Button
-                            style={{
-                              fontSize: '1.2rem',
-                              color: '#343F56',
-                              alignItems: 'center',
-                            }}
-                            variant={'default'}
+                            // style={{
+                            //   fontSize: '1.2rem',
+                            //   color: '#343F56',
+                            //   alignItems: 'center',
+                            // }}
+                            variant={'info'}
                             size='sm'
                             onClick={() => {
                               handleShowEditForm(e);
@@ -289,8 +294,8 @@ function TenantPage() {
                             <FaIcons.FaEdit />
                           </Button>{' '}
                           <Button
-                            style={{ fontSize: '1.2rem', color: '#f54748' }}
-                            variant={'default'}
+                            // style={{ fontSize: '1.2rem', color: '#f54748' }}
+                            variant={'danger'}
                             size='sm'
                             onClick={() => handleDeleteTenant(e.id)}
                           >
@@ -348,7 +353,7 @@ function TenantPage() {
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Name</Form.Label>
                       <Form.Control
                         type='text'
@@ -357,7 +362,7 @@ function TenantPage() {
                         onChange={(e) => setName(e.target.value)}
                       />
                     </Form.Group>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Email</Form.Label>
                       <Form.Control
                         type='email'
@@ -366,7 +371,7 @@ function TenantPage() {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </Form.Group>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Phone</Form.Label>
                       <Form.Control
                         type='text'
@@ -375,7 +380,7 @@ function TenantPage() {
                         onChange={(e) => setPhone(e.target.value)}
                       />
                     </Form.Group>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Check In</Form.Label>
                       <Form.Control
                         type='date'
@@ -402,7 +407,7 @@ function TenantPage() {
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Name</Form.Label>
                       <Form.Control
                         type='text'
@@ -411,7 +416,7 @@ function TenantPage() {
                         onChange={(e) => setEditName(e.target.value)}
                       />
                     </Form.Group>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Email</Form.Label>
                       <Form.Control
                         type='email'
@@ -420,7 +425,7 @@ function TenantPage() {
                         onChange={(e) => setEditEmail(e.target.value)}
                       />
                     </Form.Group>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Phone</Form.Label>
                       <Form.Control
                         type='text'
@@ -429,12 +434,20 @@ function TenantPage() {
                         onChange={(e) => setEditPhone(e.target.value)}
                       />
                     </Form.Group>
-                    <Form.Group controlId='formBasicEmail'>
+                    <Form.Group>
                       <Form.Label>Check In</Form.Label>
                       <Form.Control
                         type='date'
                         value={dateOnly(editCheckIn)}
                         onChange={(e) => setEditCheckIn(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Check Out</Form.Label>
+                      <Form.Control
+                        type='date'
+                        // value={dateOnly(editCheckOut)}
+                        onChange={(e) => setEditCheckOut(e.target.value)}
                       />
                     </Form.Group>
                   </Form>

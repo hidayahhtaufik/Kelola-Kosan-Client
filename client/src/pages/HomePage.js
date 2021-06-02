@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './styling/home.module.css';
 import Sidebar from './components/Sidebar';
-import { _, Grid } from 'gridjs-react';
-import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { newMonth, numberMonth, month } from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Modal,
-  Form,
-  Table,
-} from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Doughnut, Bar, defaults } from 'react-chartjs-2';
 import {
   fetchRevenue,
@@ -68,7 +58,6 @@ function HomePage({ component: Component, ...rest }) {
   console.log(reportPaymentData, '<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>');
 
   // Kebutuhan Expense ======================================================
-  // ? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HOME Expense
   const [showAddForm, setShowAddForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
@@ -134,8 +123,6 @@ function HomePage({ component: Component, ...rest }) {
     newDataExpenseBar.push(expense);
   }
 
-  // ? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense
-
   // Kebutuhan Room ===========================================================
   let emptyStatus = 0;
   let maintenaceStatus = 0;
@@ -171,10 +158,6 @@ function HomePage({ component: Component, ...rest }) {
     datasets: [
       {
         label: 'Income',
-        // data: [
-        //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
-        // ],
-        // data: newDataRevenue,
         data: newDataPayment,
         fill: false,
         backgroundColor: 'rgb(54, 162, 235)',
@@ -183,9 +166,6 @@ function HomePage({ component: Component, ...rest }) {
       },
       {
         label: 'Expense',
-        // data: [
-        //   60000000, 59000000, 80000000, 81000000, 56000000, 55000000, 40000000,
-        // ],
         data: dataExpenseReport,
         fill: false,
         backgroundColor: 'rgba(255, 99, 132)',
@@ -196,12 +176,10 @@ function HomePage({ component: Component, ...rest }) {
   };
 
   const dataPie = {
-    // empty, maintenance, occupied
     labels: ['Empty', 'Maintenance', 'Occupied'],
     datasets: [
       {
         label: '# of Votes',
-        // data: [12, 19, 2],
         data: [emptyStatus, maintenaceStatus, occupiedStatus],
         backgroundColor: [
           'rgba(255, 99, 132, 0.8)',
@@ -362,7 +340,7 @@ function HomePage({ component: Component, ...rest }) {
                   padding: '20px',
                 }}
               >
-                <h3
+                <h2
                   className='text-center mb-3'
                   style={{
                     padding: '10px',
@@ -371,7 +349,7 @@ function HomePage({ component: Component, ...rest }) {
                   }}
                 >
                   Income & Outcome
-                </h3>
+                </h2>
                 <div className='d-flex justify-content-lg-center mb-3'>
                   <Button
                     onClick={() => {
@@ -392,50 +370,10 @@ function HomePage({ component: Component, ...rest }) {
                   </Button>
                 </div>
 
-                <Row>
+                <Row style={{ padding: '20px' }}>
                   <Col className='text-center'>
                     <Bar data={dataGraph} />
                   </Col>
-                  {/* <Col className='d-flex justify-content-center align-items-center'>
-                    <Table bordered hover>
-                      <tbody>
-                        <tr>
-                          <td>Month:</td>
-                          <td>{newMonth()}</td>
-                        </tr>
-                      </tbody>
-                      <tbody>
-                        <tr>
-                          <td>Income:</td>
-                          <td>
-                            Rp.{' '}
-                            {newDataPayment[numberMonth()]?.toLocaleString()}{' '}
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody>
-                        <tr>
-                          <td>Expense:</td>
-                          <td>
-                            Rp.{' '}
-                            {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody>
-                        <tr>
-                          <td>Profit:</td>
-                          <td>
-                            Rp.{' '}
-                            {Number(
-                              newDataPayment[numberMonth()] -
-                                newDataExpenseBar[numberMonth()]
-                            )?.toLocaleString()}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </Col> */}
                 </Row>
               </Col>
             </Row>
@@ -453,25 +391,20 @@ function HomePage({ component: Component, ...rest }) {
                   padding: '20px',
                 }}
               >
-                <h3
+                <h2
                   className='text-center mb-3'
                   style={{
-                    // border: 'solid',
-                    // borderColor: 'red',
                     padding: '10px',
                     fontWeight: 'bold',
                     color: '#343F56',
                   }}
                 >
                   All Room Status
-                </h3>
+                </h2>
                 <div
-                  // className='d-flex justify-content-center'
                   style={{
                     borderWidth: '10rem',
                     width: '50%',
-                    // borderColor: 'red',
-                    // border: 'solid',
                     padding: '5px',
                   }}
                 >
@@ -479,245 +412,6 @@ function HomePage({ component: Component, ...rest }) {
                 </div>
               </Col>
             </Row>
-
-            {/* <Row
-              className='shadow m-5 border border-3'
-              style={{
-                backgroundColor: 'white',
-                borderRadius: 30,
-              }}
-            >
-              <Col
-                className='m-2 d-flex align-items-center'
-                style={{
-                  flexDirection: 'column',
-                  padding: '20px',
-                }}
-              >
-                <h3
-                  className='text-center mb-3'
-                  style={{
-                    // border: 'solid',
-                    // borderColor: 'red',
-                    padding: '10px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Expense Table
-                </h3>
-
-                <div style={{ alignSelf: 'flex-center' }}>
-                  <Button
-                    className='mr-2'
-                    variant='primary shadow'
-                    onClick={() => {
-                      handleShowAddForm();
-                    }}
-                  >
-                    <MdIcons.MdAdd
-                      style={{
-                        fontSize: '1.3rem',
-                        color: '#fff',
-                        alignItems: 'center',
-                        marginRight: '3px',
-                      }}
-                    />
-                    Input Expense
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      console.log('clicked');
-                      handleExportToPdf();
-                    }}
-                    variant='info shadow'
-                  >
-                    <MdIcons.MdFileDownload
-                      style={{
-                        fontSize: '1.3rem',
-                        color: '#fff',
-                        alignItems: 'center',
-                        marginRight: '3px',
-                      }}
-                    />
-                    Export To PDF
-                  </Button>
-                </div>
-
-                <Grid
-                  data={newDataExpense.map((e, index) => {
-                    return [
-                      index + 1,
-                      e.title,
-                      month(e.month),
-                      e.year,
-                      `Rp. ${e.total?.toLocaleString()}`,
-                      _(
-                        <>
-                          {' '}
-                          <Button
-                            variant={'info'}
-                            size='sm'
-                            onClick={() => handleShowUpdateForm(e)}
-                          >
-                            <FaIcons.FaEdit />
-                          </Button>{' '}
-                          <Button
-                            variant={'danger'}
-                            size='sm'
-                            onClick={() => handelDeleteExpense(e.id)}
-                          >
-                            <MdIcons.MdDelete />
-                          </Button>{' '}
-                        </>
-                      ),
-                    ];
-                  })}
-                  columns={['Id', 'Title', 'Month', 'Year', 'Total', 'Action']}
-                  sort={true}
-                  search={true}
-                  pagination={{
-                    enabled: true,
-                    limit: 5,
-                    summary: false,
-                  }}
-                  style={{
-                    table: {
-                      color: '#343f56',
-                    },
-                    th: {
-                      'background-color': '#343F56',
-                      color: '#FFF',
-                      'text-align': 'center',
-                    },
-                    td: {
-                      'background-color': '##EEF3F8',
-                    },
-                    footer: {
-                      'background-color': '#343F56',
-                    },
-                  }}
-                ></Grid>
-
-                <Modal show={showAddForm} onHide={handleCloseAddForm}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Add Expense</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          type='text'
-                          placeholder='expense title'
-                          value={expenseAddTitle}
-                          onChange={(e) => setExpenseAddTitle(e.target.value)}
-                        />
-                      </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Month</Form.Label>
-                        <Form.Control
-                          type='number'
-                          min={1}
-                          max={12}
-                          value={expenseAddMonth}
-                          onChange={(e) => setExpenseAddMonth(e.target.value)}
-                        />
-                      </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Year</Form.Label>
-                        <Form.Control
-                          type='number'
-                          min={1}
-                          value={expenseAddYear}
-                          onChange={(e) => setExpenseAddYear(e.target.value)}
-                        />
-                      </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Total</Form.Label>
-                        <Form.Control
-                          type='number'
-                          min={1}
-                          value={expenseAddTotal}
-                          onChange={(e) => setExpenseAddTotal(e.target.value)}
-                        />
-                      </Form.Group>
-                    </Form>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant='secondary' onClick={handleCloseAddForm}>
-                      Close
-                    </Button>
-                    <Button variant='primary' onClick={addExpenseTransaction}>
-                      Add
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-
-                <Modal show={showUpdateForm} onHide={handleCloseUpdateForm}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Update Expense</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          type='text'
-                          placeholder='expense title'
-                          value={expenseUpdateTitle}
-                          onChange={(e) =>
-                            setExpenseUpdateTitle(e.target.value)
-                          }
-                        />
-                      </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Month</Form.Label>
-                        <Form.Control
-                          type='number'
-                          min={1}
-                          max={12}
-                          value={expenseUpdateMonth}
-                          onChange={(e) =>
-                            setExpenseUpdateMonth(e.target.value)
-                          }
-                        />
-                      </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Year</Form.Label>
-                        <Form.Control
-                          type='number'
-                          min={1}
-                          value={expenseUpdateYear}
-                          onChange={(e) => setExpenseUpdateYear(e.target.value)}
-                        />
-                      </Form.Group>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Label>Total</Form.Label>
-                        <Form.Control
-                          type='number'
-                          min={1}
-                          value={expenseUpdateTotal}
-                          onChange={(e) =>
-                            setExpenseUpdateTotal(e.target.value)
-                          }
-                        />
-                      </Form.Group>
-                    </Form>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant='secondary' onClick={handleCloseUpdateForm}>
-                      Close
-                    </Button>
-                    <Button
-                      variant='primary'
-                      onClick={updateExpenseTransaction}
-                    >
-                      Update
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              </Col>
-            </Row> */}
           </Col>
         </Row>
       </Container>
