@@ -9,6 +9,7 @@ import {
   deleteTenant,
 } from '../store/actions/actions';
 import { dateOnly } from '../helpers/helpers';
+import Swal from 'sweetalert2'
 import styles from './styling/tenant.module.css';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
@@ -71,9 +72,25 @@ function TenantPage() {
     setEmail('');
     setPhone('');
     setCheckIn('');
-
+    
     dispatch(createTenant(newTenant));
     handleClose();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: 'Tenant Added'
+    })
   };
 
   const handleUpdateTenant = () => {
@@ -86,10 +103,53 @@ function TenantPage() {
     };
     dispatch(updateTenant(editId, updateDataTenant));
     handleCloseEditForm();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: 'Updated Successfully'
+    })
   };
 
   const handleDeleteTenant = (id) => {
-    dispatch(deleteTenant(id));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const Toast = Swal.mixin({
+          toast: true,
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          position: 'top-end',
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+          icon: 'success',
+          title:'Tenant sucessfully deleted.'
+        })
+        dispatch(deleteTenant(id));
+      }
+    })
   };
 
   const handleExportToPdf = () => {
@@ -278,7 +338,7 @@ function TenantPage() {
                 onHide={handleClose}
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Modal heading</Modal.Title>
+                  <Modal.Title>Add Tenant</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
@@ -332,7 +392,7 @@ function TenantPage() {
               {/* Modal Edii Tenant */}
               <Modal show={showEditForm} onHide={handleCloseEditForm}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Modal Edit</Modal.Title>
+                  <Modal.Title>Edit Tenant</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <Form>

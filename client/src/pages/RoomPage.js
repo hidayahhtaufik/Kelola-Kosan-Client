@@ -5,13 +5,13 @@ import {
   Row,
   Button,
   Card,
-  Table,
   Modal,
   Form,
 } from 'react-bootstrap';
 import { _, Grid } from 'gridjs-react';
 import Sidebar from './components/Sidebar';
 import styles from './styling/room.module.css';
+import Swal from 'sweetalert2'
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchRoom,
@@ -58,7 +58,34 @@ function Room() {
   });
 
   function handleDeleteRoom(id) {
-    dispatch(deleteRoom(id));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const Toast = Swal.mixin({
+          toast: true,
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          position: 'top-end',
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+          icon: 'success',
+          title:'Room sucessfully deleted.'
+        })
+        dispatch(deleteRoom(id));
+      }
+    })
   }
 
   useEffect(() => {
@@ -80,6 +107,22 @@ function Room() {
     setAddRoomNumber(0);
     dispatch(createRoom(payload));
     handleCloseAddForm();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: 'Room Added'
+    })
   }
 
   const handleShowEditRoomForm = (e) => {
@@ -102,6 +145,22 @@ function Room() {
     console.log(newPayload);
     dispatch(updateRoom(newPayload, editRoomId));
     handleCloseEditForm();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: 'Updated Successfully'
+    })
   };
 
   return (
@@ -161,7 +220,7 @@ function Room() {
                   color: '#343F56',
                 }}
               >
-                Detail Table
+                Room Table
               </h3>
               <div className='d-flex justify-content-end align-items-center'>
                 <Button
