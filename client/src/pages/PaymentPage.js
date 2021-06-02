@@ -5,6 +5,7 @@ import { _, Grid } from 'gridjs-react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
+import Swal from 'sweetalert2'
 import jsPDF from 'jspdf';
 // import * as AiIcons from 'react-icons/ai';
 import styles from './styling/payment.module.css';
@@ -85,6 +86,22 @@ function PaymentPage() {
     // dispatch(changeRoomStatus(statusUpdate));
     dispatch(fetchRoom());
     handleCloseAdd();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: 'Payment Added'
+    })
   }
 
   function handleSubmitButtonEdit(event) {
@@ -101,13 +118,56 @@ function PaymentPage() {
 
     dispatch(updatePayment(newDataEditPayment));
     handleCloseEdit();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: 'Updeted Successfully'
+    })
 
     console.log(newDataEditPayment, '<< New Data Edit Payment');
   }
 
   function handleDeletePayment(id) {
     console.log(id);
-    dispatch(deletePayment(id));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const Toast = Swal.mixin({
+          toast: true,
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          position: 'top-end',
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+          icon: 'success',
+          title:'Payment sucessfully deleted.'
+        })
+        dispatch(deletePayment(id));
+      }
+    })
   }
 
   function handleEditButton(e) {

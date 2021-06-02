@@ -213,7 +213,7 @@ export const createRoom = (payload) => {
         },
       })
       .then(response => {
-        console.log(response, 'action respon')
+        console.log(response, 'action respon add romm')
         return dispatch(fetchRoom())
       })
       .catch(err => {

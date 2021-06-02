@@ -7,6 +7,7 @@ import {
 } from '../store/actions/actions';
 import Sidebar from './components/Sidebar';
 import styles from './styling/profileProperty.module.css';
+import Swal from 'sweetalert2'
 
 import {
   Container,
@@ -69,6 +70,22 @@ function ProfilePage() {
       editPropertyData(newData, loading, setLoading, property, setProperty)
     );
     handleClose();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: 'Updated Successfully'
+    })
   }
   return (
     <>
