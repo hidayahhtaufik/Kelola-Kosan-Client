@@ -189,7 +189,6 @@ function Room() {
                         {' '}
                         <Button
                           variant={'primary'}
-                          // style={{color: "#fff", background: "#77acf1"}}
                           size='sm'
                           onClick={() => { handleShowEditRoomForm(e) }}
                         >
