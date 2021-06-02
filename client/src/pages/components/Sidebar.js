@@ -94,7 +94,7 @@ const Side = (props, navigation) => {
             </Nav.Link>
           </Nav.Item>
         </div>
-        <div className='navb'>
+        {/* <div className='navb'>
           <Nav.Item
             // className='nav'
             onClick={() => {
@@ -106,7 +106,7 @@ const Side = (props, navigation) => {
               <span>Calendar</span>
             </Nav.Link>
           </Nav.Item>
-        </div>
+        </div> */}
         <div className='navb'>
           <Nav.Item
             // className='nav'

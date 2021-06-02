@@ -31,8 +31,8 @@ function Login() {
         <h1>Login</h1>
       </div>
 
-      <div className="row" style={{ width: "90%" }}>
-        <form onSubmit={(event) => handleSubmit(event)}>
+      <div className="row d-flex justify-content-center" style={{ width: "100%"}}>
+        <form onSubmit={(event) => handleSubmit(event)} style={{ width: "80%"}}>
           <div className="mb-3">
             <label for="exampleInputEmail1" className="form-label">Email address</label>
             <input onChange={(event) => setEmail(event.target.value)} placeholder="Email Address" type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
