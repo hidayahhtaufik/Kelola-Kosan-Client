@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { postLogin } from '../store/actions/actions';
 import { useHistory } from 'react-router-dom';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 function Login() {
   const [email, setEmail] = useState();
@@ -22,15 +22,15 @@ function Login() {
           timer: 2000,
           timerProgressBar: true,
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-        
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
+
         Toast.fire({
           icon: 'success',
-          title: 'Logged in Successfully'
-        })
+          title: 'Logged in Successfully',
+        });
       } else {
       }
     });
