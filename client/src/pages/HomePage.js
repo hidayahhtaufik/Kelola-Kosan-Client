@@ -17,7 +17,7 @@ import {
   Form,
   Table,
 } from 'react-bootstrap';
-import { Doughnut, Bar, defaults} from 'react-chartjs-2';
+import { Doughnut, Bar, defaults } from 'react-chartjs-2';
 import {
   fetchRevenue,
   fetchRoom,
@@ -27,7 +27,7 @@ import {
   deleteExpense,
   fetchPayment,
   fetchReportPayment,
-  fetchReportExpenses
+  fetchReportExpenses,
 } from '../store/actions/actions';
 
 defaults.plugins.legend.position = 'bottom';
@@ -37,7 +37,9 @@ function HomePage({ component: Component, ...rest }) {
 
   const revenueData = useSelector((state) => state.revenue.revenues);
   const expenseData = useSelector((state) => state.expense.expenses);
-  const reportExpenseData = useSelector((state) => state.expense.reportExpenses);
+  const reportExpenseData = useSelector(
+    (state) => state.expense.reportExpenses
+  );
   const reportPaymentData = useSelector(
     (state) => state.payment.reportPayments
   );
@@ -63,7 +65,7 @@ function HomePage({ component: Component, ...rest }) {
     dataExpenseReport[data.month - 1] = data.totalExpense;
   });
 
-  console.log(newDataPayment);
+  console.log(reportPaymentData, '<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>');
 
   // Kebutuhan Expense ======================================================
   // ? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HOME Expense
@@ -126,7 +128,6 @@ function HomePage({ component: Component, ...rest }) {
     const expense = expenseData[i].total;
     newDataExpenseBar.push(expense);
   }
-  
 
   // ? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< End Expense
 
@@ -134,7 +135,7 @@ function HomePage({ component: Component, ...rest }) {
   let emptyStatus = 0;
   let maintenaceStatus = 0;
   let occupiedStatus = 0;
- 
+
   for (let i = 0; i < roomData.length; i++) {
     const statusRoom = roomData[i].status;
 
@@ -218,9 +219,9 @@ function HomePage({ component: Component, ...rest }) {
   const handleExportToPdf = () => {
     const doc = new jsPDF();
 
-    doc.text("Revenues Report", 85, 10);
+    doc.text('Revenues Report', 85, 10);
     doc.autoTable({
-      head: [["Month", "Year", "Total"]],
+      head: [['Month', 'Year', 'Total']],
       body: reportPaymentData.map((t, index) => {
         return [
           index,
@@ -228,8 +229,8 @@ function HomePage({ component: Component, ...rest }) {
           t.year,
           `Rp. ${t.totalPaid?.toLocaleString()}`,
         ];
-      })
-    })
+      }),
+    });
     doc.addPage();
     doc.text('Expenses Report', 85, 10);
     doc.autoTable({
@@ -251,10 +252,10 @@ function HomePage({ component: Component, ...rest }) {
   const handleReportPdf = () => {
     const doc = new jsPDF();
 
-    doc.text("Revenues Report", 85, 10);
+    doc.text('Revenues Report', 85, 10);
     doc.autoTable({
-      head: [[]]
-    })
+      head: [[]],
+    });
 
     doc.addPage();
     doc.text('Expense Report', 85, 10);
@@ -272,7 +273,7 @@ function HomePage({ component: Component, ...rest }) {
     });
 
     doc.save('expense_report.pdf');
-  }
+  };
 
   useEffect(() => {
     dispatch(fetchRevenue());
@@ -326,16 +327,15 @@ function HomePage({ component: Component, ...rest }) {
                     color: '#343F56',
                   }}
                 >
-                  Grafik Income
+                  Income & Outcome
                 </h3>
-                <div className="d-flex justify-content-lg-end">
+                <div className='d-flex justify-content-lg-end'>
                   <Button
                     onClick={() => {
                       console.log('clicked');
                       handleReportPdf();
                     }}
                     variant='info shadow'
-                    
                   >
                     <MdIcons.MdFileDownload
                       style={{
@@ -348,7 +348,7 @@ function HomePage({ component: Component, ...rest }) {
                     Export To PDF
                   </Button>
                 </div>
-                
+
                 <Row>
                   <Col>
                     <Bar data={dataGraph} />
@@ -373,7 +373,7 @@ function HomePage({ component: Component, ...rest }) {
                       </tbody>
                       <tbody>
                         <tr>
-                          <td>Expases:</td>
+                          <td>Expense:</td>
                           <td>
                             Rp.{' '}
                             {newDataExpenseBar[numberMonth()]?.toLocaleString()}{' '}
@@ -422,7 +422,7 @@ function HomePage({ component: Component, ...rest }) {
                     color: '#343F56',
                   }}
                 >
-                  Grafik Occupancy
+                  All Room Status
                 </h3>
                 <div
                   // className='d-flex justify-content-center'
@@ -482,7 +482,7 @@ function HomePage({ component: Component, ...rest }) {
                         marginRight: '3px',
                       }}
                     />
-                    Input Expanse
+                    Input Expense
                   </Button>
                   <Button
                     onClick={() => {
