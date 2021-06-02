@@ -191,7 +191,7 @@ function Room() {
                       <>
                         {' '}
                         <Button
-                          variant={'primary'}
+                          variant={'info'}
                           // style={{color: "#fff", background: "#77acf1"}}
                           size='sm'
                           onClick={() => {

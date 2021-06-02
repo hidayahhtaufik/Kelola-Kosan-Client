@@ -154,6 +154,25 @@ function PaymentPage() {
     doc.save('Payments_Tabel.pdf');
   };
 
+  const monthFormat = (date) => {
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    return monthNames[date - 1];
+  };
+
   return (
     <>
       <Container fluid>
@@ -248,13 +267,13 @@ function PaymentPage() {
                 </div>
                 <Grid
                   data={newDataPayment.map((e, index) => {
-                    const monthYear = `${e.month}-${e.year}`;
+                    const monthYear = `${monthFormat(e.month)} ${e.year}`;
                     const yearPaid = `Rp. ${e.paidCash?.toLocaleString()}`;
                     return [
                       index + 1,
                       e.Tenant.name,
                       monthYear,
-                      dateOnly(e.nextDueDate),
+                      new Date(e.nextDueDate).toDateString(),
                       yearPaid,
                       e.Room.number,
                       _(
