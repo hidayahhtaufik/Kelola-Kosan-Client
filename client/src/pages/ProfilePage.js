@@ -7,16 +7,13 @@ import {
 } from '../store/actions/actions';
 import Sidebar from './components/Sidebar';
 import styles from './styling/profileProperty.module.css';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 import {
   Container,
   Row,
   Col,
   Button,
-  Navbar,
-  Nav,
-  NavDropdown,
   Image,
   Table,
   Modal,
@@ -29,6 +26,7 @@ function ProfilePage() {
   const [show, setShow] = useState(false);
 
   const [name, setName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [image, setImage] = useState('');
   const [phone, setPhone] = useState('');
@@ -40,17 +38,18 @@ function ProfilePage() {
 
   const propertiesData = useSelector((state) => state.property.properties);
   const roomData = useSelector((state) => state.room.rooms);
-  // console.log(roomData);
 
-  console.log(propertiesData);
-  // console.log(property, '<<< Local');
-
-  console.log(name);
+  console.log(propertiesData, '<<<<<<');
 
   useEffect(() => {
     setLoading(true);
     dispatch(fetchProperties(loading, setLoading, property, setProperty));
     // setProperty(propertiesData);
+    setName(propertiesData[0].name);
+    setFullName(propertiesData[0].fullName);
+    setAddress(propertiesData[0].address);
+    setImage(propertiesData[0].image);
+    setPhone(propertiesData[0].phone);
   }, []);
 
   useEffect(() => {
@@ -77,15 +76,15 @@ function ProfilePage() {
       timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Updated Successfully'
-    })
+      title: 'Updated Successfully',
+    });
   }
   return (
     <>
@@ -124,25 +123,22 @@ function ProfilePage() {
                 <Row
                   className='mb-4 mt-2 shadow'
                   style={{
-                    // border: 'solid',
-                    // borderColor: 'yellow',
                     padding: '20px',
                     backgroundColor: '#f54748',
-                    borderTopRightRadius: '30px',
-                    borderBottomLeftRadius: '30px',
+                    // borderTopRightRadius: '30px',
+                    // borderBottomLeftRadius: '30px',
+                    borderRadius: '30px',
                   }}
                 >
                   <Col>
                     <h3 className='text-center' style={{ color: 'white' }}>
-                      {property[0]?.name}
+                      {name}
                     </h3>
                   </Col>
                 </Row>
                 <Row
                   className='shadow'
                   style={{
-                    // border: 'solid',
-                    // borderColor: 'green',
                     padding: '20px',
                     backgroundColor: 'white',
                     borderRadius: 30,
@@ -150,8 +146,6 @@ function ProfilePage() {
                 >
                   <Col
                     style={{
-                      // border: 'solid',
-                      // borderColor: 'purple',
                       padding: '20px',
                     }}
                   >
@@ -168,8 +162,6 @@ function ProfilePage() {
                   <Col
                     className='align-items-center justify-content-center'
                     style={{
-                      // border: 'solid',
-                      // borderColor: 'gray',
                       padding: '20px',
                     }}
                   >
@@ -206,7 +198,7 @@ function ProfilePage() {
                       </tbody>
                     </Table>
                     <Button
-                      variant='success rounded'
+                      variant='info'
                       className='mr-5'
                       onClick={handleShow}
                     >
@@ -228,7 +220,7 @@ function ProfilePage() {
                 <Form.Label>Name Property:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={property[0]?.name}
+                  defaultValue={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
@@ -236,7 +228,7 @@ function ProfilePage() {
                 <Form.Label>Address:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={property[0]?.address}
+                  defaultValue={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
               </Form.Group>
@@ -244,7 +236,7 @@ function ProfilePage() {
                 <Form.Label>Image:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={property[0]?.image}
+                  defaultValue={image}
                   onChange={(e) => setImage(e.target.value)}
                 />
               </Form.Group>
@@ -252,7 +244,7 @@ function ProfilePage() {
                 <Form.Label>Phone:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={property[0]?.phone}
+                  defaultValue={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </Form.Group>
