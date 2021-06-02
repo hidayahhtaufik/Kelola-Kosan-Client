@@ -233,6 +233,23 @@ export const changeRoomStatus = (payload) => {
   };
 };
 
+export const fetchRoomStatus = _ => {
+  return (dispatch) => {
+    axios
+      .get('/rooms/roomStatus', {
+        headers: {
+          access_token: localStorage.access_token,
+        }
+      })
+      .then(response => {
+      console.log(response,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
+        return dispatch({ type: 'ROOM/STATUS', payload: response.data })
+      })
+      .catch(err => console.log(err))
+  }
+}
+
 // ACTION TENANT ===========================================================
 export const fetchTenant = () => {
   return (dispatch) => {

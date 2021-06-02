@@ -120,6 +120,20 @@ const Side = (props, navigation) => {
             </Nav.Link>
           </Nav.Item>
         </div>
+
+        <div className='navb'>
+          <Nav.Item
+            // className='nav'
+            onClick={() => {
+              History.push('/rooms-status');
+            }}
+          >
+            <Nav.Link style={{ color: 'white' }}>
+              <MdIcons.MdPayment size={20} />
+              <span>Room Status</span>
+            </Nav.Link>
+          </Nav.Item>
+        </div>
         <hr />
 
         <div className='navb'>

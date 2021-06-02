@@ -34,4 +34,10 @@ export const SidebarData = [
     icon: <IoIcons.IoMdPhotos />,
     cName: 'nav-text',
   },
+  {
+    title: 'Room-Status',
+    path: '/room-status',
+    icon: <IoIcons.IoMdPhotos />,
+    cName: 'nav-text',
+  },
 ];

@@ -1,5 +1,6 @@
 const initialState = {
   rooms: [],
+  roomsStatus: []
 };
 
 const roomReducer = (state = initialState, action) => {
@@ -15,6 +16,8 @@ const roomReducer = (state = initialState, action) => {
     // case 'ROOM/DELETE':
     //   console.log(payload, '<<<<< DI STORE REDUCER ROOM DEL')
     //   return { ...state, rooms: state.rooms.filter( (e) => {return (e !== payload) }) }
+    case 'ROOM/STATUS':
+      return { ...state, roomsStatus: [ ...state.roomsStatus, payload ] }
     default:
       return state;
   }

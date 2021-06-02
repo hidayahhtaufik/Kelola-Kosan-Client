@@ -10,6 +10,7 @@ import CalendarPage from './pages/CalendarPage';
 import PaymentPage from './pages/PaymentPage';
 import RoomPage from './pages/RoomPage';
 import ProtectedRoute from './protectedRoute';
+import RoomStatusPage from './pages/RoomStatusPage.jsx'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <ProtectedRoute path='/tenant' component={TenantPage} />
           <ProtectedRoute path='/profile' component={ProfilePage} />
           <ProtectedRoute path='/rooms' component={RoomPage} />
+          <ProtectedRoute path='/rooms-status' component={RoomStatusPage} />
           <ProtectedRoute path='/' component={HomePage} />
         </Switch>
       </div>
