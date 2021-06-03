@@ -220,7 +220,7 @@ function ProfilePage() {
                 <Form.Label>Name Property:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={name}
+                  defaultValue={property[0]?.name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
@@ -228,7 +228,7 @@ function ProfilePage() {
                 <Form.Label>Address:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={address}
+                  defaultValue={property[0]?.address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
               </Form.Group>
@@ -236,7 +236,7 @@ function ProfilePage() {
                 <Form.Label>Image:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={image}
+                  defaultValue={property[0]?.image}
                   onChange={(e) => setImage(e.target.value)}
                 />
               </Form.Group>
@@ -244,7 +244,7 @@ function ProfilePage() {
                 <Form.Label>Phone:</Form.Label>
                 <Form.Control
                   type='text'
-                  defaultValue={phone}
+                  defaultValue={property[0]?.phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </Form.Group>

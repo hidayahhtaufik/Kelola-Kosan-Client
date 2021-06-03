@@ -24,7 +24,6 @@ defaults.plugins.legend.position = 'right';
 
 function HomePage({ component: Component, ...rest }) {
   const dispatch = useDispatch();
-
   const revenueData = useSelector((state) => state.revenue.revenues);
   const expenseData = useSelector((state) => state.expense.expenses);
   const reportExpenseData = useSelector(
@@ -40,88 +39,18 @@ function HomePage({ component: Component, ...rest }) {
     const revenue = revenueData[i].total;
     newDataRevenue.push(revenue);
   }
-  console.log(revenueData, '<<< DI Home Revenue');
-  console.log(newDataRevenue, '<<< Data Baru Revenue');
 
   let newDataPayment = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   reportPaymentData.map((data) => {
     newDataPayment[data.month - 1] = data.totalPaid;
   });
 
   let dataExpenseReport = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   reportExpenseData.map((data) => {
     dataExpenseReport[data.month - 1] = data.totalExpense;
   });
 
-  console.log(reportPaymentData, '<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>');
-
-  // Kebutuhan Expense ======================================================
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
-
   let newDataExpense = [...expenseData];
-
-  console.log(
-    newDataExpense,
-    '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DATA EXPENSE'
-  );
-
-  const [expenseAddTitle, setExpenseAddTitle] = useState('');
-  const [expenseAddMonth, setExpenseAddMonth] = useState(0);
-  const [expenseAddYear, setExpenseAddYear] = useState(0);
-  const [expenseAddTotal, setExpenseAddTotal] = useState(0);
-
-  const [expenseUpdateTitle, setExpenseUpdateTitle] = useState('');
-  const [expenseUpdateMonth, setExpenseUpdateMonth] = useState(0);
-  const [expenseUpdateYear, setExpenseUpdateYear] = useState(0);
-  const [expenseUpdateTotal, setExpenseUpdateTotal] = useState(0);
-  const [expenseUpdateId, setExpenseUpdateId] = useState('');
-
-  const handleCloseAddForm = () => setShowAddForm(false);
-  const handleShowAddForm = () => setShowAddForm(true);
-  const handleCloseUpdateForm = () => setShowUpdateForm(false);
-  const handleShowUpdateForm = (payload) => {
-    setExpenseUpdateTitle(payload.title);
-    setExpenseUpdateMonth(payload.month);
-    setExpenseUpdateYear(payload.year);
-    setExpenseUpdateTotal(payload.total);
-    setExpenseUpdateId(payload.id);
-    setShowUpdateForm(true);
-  };
-
-  const addExpenseTransaction = () => {
-    const newDataExpense = {
-      title: expenseAddTitle,
-      month: expenseAddMonth,
-      year: expenseAddYear,
-      total: expenseAddTotal,
-    };
-    dispatch(createExpenses(newDataExpense));
-    handleCloseAddForm();
-  };
-
-  const updateExpenseTransaction = () => {
-    const updateDataExpense = {
-      title: expenseUpdateTitle,
-      month: expenseUpdateMonth,
-      year: expenseUpdateYear,
-      total: expenseUpdateTotal,
-    };
-    dispatch(updateExpenses(expenseUpdateId, updateDataExpense));
-    handleCloseAddForm();
-  };
-
-  const handelDeleteExpense = (id) => {
-    dispatch(deleteExpense(id));
-  };
-
-  let newDataExpenseBar = [];
-  for (let i = 0; i < expenseData.length; i++) {
-    const expense = expenseData[i].total;
-    newDataExpenseBar.push(expense);
-  }
 
   // Kebutuhan Room ===========================================================
   let emptyStatus = 0;
@@ -304,7 +233,7 @@ function HomePage({ component: Component, ...rest }) {
               >
                 Expense
                 <div>
-                  Rp. {newDataExpenseBar[numberMonth()]?.toLocaleString()}
+                  Rp. {dataExpenseReport[numberMonth()]?.toLocaleString()}
                 </div>
               </Col>
               <Col
@@ -322,7 +251,7 @@ function HomePage({ component: Component, ...rest }) {
                   Rp.
                   {Number(
                     newDataPayment[numberMonth()] -
-                      newDataExpenseBar[numberMonth()]
+                      dataExpenseReport[numberMonth()]
                   )?.toLocaleString()}
                 </div>
               </Col>
